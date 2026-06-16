@@ -1,15 +1,50 @@
+# GNC Simulator
+
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/release/python-3120/)
 [![image](https://img.shields.io/pypi/v/uv.svg)](https://pypi.python.org/pypi/uv)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 
-The project uses UV to manage its dependencies, an extremely fast Python package and project manager, written in Rust. 
+> [Decription pending]
 
-More information on working with UV: https://github.com/astral-sh/uv?tab=readme-ov-file#uv
+---
 
-The `input/<filename>.json` file determines the parameters used for the simulation (e.g., simulation time, simulation target (pipeline), initial conditions etc.)
-You can make your own file and specify as many parameters you need. Remember to change the input file variable in `main.py` before you run the simulation.
+## 🚀 Getting Started
 
-Plot and video files can be stored in `output/` as .png images.
+### Dependency Management
+This project uses **[uv](https://github.com/astral-sh/uv)** to manage its dependencies. It is an extremely fast Python package and project manager written in Rust. 
+
+*For more information on working with uv, refer to their [official documentation](https://github.com/astral-sh/uv?tab=readme-ov-file#uv).*
+
+### Configuration & Execution
+Simulation parameters (such as simulation time, simulation target/pipeline, initial conditions, etc.) are driven by JSON configuration files.
+
+1. Navigate to the `input/` directory.
+2. Create or modify a `.json` file (e.g., `input/<filename>.json`) to specify the parameters you need.
+3. Open `main.py` and update the input file variable to point to your target `.json` file.
+4. Run the simulation.
+
+### Outputs
+Once the simulation completes, plot and video files will be automatically stored in the `output/` directory (e.g., such as `.png` images).
+
+---
+
+## 📚 How to Cite
+
+If you use this software in your research, academic work, or projects, please cite it. All necessary metadata and formatting information can be found in the `CITATION.cff` file located in the root of this repository. 
+
+*Tip: You can also easily generate citations in your preferred format by clicking the **"Cite this repository"** button in the "About" section on the right side of the GitHub repository page.*
+
+---
+
+## ⚖️ Acknowledgements & Disclaimer
+
+*This software has been built during my involvement in the Safe Autonomous Maritime Transport Research Group (Safenet) and Delft University of Technology.*
+
+---
+
+## 📝 License
+
+This project is licensed under the **Creative Commons Attribution 4.0 International License** - see the `LICENSE` file for full details.
 
 
