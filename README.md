@@ -45,6 +45,7 @@ If you use this software in your research, academic work, or projects, please ci
 
 ## 📝 License
 
-This project is licensed under the **Creative Commons Attribution 4.0 International License** - see the `LICENSE` file for full details.
+This project is licensed under the **Apache License 2.0**. 
+See the `LICENSE` and `NOTICE` files for full details.
 
 
