@@ -1,0 +1,20 @@
+[project]
+name = "gnc-simulator"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "cvxpy>=1.8.0",
+    "do-mpc[full]>=5.1.1",
+    "ipywidgets>=8.1.8",
+    "matplotlib>=3.10.8",
+    "numpy>=2.4.2",
+    "owlready2>=0.49",
+    "pandas>=3.0.0",
+    "pygame>=2.6.1",
+    "pyqt5>=5.15.11",
+    "scipy>=1.17.0",
+    "tabula>=1.0.5",
+    "vidmaker>=2.3.0",
+]

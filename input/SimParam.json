@@ -1,0 +1,38 @@
+
+{
+    "Simulation Time": 10000,
+    "Time step": 1,
+    "scale":0.2,
+    "Own vessel name": "Pusher-Barge",
+    "Other vessel name": "Pusher-Barge",
+    "shapefile": "assets/shapefiles/Dutch waterways/vaarwegvakkenLine.shp",
+    "Initial conditions [own]": {
+        "Position": [100, -2000, 0],
+        "Velocity": [2.5, 0],
+        "Yaw rate": [0],
+        "Heading": [0]
+    },
+    "Initial conditions [other]": {
+        "Position2": [6000, -2000, 0],
+        "Position1": [2400, -2000, 0],
+        "Velocity2": [2.5, 0],
+        "Velocity1": [2.5, 0],
+        "Yaw rate": [0],
+        "Heading": [3.14]
+    },
+    "Sensor faults":{
+        "Own": [0,0,0,0,0,0,0],
+        "Other": [0,0,0,0,0,0,0],
+        "Time own":[0,0,0,0,0,0,0],
+        "Time other":[10000,10000,10000,10000,10000,10000,10000]
+    },
+    "End point [own]": [6000, -2000, 0],
+    "End point [other]": [100, -2000, 0],
+    "Path definition": 20,
+    "PID Gains": {
+        "Kp": 80,
+        "Td": 10,
+        "Ti": 1
+    },
+    "Lookahead distance": 300
+}

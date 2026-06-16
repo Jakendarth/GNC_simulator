@@ -1,0 +1,5 @@
+traffic planner.py: Contains controller and LOS guidance for reference heading calculation
+gui.py: Contains code for the Graphical user Interface
+classes.py: Contains classes for the simulation. Here you can find the MMG model
+intel_guidance.py: Contains guidance functions and reasoner (only for collision avoidance)
+plots.py: This file is used to plot the results

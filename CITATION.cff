@@ -1,0 +1,17 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: GNC Simulator
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Nikos
+    family-names: Kougiatsos
+    email: n.kougiatsos@tudelft.nl
+    affiliation: Delft University of Technology
+    orcid: 'https://orcid.org/0000-0001-9518-9114'
+repository-code: 'https://gitlab.tudelft.nl/nkougiatsos/gnc_simulator'
+license: CC-BY-4.0

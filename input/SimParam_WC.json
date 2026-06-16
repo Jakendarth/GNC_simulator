@@ -1,0 +1,11 @@
+{
+    "imports": [
+        { "from": "sim_colav", "import": ["run_simulation"] }
+    ],
+    "Simulation Time": 4800,
+    "Time step": 1,
+    "Sensor noise":0.03,
+    "scale":0.2,
+    "Waypoint spacing": 250,
+    "Lookahead distance": 200
+}

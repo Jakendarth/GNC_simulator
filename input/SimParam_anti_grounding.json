@@ -1,0 +1,16 @@
+{
+    "imports": [
+        { "from": "sim_ag", "import": ["run_simulation"] }
+    ],
+    "Simulation Time": 1000,
+    "Time step": 0.5,
+    "Own vessel name": "Pusher-Barge",
+    "Initial conditions [own]": {
+        "Position": [-100, 0, 0],
+        "Velocity": [2.572, 0],
+        "Yaw rate": [0],
+        "Heading": [0]
+    },
+    "End point [own]": [900, 0, 0],
+    "End point [other]": [-100, 0, 0]
+}

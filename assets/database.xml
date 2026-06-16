@@ -1,0 +1,2367 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://example.com/ontology#"
+     xml:base="http://example.com/ontology"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="http://example.com/ontology">
+        <rdfs:comment>Trying to write my own ontology file</rdfs:comment>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://example.com/ontology#inputFrom -->
+
+    <owl:ObjectProperty rdf:about="http://example.com/ontology#inputFrom">
+        <owl:inverseOf rdf:resource="http://example.com/ontology#outputTo"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Design_space"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Environment"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Operators"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Regulations"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Sensors"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Vessel"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://example.com/ontology#outputTo -->
+
+    <owl:ObjectProperty rdf:about="http://example.com/ontology#outputTo">
+        <rdfs:domain rdf:resource="http://example.com/ontology#Design_space"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Environment"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Operators"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Regulations"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Sensors"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Vessel"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://example.com/ontology#B -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#B">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Design"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Design_space"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Vessel"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Cb -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Cb">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Design"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#D -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#D">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Design"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Design_space"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Vessel"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Design -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Design">
+        <rdfs:domain rdf:resource="http://example.com/ontology#Design_space"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Edge -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Edge">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Knowledge_graph"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Design_space"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Vessel"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Flag -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Flag">
+        <rdfs:domain rdf:resource="http://example.com/ontology#Vessel"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Hydrodynamics -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Hydrodynamics">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Vessel"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Iz -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Iz">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Design"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Jz -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Jz">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Design"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Knowledge_graph -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Knowledge_graph">
+        <rdfs:domain rdf:resource="http://example.com/ontology#Design_space"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Vessel"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#L -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#L">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Design"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Design_space"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Vessel"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Medium -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Medium">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Knowledge_graph"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Design_space"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Vessel"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Nb -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Nb">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Hydrodynamics"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Nbbb -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Nbbb">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Hydrodynamics"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Nbbr -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Nbbr">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Hydrodynamics"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Nbrr -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Nbrr">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Hydrodynamics"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Nr -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Nr">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Hydrodynamics"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Vessel"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Nrdot -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Nrdot">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Hydrodynamics"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Vessel"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Nrrr -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Nrrr">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Hydrodynamics"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Nv -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Nv">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Hydrodynamics"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Vessel"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Nvdot -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Nvdot">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Hydrodynamics"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Vessel"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Operation -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Operation">
+        <rdfs:domain rdf:resource="http://example.com/ontology#Environment"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Sensors"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Vessel"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Risk -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Risk">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Environment"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Operators"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Vessel"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Role -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Role">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Environment"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Regulations"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Sensors"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Vessel"/>
+        <rdfs:comment>This property can assume either the crossing or the give-way value</rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#SOG -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#SOG">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Td -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Td">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Design"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Design_space"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Vessel"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#UKC -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#UKC">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Vertex -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Vertex">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Knowledge_graph"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Design_space"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Vessel"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Xbb -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Xbb">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Hydrodynamics"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Xbr -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Xbr">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Hydrodynamics"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Xrr -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Xrr">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Hydrodynamics"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Xu -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Xu">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Hydrodynamics"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Vessel"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Xudot -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Xudot">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Hydrodynamics"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Vessel"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Yb -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Yb">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Hydrodynamics"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Ybbb -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Ybbb">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Hydrodynamics"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Ybbr -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Ybbr">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Hydrodynamics"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Ybrr -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Ybrr">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Hydrodynamics"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Yr -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Yr">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Hydrodynamics"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Vessel"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Yrdot -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Yrdot">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Hydrodynamics"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Vessel"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Yrrr -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Yrrr">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Hydrodynamics"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Yv -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Yv">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Hydrodynamics"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Vessel"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#Yvdot -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#Yvdot">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Hydrodynamics"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Vessel"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#d_ufo -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#d_ufo">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Environment"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Sensors"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#depth_data -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#depth_data">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#environment_type -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#environment_type">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Environment"/>
+        <rdfs:comment>
+            <rdf:Description>
+                <rdfs:comment>Can receive three values:
+
+1: Inland Waterway (IWT)
+
+2: Short Sea Shipping (SSS)
+
+3: Open Sea Shipping (OSS)</rdfs:comment>
+            </rdf:Description>
+        </rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#force_switch -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#force_switch"/>
+    
+
+
+    <!-- http://example.com/ontology#m -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#m">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Design"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Design_space"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Vessel"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#mx -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#mx">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Hydrodynamics"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#my -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#my">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Hydrodynamics"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#port_distance -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#port_distance">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#propeller_pitch -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#propeller_pitch">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#propeller_speed -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#propeller_speed">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#psi -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#psi">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Sensors"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Vessel"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#psi_d -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#psi_d">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#psiref -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#psiref">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#r -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#r">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Sensors"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Vessel"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#reg_active -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#reg_active"/>
+    
+
+
+    <!-- http://example.com/ontology#rref -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#rref">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#rudder_angle -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#rudder_angle">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#safedistance -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#safedistance">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#safelaneangle -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#safelaneangle">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#safelanedistance -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#safelanedistance">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#safespeed -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#safespeed">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#speed_ufo -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#speed_ufo">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Environment"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Sensors"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#starboard_distance -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#starboard_distance">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#time -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#time">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#u -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#u">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Sensors"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Vessel"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#uref -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#uref">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#v -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#v">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Sensors"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Vessel"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#visibility -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#visibility">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Sensors"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Vessel"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#vol -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#vol">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Design"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#vref -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#vref">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#winddirection -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#winddirection">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Environment"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Sensors"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#windspeed -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#windspeed">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Environment"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Sensors"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#x -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#x">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Sensors"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Vessel"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#xg -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#xg">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Design"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Design_space"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Vessel"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#xref -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#xref">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#y -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#y">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Sensors"/>
+        <rdfs:domain rdf:resource="http://example.com/ontology#Vessel"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#ypsi -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#ypsi">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#yr -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#yr">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#yref -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#yref">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#yu -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#yu">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#yv -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#yv">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#yx -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#yx">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#yy -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#yy">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.com/ontology#zhat -->
+
+    <owl:DatatypeProperty rdf:about="http://example.com/ontology#zhat">
+        <rdfs:subPropertyOf rdf:resource="http://example.com/ontology#Operation"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://example.com/ontology#Design_space -->
+
+    <owl:Class rdf:about="http://example.com/ontology#Design_space"/>
+    
+
+
+    <!-- http://example.com/ontology#Environment -->
+
+    <owl:Class rdf:about="http://example.com/ontology#Environment"/>
+    
+
+
+    <!-- http://example.com/ontology#Operators -->
+
+    <owl:Class rdf:about="http://example.com/ontology#Operators"/>
+    
+
+
+    <!-- http://example.com/ontology#Regulations -->
+
+    <owl:Class rdf:about="http://example.com/ontology#Regulations"/>
+    
+
+
+    <!-- http://example.com/ontology#Sensors -->
+
+    <owl:Class rdf:about="http://example.com/ontology#Sensors"/>
+    
+
+
+    <!-- http://example.com/ontology#Vessel -->
+
+    <owl:Class rdf:about="http://example.com/ontology#Vessel"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://example.com/ontology#ASKO -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#ASKO">
+        <rdf:type rdf:resource="http://example.com/ontology#Vessel"/>
+        <owl:differentFrom rdf:resource="http://example.com/ontology#Tito_Neri"/>
+        <B rdf:datatype="http://www.w3.org/2001/XMLSchema#float">15.0</B>
+        <Cb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.58</Cb>
+        <D rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.7</D>
+        <Flag></Flag>
+        <Knowledge_graph></Knowledge_graph>
+        <L rdf:datatype="http://www.w3.org/2001/XMLSchema#float">63.83</L>
+        <Nr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">NaN</Nr>
+        <Nrdot rdf:datatype="http://www.w3.org/2001/XMLSchema#float">NaN</Nrdot>
+        <Nv rdf:datatype="http://www.w3.org/2001/XMLSchema#float">NaN</Nv>
+        <Nvdot rdf:datatype="http://www.w3.org/2001/XMLSchema#float">NaN</Nvdot>
+        <Operation></Operation>
+        <Role></Role>
+        <Td rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.8</Td>
+        <Xu rdf:datatype="http://www.w3.org/2001/XMLSchema#float">NaN</Xu>
+        <Xudot rdf:datatype="http://www.w3.org/2001/XMLSchema#float">NaN</Xudot>
+        <Yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">NaN</Yr>
+        <Yrdot rdf:datatype="http://www.w3.org/2001/XMLSchema#float">NaN</Yrdot>
+        <Yv rdf:datatype="http://www.w3.org/2001/XMLSchema#float">NaN</Yv>
+        <Yvdot rdf:datatype="http://www.w3.org/2001/XMLSchema#float">NaN</Yvdot>
+        <psi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</psi>
+        <r rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</r>
+        <u rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</u>
+        <v rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</v>
+        <x rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</x>
+        <y rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</y>
+        <rdfs:comment>Autonomous electric barges being developed by Kongsberg Maritime and its partners will help ensure a Norwegian retail giant becomes a global pioneer in sustainable logistics</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#Accelerometer -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#Accelerometer">
+        <rdf:type rdf:resource="http://example.com/ontology#Sensors"/>
+        <r rdf:datatype="http://www.w3.org/2001/XMLSchema#double">NaN</r>
+        <u rdf:datatype="http://www.w3.org/2001/XMLSchema#double">NaN</u>
+        <v rdf:datatype="http://www.w3.org/2001/XMLSchema#double">NaN</v>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#Anemometer -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#Anemometer">
+        <rdf:type rdf:resource="http://example.com/ontology#Sensors"/>
+        <winddirection rdf:datatype="http://www.w3.org/2001/XMLSchema#double">NaN</winddirection>
+        <windspeed rdf:datatype="http://www.w3.org/2001/XMLSchema#double">NaN</windspeed>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#Camera -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#Camera">
+        <rdf:type rdf:resource="http://example.com/ontology#Sensors"/>
+        <visibility rdf:datatype="http://www.w3.org/2001/XMLSchema#double">NaN</visibility>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#GNSS -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#GNSS">
+        <rdf:type rdf:resource="http://example.com/ontology#Sensors"/>
+        <x rdf:datatype="http://www.w3.org/2001/XMLSchema#double">NaN</x>
+        <y rdf:datatype="http://www.w3.org/2001/XMLSchema#double">NaN</y>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#Gyro -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#Gyro">
+        <rdf:type rdf:resource="http://example.com/ontology#Sensors"/>
+        <psi rdf:datatype="http://www.w3.org/2001/XMLSchema#double">NaN</psi>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#Operational_environment -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#Operational_environment">
+        <rdf:type rdf:resource="http://example.com/ontology#Environment"/>
+        <inputFrom rdf:resource="http://example.com/ontology#GNSS"/>
+        <inputFrom rdf:resource="http://example.com/ontology#Radar"/>
+        <environment_type></environment_type>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#Profile_1 -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#Profile_1">
+        <rdf:type rdf:resource="http://example.com/ontology#Operators"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#Profile_2 -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#Profile_2">
+        <rdf:type rdf:resource="http://example.com/ontology#Operators"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#Profile_3 -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#Profile_3">
+        <rdf:type rdf:resource="http://example.com/ontology#Operators"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#Pusher_barge -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#Pusher_barge">
+        <rdf:type rdf:resource="http://example.com/ontology#Vessel"/>
+        <B rdf:datatype="http://www.w3.org/2001/XMLSchema#float">10.67</B>
+        <Cb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.725</Cb>
+        <Iz rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3677627.5</Iz>
+        <Jz rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.00048</Jz>
+        <L rdf:datatype="http://www.w3.org/2001/XMLSchema#float">100.96</L>
+        <Nb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.4435</Nb>
+        <Nbbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.1277</Nbbb>
+        <Nbbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.2249</Nbbr>
+        <Nbrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0561</Nbrr>
+        <Nr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0861</Nr>
+        <Nrrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0522</Nrrr>
+        <SOG rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</SOG>
+        <Td rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.74</Td>
+        <UKC rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0</UKC>
+        <Xbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.3637</Xbb>
+        <Xbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.248</Xbr>
+        <Xrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.1055</Xrr>
+        <Yb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.2375</Yb>
+        <Ybbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4.2245</Ybbb>
+        <Ybbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.6005</Ybbr>
+        <Ybrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.7129</Ybrr>
+        <Yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.113</Yr>
+        <Yrrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.2003</Yrrr>
+        <m rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4281.8</m>
+        <mx rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0195</mx>
+        <my rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.3722</my>
+        <port_distance rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</port_distance>
+        <propeller_pitch rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</propeller_pitch>
+        <propeller_speed rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</propeller_speed>
+        <psi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</psi>
+        <psi_d rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</psi_d>
+        <psiref rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</psiref>
+        <r rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</r>
+        <rudder_angle rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</rudder_angle>
+        <starboard_distance rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</starboard_distance>
+        <time rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</time>
+        <u rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</u>
+        <v rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</v>
+        <vol rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2140.9</vol>
+        <x rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</x>
+        <xg rdf:datatype="http://www.w3.org/2001/XMLSchema#float">14.56</xg>
+        <y rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</y>
+        <ypsi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</ypsi>
+        <yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yr>
+        <yu rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yu>
+        <yv rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yv>
+        <yx rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yx>
+        <yy rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yy>
+        <zhat rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</zhat>
+    </owl:NamedIndividual>
+
+    <!-- http://example.com/ontology#Own-->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#Own">
+        <rdf:type rdf:resource="http://example.com/ontology#Vessel"/>
+        <B rdf:datatype="http://www.w3.org/2001/XMLSchema#float">10.67</B>
+        <Cb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.725</Cb>
+        <Iz rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3677627.5</Iz>
+        <Jz rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.00048</Jz>
+        <L rdf:datatype="http://www.w3.org/2001/XMLSchema#float">100.96</L>
+        <Nb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.4435</Nb>
+        <Nbbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.1277</Nbbb>
+        <Nbbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.2249</Nbbr>
+        <Nbrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0561</Nbrr>
+        <Nr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0861</Nr>
+        <Nrrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0522</Nrrr>
+        <SOG rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</SOG>
+        <Td rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.74</Td>
+        <UKC rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0</UKC>
+        <Xbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.3637</Xbb>
+        <Xbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.248</Xbr>
+        <Xrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.1055</Xrr>
+        <Yb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.2375</Yb>
+        <Ybbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4.2245</Ybbb>
+        <Ybbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.6005</Ybbr>
+        <Ybrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.7129</Ybrr>
+        <Yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.113</Yr>
+        <Yrrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.2003</Yrrr>
+        <m rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4281.8</m>
+        <mx rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0195</mx>
+        <my rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.3722</my>
+        <port_distance rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</port_distance>
+        <propeller_pitch rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</propeller_pitch>
+        <propeller_speed rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</propeller_speed>
+        <psi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</psi>
+        <psi_d rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</psi_d>
+        <psiref rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</psiref>
+        <r rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</r>
+        <rudder_angle rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</rudder_angle>
+        <starboard_distance rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</starboard_distance>
+        <time rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</time>
+        <u rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.5</u>
+        <v rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</v>
+        <vol rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2140.9</vol>
+        <x rdf:datatype="http://www.w3.org/2001/XMLSchema#float">100</x>
+        <xg rdf:datatype="http://www.w3.org/2001/XMLSchema#float">14.56</xg>
+        <y rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-2000</y>
+        <ypsi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</ypsi>
+        <yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yr>
+        <yu rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yu>
+        <yv rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yv>
+        <yx rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yx>
+        <yy rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yy>
+        <zhat rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</zhat>
+    </owl:NamedIndividual>
+
+    <!-- http://example.com/ontology#Other1 -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#Other1">
+        <rdf:type rdf:resource="http://example.com/ontology#Vessel"/>
+        <B rdf:datatype="http://www.w3.org/2001/XMLSchema#float">10.67</B>
+        <Cb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.725</Cb>
+        <Iz rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3677627.5</Iz>
+        <Jz rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.00048</Jz>
+        <L rdf:datatype="http://www.w3.org/2001/XMLSchema#float">100.96</L>
+        <Nb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.4435</Nb>
+        <Nbbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.1277</Nbbb>
+        <Nbbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.2249</Nbbr>
+        <Nbrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0561</Nbrr>
+        <Nr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0861</Nr>
+        <Nrrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0522</Nrrr>
+        <SOG rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</SOG>
+        <Td rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.74</Td>
+        <UKC rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0</UKC>
+        <Xbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.3637</Xbb>
+        <Xbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.248</Xbr>
+        <Xrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.1055</Xrr>
+        <Yb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.2375</Yb>
+        <Ybbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4.2245</Ybbb>
+        <Ybbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.6005</Ybbr>
+        <Ybrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.7129</Ybrr>
+        <Yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.113</Yr>
+        <Yrrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.2003</Yrrr>
+        <m rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4281.8</m>
+        <mx rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0195</mx>
+        <my rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.3722</my>
+        <port_distance rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</port_distance>
+        <propeller_pitch rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</propeller_pitch>
+        <propeller_speed rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</propeller_speed>
+        <psi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-2.62</psi>
+        <psi_d rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-2.62</psi_d>
+        <psiref rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-2.62</psiref>
+        <r rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</r>
+        <rudder_angle rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</rudder_angle>
+        <starboard_distance rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</starboard_distance>
+        <time rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</time>
+        <u rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.5</u>
+        <v rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</v>
+        <vol rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2140.9</vol>
+        <x rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2495.7</x>
+        <xg rdf:datatype="http://www.w3.org/2001/XMLSchema#float">14.56</xg>
+        <y rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-1425</y>
+        <ypsi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</ypsi>
+        <yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yr>
+        <yu rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yu>
+        <yv rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yv>
+        <yx rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yx>
+        <yy rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yy>
+        <zhat rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</zhat>
+    </owl:NamedIndividual>
+
+    <!-- http://example.com/ontology#Other2-->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#Other2">
+        <rdf:type rdf:resource="http://example.com/ontology#Vessel"/>
+        <B rdf:datatype="http://www.w3.org/2001/XMLSchema#float">10.67</B>
+        <Cb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.725</Cb>
+        <Iz rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3677627.5</Iz>
+        <Jz rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.00048</Jz>
+        <L rdf:datatype="http://www.w3.org/2001/XMLSchema#float">100.96</L>
+        <Nb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.4435</Nb>
+        <Nbbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.1277</Nbbb>
+        <Nbbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.2249</Nbbr>
+        <Nbrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0561</Nbrr>
+        <Nr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0861</Nr>
+        <Nrrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0522</Nrrr>
+        <SOG rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</SOG>
+        <Td rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.74</Td>
+        <UKC rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0</UKC>
+        <Xbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.3637</Xbb>
+        <Xbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.248</Xbr>
+        <Xrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.1055</Xrr>
+        <Yb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.2375</Yb>
+        <Ybbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4.2245</Ybbb>
+        <Ybbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.6005</Ybbr>
+        <Ybrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.7129</Ybrr>
+        <Yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.113</Yr>
+        <Yrrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.2003</Yrrr>
+        <m rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4281.8</m>
+        <mx rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0195</mx>
+        <my rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.3722</my>
+        <port_distance rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</port_distance>
+        <propeller_pitch rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</propeller_pitch>
+        <propeller_speed rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</propeller_speed>
+        <psi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.14</psi>
+        <psi_d rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.14</psi_d>
+        <psiref rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.14</psiref>
+        <r rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</r>
+        <rudder_angle rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</rudder_angle>
+        <starboard_distance rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</starboard_distance>
+        <time rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</time>
+        <u rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.5</u>
+        <v rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</v>
+        <vol rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2140.9</vol>
+        <x rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2500</x>
+        <xg rdf:datatype="http://www.w3.org/2001/XMLSchema#float">14.56</xg>
+        <y rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-2000</y>
+        <ypsi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.14</ypsi>
+        <yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yr>
+        <yu rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yu>
+        <yv rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yv>
+        <yx rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2500</yx>
+        <yy rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-2000</yy>
+        <zhat rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</zhat>
+    </owl:NamedIndividual>
+
+    <!-- http://example.com/ontology#Other3-->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#Other3">
+        <rdf:type rdf:resource="http://example.com/ontology#Vessel"/>
+        <B rdf:datatype="http://www.w3.org/2001/XMLSchema#float">10.67</B>
+        <Cb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.725</Cb>
+        <Iz rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3677627.5</Iz>
+        <Jz rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.00048</Jz>
+        <L rdf:datatype="http://www.w3.org/2001/XMLSchema#float">100.96</L>
+        <Nb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.4435</Nb>
+        <Nbbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.1277</Nbbb>
+        <Nbbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.2249</Nbbr>
+        <Nbrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0561</Nbrr>
+        <Nr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0861</Nr>
+        <Nrrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0522</Nrrr>
+        <SOG rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</SOG>
+        <Td rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.74</Td>
+        <UKC rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0</UKC>
+        <Xbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.3637</Xbb>
+        <Xbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.248</Xbr>
+        <Xrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.1055</Xrr>
+        <Yb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.2375</Yb>
+        <Ybbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4.2245</Ybbb>
+        <Ybbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.6005</Ybbr>
+        <Ybrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.7129</Ybrr>
+        <Yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.113</Yr>
+        <Yrrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.2003</Yrrr>
+        <m rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4281.8</m>
+        <mx rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0195</mx>
+        <my rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.3722</my>
+        <port_distance rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</port_distance>
+        <propeller_pitch rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</propeller_pitch>
+        <propeller_speed rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</propeller_speed>
+        <psi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.57</psi>
+        <psi_d rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.57</psi_d>
+        <psiref rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.57</psiref>
+        <r rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</r>
+        <rudder_angle rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</rudder_angle>
+        <starboard_distance rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</starboard_distance>
+        <time rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</time>
+        <u rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.5</u>
+        <v rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</v>
+        <vol rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2140.9</vol>
+        <x rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4750</x>
+        <xg rdf:datatype="http://www.w3.org/2001/XMLSchema#float">14.56</xg>
+        <y rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-2700</y>
+        <ypsi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</ypsi>
+        <yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yr>
+        <yu rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yu>
+        <yv rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yv>
+        <yx rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yx>
+        <yy rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yy>
+        <zhat rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</zhat>
+    </owl:NamedIndividual>
+
+    <!-- http://example.com/ontology#Other4-->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#Other4">
+        <rdf:type rdf:resource="http://example.com/ontology#Vessel"/>
+        <B rdf:datatype="http://www.w3.org/2001/XMLSchema#float">10.67</B>
+        <Cb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.725</Cb>
+        <Iz rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3677627.5</Iz>
+        <Jz rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.00048</Jz>
+        <L rdf:datatype="http://www.w3.org/2001/XMLSchema#float">100.96</L>
+        <Nb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.4435</Nb>
+        <Nbbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.1277</Nbbb>
+        <Nbbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.2249</Nbbr>
+        <Nbrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0561</Nbrr>
+        <Nr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0861</Nr>
+        <Nrrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0522</Nrrr>
+        <SOG rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</SOG>
+        <Td rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.74</Td>
+        <UKC rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0</UKC>
+        <Xbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.3637</Xbb>
+        <Xbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.248</Xbr>
+        <Xrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.1055</Xrr>
+        <Yb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.2375</Yb>
+        <Ybbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4.2245</Ybbb>
+        <Ybbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.6005</Ybbr>
+        <Ybrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.7129</Ybrr>
+        <Yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.113</Yr>
+        <Yrrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.2003</Yrrr>
+        <m rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4281.8</m>
+        <mx rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0195</mx>
+        <my rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.3722</my>
+        <port_distance rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</port_distance>
+        <propeller_pitch rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</propeller_pitch>
+        <propeller_speed rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</propeller_speed>
+        <psi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.14</psi>
+        <psi_d rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.14</psi_d>
+        <psiref rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.14</psiref>
+        <r rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</r>
+        <rudder_angle rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</rudder_angle>
+        <starboard_distance rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</starboard_distance>
+        <time rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</time>
+        <u rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.5</u>
+        <v rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</v>
+        <vol rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2140.9</vol>
+        <x rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4000</x>
+        <xg rdf:datatype="http://www.w3.org/2001/XMLSchema#float">14.56</xg>
+        <y rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-2000</y>
+        <ypsi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.14</ypsi>
+        <yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yr>
+        <yu rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yu>
+        <yv rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yv>
+        <yx rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4000</yx>
+        <yy rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-2000</yy>
+        <zhat rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</zhat>
+    </owl:NamedIndividual>
+
+    <!-- http://example.com/ontology#Radar -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#Radar">
+        <rdf:type rdf:resource="http://example.com/ontology#Sensors"/>
+        <d_ufo rdf:datatype="http://www.w3.org/2001/XMLSchema#double">NaN</d_ufo>
+        <speed_ufo rdf:datatype="http://www.w3.org/2001/XMLSchema#double">NaN</speed_ufo>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#Tito_Neri -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#Tito_Neri">
+        <rdf:type rdf:resource="http://example.com/ontology#Vessel"/>
+        <B></B>
+        <D></D>
+        <Flag></Flag>
+        <Knowledge_graph></Knowledge_graph>
+        <L></L>
+        <Operation></Operation>
+        <Role></Role>
+        <Td></Td>
+        <rdfs:comment>The vessel TITO NERI (IMO 9319167, MMSI 247131200) is a Tug ship built in 2004 (33 years old) and currently sailing under the flag of Italy.</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#BPR/Article_603_3 -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#BPR/Article_603_3">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <owl:sameAs rdf:resource="http://example.com/ontology#BPR/Situation_Analysis"/>
+        <Role></Role>
+        <reg_active rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</reg_active>
+        <rdfs:comment>When approaching on opposite courses, when passing or when crossing a course, a vessel whose course eliminates all risk of collision may not alter its course or speed in such a way as to involve a risk of collision.</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#BPR/Situation_Analysis -->
+
+    <rdf:Description rdf:about="http://example.com/ontology#BPR/Situation_Analysis"/>
+    
+
+
+    <!-- http://example.com/ontology#BPR/Article_603_4 -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#BPR/Article_603_4">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <owl:sameAs rdf:resource="http://example.com/ontology#BPR/Situation_Dependent"/>
+        <reg_active rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</reg_active>
+        <safedistance rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.0</safedistance>
+        <safespeed rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.364</safespeed>
+        <rdfs:comment>Action by Give-way vessel
+
+4. When a vessel is required to yield right of way to another vessel, she shall, by timely alteration of course or by change of speed, give the other vessel the space necessary for following her course and for manoeuvring. The vessel required to yield right of way to another vessel shall in so doing avoid overrunning the other vessel and shall not require the other vessel to alter her course or speed for her convenience.
+
+5. When a vessel is required to give way to another vessel, the latter must maintain her course and speed. When, from any cause, the vessel required to maintain her course and speed is so close to the vessel required to give way that collision cannot be avoided by the action of that vessel alone, she must take such action as will best contribute to avoiding collision.</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#BPR/Situation_Dependent -->
+
+    <rdf:Description rdf:about="http://example.com/ontology#BPR/Situation_Dependent"/>
+    
+
+
+    <!-- http://example.com/ontology#BPR/Article_604 -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#BPR/Article_604">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <owl:sameAs rdf:resource="http://example.com/ontology#BPR/Situation_Dependent"/>
+        <Role></Role>
+        <reg_active rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</reg_active>
+        <rdfs:comment>Article 6.04. Approaching on opposite courses on all waterways; main rule (head-on)
+
+1 The main rules given in this article may be deviated from in accordance with article 6.04a . This article does not apply to the parts of the Geldersche IJssel and the Maas referred to in article 6.05, first paragraph .
+
+2 When two vessels approach each other on opposite courses in such a manner that there is danger of collision, the vessel not on the starboard side of the fairway shall give way to the vessel on the starboard side of the fairway.
+
+3 When a large vessel and a small vessel approach each other on opposite courses in such a way that there is danger of collision, provided neither vessel is on the starboard side of the fairway, the small vessel shall give way to the large vessel.
+
+4 When two large motor vessels or a large motor vessel and a large sailing vessel approach each other on opposite courses in such a way that there is danger of collision, if neither vessel is on the starboard side of the fairway, each shall keep to starboard so that they pass each other port to port.
+
+5 When two large sailing vessels approach each other on opposite courses in such a way that there is danger of collision, if neither vessel is on the starboard side of the fairway, the vessel on the starboard bow shall give way to the vessel on the port bow.
+
+6 When two small sailing vessels approach each other on opposite courses in such a way that there is danger of collision, if neither vessel is on the starboard side of the fairway, the vessel on the starboard bow shall give way to the vessel on the port bow.
+
+7 When two small motor vessels approach each other on opposite courses in such a way that there is a risk of collision, if neither vessel is following the starboard side of the fairway, each must move to starboard so that they pass each other port to port.
+
+8 If a small motor vessel, a small sailing vessel or a small muscle-powered vessel approach each other on opposite courses in such a way that there is a risk of collision, then, if neither vessel is following the starboard side of the fairway, the motor vessel shall give way to the other vessel and the muscle-powered vessel shall give way to the sailing vessel.
+
+9 When two vessels propelled by muscle power approach each other on opposite courses in such a way that there is danger of collision, if neither vessel is on the starboard side of the fairway, each shall move to starboard so that they pass each other port to port.
+
+approaching on opposite courses: the approach of two vessels on courses which are directly or nearly directly opposite to each other;</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#BPR/Situation_Dependent -->
+
+    <rdf:Description rdf:about="http://example.com/ontology#BPR/Situation_Dependent"/>
+    
+
+
+    <!-- http://example.com/ontology#BPR/Article_605 -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#BPR/Article_605">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <owl:sameAs rdf:resource="http://example.com/ontology#BPR/Situation_Dependent"/>
+        <reg_active rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</reg_active>
+        <safedistance rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.8</safedistance>
+        <safespeed rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.364</safespeed>
+        <rdfs:comment>Article 6.05. Approaching on opposite courses on the Geldersche IJssel and on the Maas
+
+1 This article only applies to the Geldersche IJssel from the IJsselkop (kmr. 878.6) to the city bridge at Kampen (kmr. 995.5) and to the Maas with the connecting Bergsche Maas to Heusden (kmr. 231). It does not apply to the approach on opposite courses of a fast ship and another ship.
+
+2 When an upstream large vessel and a downstream vessel approach each other on opposite courses, the upstream large vessel shall leave a suitable way open for the downstream vessel, taking into account local circumstances and the movements of other vessels.
+
+3 The large ascending ship, which is leaving the way clear on the port side for the descending ship, shows no sign.
+
+4 The large vessel sailing upstream which leaves the way clear on the starboard side for the vessel sailing downstream must show on the starboard side in good time until the passing has taken place:
+
+a.at night: a white, bright, all-round flashing light, possibly in combination with a light blue sign;
+
+b.during the day: a light blue sign, combined with a bright white all-round flashing light.
+
+The light blue sign must have a white border with a width of at least 5 cm; the frame and rod work and the lantern housing of the flashing light must be dark in colour. The sign must be visible from the front and from the back.
+
+5 As soon as it is feared that the intention of the ascending large ship has not been understood by the descending ship, the ascending large ship must give:
+
+a.one short blast, if the passage is to be made port-side; or
+
+b.two short blasts, if passing starboard to starboard is to be done.
+
+6 A large vessel departing must pass on the side left clear by the large vessel proceeding. To this end, the large vessel proceeding must repeat the signals and sound signal shown or given by the large vessel proceeding.
+
+7 A small vessel proceeding downstream must give way to the larger vessel proceeding upstream, preferably by passing on the side left clear by the larger vessel proceeding upstream.
+
+8 An ascending small vessel must give way to a descending large vessel.
+
+9 When two small vessels approach each other on opposite courses in such a manner that there is danger of collision, the vessel not on the starboard side of the fairway must give way to the vessel on the starboard side of the fairway.
+
+10 When two small sailing vessels approach each other on opposite courses in such a way that there is danger of collision, if neither vessel is on the starboard side of the fairway, the vessel on the starboard bow shall give way to the vessel on the port bow.
+
+11 When two small motor vessels approach each other on opposite courses in such a way that there is a risk of collision, if neither vessel is following the starboard side of the fairway, each must move to starboard so that they pass each other port to port.
+
+12 If a small motor vessel, a small sailing vessel or a small muscle-powered vessel approach each other on opposite courses in such a way that there is a risk of collision, then, if neither vessel is following the starboard side of the fairway, the motor vessel shall give way to the other vessel and the muscle-powered vessel shall give way to the sailing vessel.
+
+13 When two vessels propelled by muscle power approach each other on opposite courses in such a way that there is danger of collision, if neither vessel is on the starboard side of the fairway, each shall move to starboard so that they pass each other port to port.</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#BPR/Situation_Dependent -->
+
+    <rdf:Description rdf:about="http://example.com/ontology#BPR/Situation_Dependent"/>
+    
+
+
+    <!-- http://example.com/ontology#BPR/Article_607 -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#BPR/Article_607">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <owl:sameAs rdf:resource="http://example.com/ontology#BPR/Situation_Analysis"/>
+        <Role></Role>
+        <reg_active rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</reg_active>
+        <rdfs:comment>Article 6.07. Passing on opposite courses in a narrow passage
+
+1 In this Article, a narrow section is understood to mean a section of or a place in the waterway where the waterway does not provide sufficient space for two vessels or two convoys to pass each other. A section of or a place in the waterway indicated by the sign A.4 or A.4.1 ( Appendix 7 ) and the passage opening of a bridge in the open position and a lock or weir that is open on both sides and for which two green fixed lights are displayed above each other in accordance with the sign E.1 ( Appendix 7 ) are a narrow section.
+
+2 The fifth, sixth, seventh and eighth paragraphs of this Article shall not apply to narrow passages where passage is regulated by means of signs.
+
+3 A vessel must pass through a strait without undue delay, provided that passing is prohibited.
+
+4 If the view is not clear, a vessel shall, before entering a strait, give one long blast. If necessary, especially when the strait is long, she shall repeat this signal while passing through.
+
+5 When passing through a narrow passage on a waterway with a current, a vessel sailing against the current must give way to a vessel sailing in front of the current.
+
+6 When passing through a narrow passage on a waterway without current, a small vessel must give way to a large vessel approaching on the opposite course.
+
+7 When sailing through a narrow passage on a waterway where there is no current:
+
+a.a large motor vessel encountering an obstacle on the starboard side or having the inside of a bend on the starboard side shall give way to a large vessel approaching on the opposite course;
+
+b.to give way to a large motor vessel approaching on the opposite course and having entered the strait;
+
+c.to give way to a large sailing vessel which has not sailed the strait to a large vessel approaching on the opposite course;
+
+d.to give way to a large sailing vessel sailing on the starboard tack and having sailed the strait, approaching on the opposite course, sailing on the port tack and having also sailed the strait.
+
+8 When sailing through a narrow passage on a waterway where there is no current:
+
+a.a small motor vessel encountering an obstacle on the starboard side or having the inside bend on the starboard side of a bend shall give way to another small motor vessel approaching on the opposite course;
+
+b.a small muscle-powered vessel encountering an obstacle on the starboard side or having the inside of a bend on the starboard side shall give way to another small muscle-powered vessel approaching on the opposite course;
+
+c.a small motor vessel or a small vessel propelled by muscle power to give way to a small sailing vessel approaching on the opposite course and having sailed through the strait;
+
+d.to give way to a small motor vessel over a small muscle-powered vessel approaching on the opposite course;
+
+e.to give way to a small sailing vessel which has not sailed the strait to a small vessel approaching on the opposite course;
+
+f.to give way to a small sailing vessel sailing on the starboard tack and having sailed the strait, approaching on the opposite course, sailing on the port tack and having also sailed the strait.</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#BPR/Situation_Analysis -->
+
+    <rdf:Description rdf:about="http://example.com/ontology#BPR/Situation_Analysis"/>
+    
+
+
+    <!-- http://example.com/ontology#BPR/Article_609 -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#BPR/Article_609">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <owl:sameAs rdf:resource="http://example.com/ontology#BPR/Situation_Analysis"/>
+        <reg_active rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</reg_active>
+        <rdfs:comment>Article 6.09. Overtaking; general provisions (translated from Dutch)
+
+A vessel may only overtake another vessel after having satisfied itself that this can be done without danger.
+
+overtake: the approach by one vessel of another vessel from a direction more than 22°30´ astern of that vessel&apos;s beam;</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#BPR/Situation_Analysis -->
+
+    <rdf:Description rdf:about="http://example.com/ontology#BPR/Situation_Analysis"/>
+    
+
+
+    <!-- http://example.com/ontology#BPR/Article_609_2 -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#BPR/Article_609_2">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <owl:sameAs rdf:resource="http://example.com/ontology#BPR/Situation_Dependent"/>
+        <reg_active rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</reg_active>
+        <safespeed rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.2</safespeed>
+        <rdfs:comment>Action by Stand-on vessel
+
+A large vessel overtaken by a large vessel and any small vessel overtaken shall, as far as is necessary and possible, facilitate the passing. She shall reduce speed if this is necessary to effect the passing without danger and in so short a time as not to hinder other vessels
+
+overtake: the approach by one vessel of another vessel from a direction more than 22°30´ astern of that vessel&apos;s beam;</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#BPR/Situation_Dependent -->
+
+    <rdf:Description rdf:about="http://example.com/ontology#BPR/Situation_Dependent"/>
+    
+
+
+    <!-- http://example.com/ontology#BPR/Article_610 -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#BPR/Article_610">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <owl:sameAs rdf:resource="http://example.com/ontology#BPR/Situation_Dependent"/>
+        <reg_active rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</reg_active>
+        <rdfs:comment>Article 6.10. Overtaking:conduct of vessels
+1. In principle, the overtake must pass on the port side of the overtaken vessel. However, if there is room, the overtake may pass on the starboard side of the overtaken vessel.
+
+2. If a large sailing vessel overtakes another large sailing vessel, and if a small sailing vessel overtakes another sailing vessel, it shall, if possible, pass to windward.
+
+3. A large ship overtaken by a large sailing ship and a small ship overtaken by a sailing ship must, if possible, cooperate in allowing the latter to pass to windward.</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#BPR/Situation_Dependent -->
+
+    <rdf:Description rdf:about="http://example.com/ontology#BPR/Situation_Dependent"/>
+    
+
+
+    <!-- http://example.com/ontology#BPR/Article_617 -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#BPR/Article_617">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <owl:sameAs rdf:resource="http://example.com/ontology#BPR/Situation_Analysis"/>
+        <Role></Role>
+        <reg_active rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</reg_active>
+        <rdfs:comment>Article 6.17. Crossing course
+
+1. This article does not apply to:
+
+a.crossing courses that occur in the event of turning, departure or at a meeting of a main waterway and a secondary waterway; and
+
+b.crossing courses that occur between a ferry and another ship.
+
+2. If the courses of two vessels cross in such a way that there is danger of collision, the vessel not following the starboard side of the fairway must give way to the vessel following the starboard side of the fairway.
+
+3. When the courses of a large vessel and a small vessel cross each other in such a way that there is danger of collision, and neither vessel is on the starboard side of the fairway, the small vessel shall give way to the large vessel.
+
+4. Where the courses of two large motor vessels or a large motor vessel and a large sailing vessel cross in such a way that there is danger of collision, provided neither vessel is on the starboard side of the fairway, the vessel approaching from port shall give way to the vessel approaching from starboard.
+
+5. If the courses of two large sailing ships:
+
+a.sailing on different tacks and crossing each other in such a way that there is danger of collision, if neither vessel is on the starboard side of the fairway, the vessel on the starboard tack shall give way to the vessel on the port tack;
+
+b.sailing on the same tack and crossing each other in such a way that there is danger of collision, if neither vessel is on the starboard side of the fairway, the windward vessel shall give way to the leeward vessel;
+
+c.cross each other in such a way that there is a risk of collision, if neither vessel is on the starboard side of the fairway, the leeward vessel sailing on the starboard bow and unable to determine with certainty whether the windward vessel is sailing on the starboard or port bow shall give way to the windward vessel.
+
+6. If the courses of two small sailing vessels:
+
+a.sailing on different tacks and crossing each other in such a way that there is danger of collision, if neither vessel is on the starboard side of the fairway, the vessel on the starboard tack shall give way to the vessel on the port tack;
+
+b.sailing on the same tack and crossing each other in such a way that there is danger of collision, if neither vessel is on the starboard side of the fairway, the windward vessel shall give way to the leeward vessel;
+
+c.cross each other in such a way that there is a risk of collision, if neither vessel is on the starboard side of the fairway, the leeward vessel sailing on the starboard bow and unable to determine with certainty whether the windward vessel is sailing on the starboard or port bow shall give way to the windward vessel.
+
+7. If the courses of two small motor vessels cross in such a way that there is a risk of collision, and provided neither vessel is following the starboard side of the fairway, the vessel approaching from port shall give way to the vessel approaching from starboard.
+
+8. If the courses of two vessels propelled by muscle power cross in such a way that there is danger of collision, and provided neither vessel is on the starboard side of the fairway, the vessel approaching from port shall give way to the vessel approaching from starboard.
+
+9. If the courses of a small motor vessel, a small sailing vessel or a small muscle-powered vessel cross in such a way that there is a risk of collision, then, if neither vessel is following the starboard side of the fairway, the motor vessel shall give way to the other vessel and the muscle-powered vessel shall give way to the sailing vessel.</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#BPR/Situation_Analysis -->
+
+    <rdf:Description rdf:about="http://example.com/ontology#BPR/Situation_Analysis"/>
+    
+
+
+    <!-- http://example.com/ontology#BPR/Article_629 -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#BPR/Article_629">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <owl:sameAs rdf:resource="http://example.com/ontology#BPR/Situation_Dependent"/>
+        <reg_active rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</reg_active>
+        <rdfs:comment>Article 6.29. General provisions for sailing in poor visibility
+
+1 This section only applies in poor visibility conditions.
+
+2 A ship is said to be sailing by radar if it uses radar for sailing in poor visibility.
+
+3 On the waterways listed in Appendix 9, a vessel must navigate by radar in poor visibility. On these waterways, a vessel that cannot navigate by radar must stop at the nearest suitable place.
+
+4 The third paragraph shall not apply to a ship intended to provide commercial services to a seagoing ship and on which, in connection with the services to be provided, the installation of a radar is technically not possible. The competent authority may establish policy rules in this regard.</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#BPR/Situation_Dependent -->
+
+    <rdf:Description rdf:about="http://example.com/ontology#BPR/Situation_Dependent"/>
+    
+
+
+    <!-- http://example.com/ontology#BPR/Article_630 -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#BPR/Article_630">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <owl:sameAs rdf:resource="http://example.com/ontology#BPR/Situation_Invariant"/>
+        <reg_active rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</reg_active>
+        <safedistance rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.0</safedistance>
+        <safelanedistance rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.5</safelanedistance>
+        <safespeed rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.2</safespeed>
+        <rdfs:comment>Article 6.30. All sailing vessels
+
+1 A vessel under way must maintain a speed appropriate to the degree of restriction of visibility, to the presence and movements of other vessels and to local conditions.
+
+2 A vessel in motion must sail as far as possible on the starboard side of the fairway. Articles 6.04a and 6.05 do not apply.
+
+3 A vessel must stop at the nearest suitable place when, owing to the degree of restriction of visibility, the presence and movements of other vessels or local conditions, navigation cannot be continued without danger.
+
+4 When a ship comes to rest, it must clear the waterway as much as possible.</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#BPR/Situation_Invariant -->
+
+    <rdf:Description rdf:about="http://example.com/ontology#BPR/Situation_Invariant"/>
+    
+
+
+    <!-- http://example.com/ontology#BPR/Situation_Analysis -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#BPR/Situation_Analysis">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <rdfs:comment>https://wetten.overheid.nl/BWBR0003628/2017-01-01#DeelI_Hoofdstuk6_AfdelingV</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#BPR/Situation_Dependent -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#BPR/Situation_Dependent">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <rdfs:comment>https://wetten.overheid.nl/BWBR0003628/2017-01-01#DeelI_Hoofdstuk6_AfdelingV</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#BPR/Situation_Invariant -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#BPR/Situation_Invariant">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <rdfs:comment>https://wetten.overheid.nl/BWBR0003628/2017-01-01#DeelI_Hoofdstuk6_AfdelingV</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#CCNR/Situation_Analysis -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#CCNR/Situation_Analysis">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <rdfs:comment>https://www.ccr-zkr.org/13020500-en.html</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#CCNR/Situation_Dependent -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#CCNR/Situation_Dependent">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <rdfs:comment>https://www.ccr-zkr.org/13020500-en.html</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#CCNR/Situation_Invariant -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#CCNR/Situation_Invariant">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <rdfs:comment>https://www.ccr-zkr.org/13020500-en.html</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#COLREGS/Rule_10 -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#COLREGS/Rule_10">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <owl:sameAs rdf:resource="http://example.com/ontology#COLREGS/Situation_Analysis"/>
+        <inputFrom rdf:resource="http://example.com/ontology#Accelerometer"/>
+        <inputFrom rdf:resource="http://example.com/ontology#Camera"/>
+        <inputFrom rdf:resource="http://example.com/ontology#GNSS"/>
+        <inputFrom rdf:resource="http://example.com/ontology#Gyro"/>
+        <inputFrom rdf:resource="http://example.com/ontology#Radar"/>
+        <reg_active rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</reg_active>
+        <safelaneangle rdf:datatype="http://www.w3.org/2001/XMLSchema#double">NaN</safelaneangle>
+        <safelanedistance rdf:datatype="http://www.w3.org/2001/XMLSchema#double">NaN</safelanedistance>
+        <rdfs:comment>Rule 10
+Traffic Separation Schemes
+(a) This Rule Applies to traffic separation schemes adopted by the Organization and does not relieve
+any vessel of her obligation under any other rule.
+(b) A vessel using a traffic separation scheme shall:
+(i) proceed in the appropriate traffic lane in the general direction of traffic flow for that
+lane;
+(ii) so far as practicable keep clear of a traffic separation line or separation zone;
+(iii) normally join or leave a traffic lane at the termination of the lane, but when joining or
+leaving from either side shall do so at as small an angle to the general direction of traffic
+flow as practicable.
+(c) A vessel shall so far as practicable avoid crossing traffic lanes, but if obliged to do so shall cross on
+a heading as nearly as practicable at right angles to the general direction of traffic flow.
+(d)
+(i) A vessel shall not use an inshore traffic zone when she can safely use the appropriate
+traffic lane within the adjacent traffic separation scheme. However, vessels of less than 20
+meters in length, sailing vessels and vessels engaged in fishing may use the inshore traffic
+zone.
+(ii) Notwithstanding subparagraph (d) (i), a vessel may use an inshore traffic zone when en
+route to or from a port, offshore installation or structure, pilot station or any other place
+situated within the inshore traffic zone, or to avoid immediate danger.
+(e) A vessel, other than a crossing vessel, or a vessel joining or leaving a lane shall not normally enter
+a separation zone or cross a separation line except:(i) in cases of emergency to avoid immediate danger;
+(ii) to engage in fishing within a separation zone.
+(f) A vessel navigating in areas near the terminations of traffic separation schemes shall do so with
+particular caution.
+(g) A vessel shall so far as practicable avoid anchoring in a traffic separation scheme or in areas near
+its terminations.
+(h) A vessel not using a traffic separation scheme shall avoid it by as wide a margin as is practicable.
+(i) A vessel engaged in fishing shall not impede the passage of any vessel following a traffic lane.
+(j) A vessel of less than 20 meters in length or a sailing vessel shall not impede the safe passage of a
+power-driven vessel following a traffic lane.
+(k) A vessel restricted in her ability to manoeuvre when engaged in an operation for the maintenance
+of safety of navigation in a traffic separation scheme is exempted from complying with this Rule to
+the extent necessary to carry out the operation.
+(l) A vessel restricted in her ability to manoeuvre when engaged in an operation for the laying,
+servicing or picking up of a submarine cable, within a traffic separation scheme, is exempted from
+complying with this Rule to the extent necessary to carry out the operation.</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#COLREGS/Situation_Analysis -->
+
+    <rdf:Description rdf:about="http://example.com/ontology#COLREGS/Situation_Analysis"/>
+    
+
+
+    <!-- http://example.com/ontology#COLREGS/Rule_13 -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#COLREGS/Rule_13">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <owl:sameAs rdf:resource="http://example.com/ontology#COLREGS/Situation_Analysis"/>
+        <inputFrom rdf:resource="http://example.com/ontology#GNSS"/>
+        <inputFrom rdf:resource="http://example.com/ontology#Radar"/>
+        <Role></Role>
+        <reg_active rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</reg_active>
+        <rdfs:comment>Rule 13
+Overtaking
+(a) Notwithstanding anything contained in the Rules of Part B, Sections I and II any vessel overtaking
+any other shall keep out of the way of the vessel being overtaken.
+(b) A vessel shall be deemed to be overtaking when coming up with another vessel from a direction
+more than 22.5 degrees abaft her beam, that is, in such a position with reference to the vessel she is
+overtaking, that at night she would be able to see only the sternlight of that vessel but neither of her
+sidelights.
+(c) When a vessel is in any doubt as to whether she is overtaking another, she shall assume that this
+is the case and act accordingly.
+(d) Any subsequent alteration of the bearing between the two vessels shall not make the overtaking
+vessel a crossing vessel within the meaning of these Rules or relieve her of the duty of keeping clear
+of the overtaken vessel until she is finally past and clear.</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#COLREGS/Situation_Analysis -->
+
+    <rdf:Description rdf:about="http://example.com/ontology#COLREGS/Situation_Analysis"/>
+    
+
+
+    <!-- http://example.com/ontology#COLREGS/Rule_14 -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#COLREGS/Rule_14">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <owl:sameAs rdf:resource="http://example.com/ontology#COLREGS/Situation_Analysis"/>
+        <inputFrom rdf:resource="http://example.com/ontology#GNSS"/>
+        <inputFrom rdf:resource="http://example.com/ontology#Radar"/>
+        <Role></Role>
+        <reg_active rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</reg_active>
+        <rdfs:comment>Rule 14
+Head-on Situation
+(a) When two power-driven vessels are meeting on reciprocal or nearly reciprocal courses so as to
+involve risk of collision each shall alter her course to starboard so that each shall pass on the port
+side of the other.
+(b) Such a situation shall be deemed to exist when a vessel sees the other ahead or nearly ahead and
+by night she could see the masthead lights of the other in a line or nearly in a line and/or both
+sidelights and by day she observes the corresponding aspect of the other vessel.
+(c) When a vessel is in any doubt as to whether such a situation exists she shall assume that it does
+exist and act accordingly.</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#COLREGS/Situation_Analysis -->
+
+    <rdf:Description rdf:about="http://example.com/ontology#COLREGS/Situation_Analysis"/>
+    
+
+
+    <!-- http://example.com/ontology#COLREGS/Rule_15 -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#COLREGS/Rule_15">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <owl:sameAs rdf:resource="http://example.com/ontology#COLREGS/Situation_Analysis"/>
+        <inputFrom rdf:resource="http://example.com/ontology#GNSS"/>
+        <inputFrom rdf:resource="http://example.com/ontology#Radar"/>
+        <Role></Role>
+        <reg_active rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</reg_active>
+        <rdfs:comment>Rule 15
+Crossing Situation
+When two power-driven vessels are crossing so as to involve risk of collision, the vessel which has the
+other on her own starboard side shall keep out of the way and shall, if the circumstances of the case
+admit, avoid crossing ahead of the other vessel.</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#COLREGS/Situation_Analysis -->
+
+    <rdf:Description rdf:about="http://example.com/ontology#COLREGS/Situation_Analysis"/>
+    
+
+
+    <!-- http://example.com/ontology#COLREGS/Rule_16 -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#COLREGS/Rule_16">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <owl:sameAs rdf:resource="http://example.com/ontology#COLREGS/Situation_Dependent"/>
+        <inputFrom rdf:resource="http://example.com/ontology#GNSS"/>
+        <inputFrom rdf:resource="http://example.com/ontology#Radar"/>
+        <reg_active rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</reg_active>
+        <safedistance rdf:datatype="http://www.w3.org/2001/XMLSchema#double">3.0</safedistance>
+        <rdfs:comment>Rule 16
+Action by Give-way Vessel
+Every vessel which is directed to keep out of the way of another vessel shall, so far as possible, take
+early and substantial action to keep well clear.</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#COLREGS/Situation_Dependent -->
+
+    <rdf:Description rdf:about="http://example.com/ontology#COLREGS/Situation_Dependent"/>
+    
+
+
+    <!-- http://example.com/ontology#COLREGS/Rule_17 -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#COLREGS/Rule_17">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <owl:sameAs rdf:resource="http://example.com/ontology#COLREGS/Situation_Dependent"/>
+        <inputFrom rdf:resource="http://example.com/ontology#GNSS"/>
+        <inputFrom rdf:resource="http://example.com/ontology#Radar"/>
+        <reg_active rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</reg_active>
+        <safedistance rdf:datatype="http://www.w3.org/2001/XMLSchema#double">3.0</safedistance>
+        <safespeed rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.2</safespeed>
+        <rdfs:comment>Rule 17
+Action by Stand-on Vessel
+(a)
+(i) Where one of two vessels is to keep out of the way the other shall keep her course and
+speed.
+(ii) The latter vessel may however take action to avoid collision by her manoeuvre alone, as
+soon as it becomes apparent to her that the vessel required to keep out of the way is
+not taking appropriate action in compliance with these Rules.
+(b) When, from any cause, the vessel required to keep her course and speed finds herself so close
+that collision cannot be avoided by the action of the give-way vessel alone, she shall take such action
+as will best aid to avoid collision.
+(c) A power-driven vessel which takes action in a crossing situation in accordance with sub-paragraph
+(a)(ii) of this Rule to avoid collision with another power-driven vessel shall, if the circumstances of
+the case admit, not alter course to port for a vessel on her own port side.
+(d) This Rule does not relieve the give-way vessel of her obligation to keep out of the way</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#COLREGS/Situation_Dependent -->
+
+    <rdf:Description rdf:about="http://example.com/ontology#COLREGS/Situation_Dependent"/>
+    
+
+
+    <!-- http://example.com/ontology#COLREGS/Rule_18 -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#COLREGS/Rule_18">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <owl:sameAs rdf:resource="http://example.com/ontology#COLREGS/Situation_Analysis"/>
+        <inputFrom rdf:resource="http://example.com/ontology#GNSS"/>
+        <inputFrom rdf:resource="http://example.com/ontology#Radar"/>
+        <Role></Role>
+        <reg_active rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</reg_active>
+        <rdfs:comment>Rule 18
+Responsibilities between Vessels
+(The new paragraph (f) shall enter into force on 29 November 2003, as
+amended by Resolution A.919(22))
+Except where Rules 9, 10 and 13 otherwise require:
+(a) A power-driven vessel underway shall keep out of the way of:
+(i) a vessel not under command;
+(ii) a vessel restricted in her ability to manoeuvre;
+(iii) a vessel engaged in fishing;
+(iv) a sailing vessel.
+(b) A sailing vessel underway shall keep out of the way of:
+(i) a vessel not under command;
+(ii) a vessel restricted in her ability to manoeuvre;
+(iii) a vessel engaged in fishing.
+(c) A vessel engaged in fishing when underway shall, so far as possible, keep out of the way
+of:
+(i) a vessel not under command;
+(ii) a vessel restricted in her ability to manoeuvre.
+(d)
+(i) Any vessel other than a vessel not under command or a vessel restricted in her ability to
+manoeuvre shall, if the circumstances of the case admit, avoid impeding the safe
+passage of a vessel constrained by her draught, exhibiting the signals in Rule 28.
+(ii) A vessel constrained by her draught shall navigate with particular caution having full
+regard to her special condition.
+(e) A seaplane on the water shall, in general, keep well clear of all vessels and avoid impeding their
+navigation. In circumstances, however, where risk of collision exists, she shall comply with the Rules
+of this Part.
+(f)
+(i) A WIG craft shall, when taking off, landing and in flight near the surface, keep well clear of
+all other vessels and avoid impeding their navigation;
+(ii) a WIG craft operating on the water surface shall comply with the Rules of this Part as a
+power-driven vessel.</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#COLREGS/Situation_Analysis -->
+
+    <rdf:Description rdf:about="http://example.com/ontology#COLREGS/Situation_Analysis"/>
+    
+
+
+    <!-- http://example.com/ontology#COLREGS/Rule_19 -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#COLREGS/Rule_19">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <owl:sameAs rdf:resource="http://example.com/ontology#COLREGS/Situation_Analysis"/>
+        <inputFrom rdf:resource="http://example.com/ontology#Accelerometer"/>
+        <inputFrom rdf:resource="http://example.com/ontology#Anemometer"/>
+        <inputFrom rdf:resource="http://example.com/ontology#Camera"/>
+        <inputFrom rdf:resource="http://example.com/ontology#GNSS"/>
+        <inputFrom rdf:resource="http://example.com/ontology#Gyro"/>
+        <inputFrom rdf:resource="http://example.com/ontology#Radar"/>
+        <reg_active rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</reg_active>
+        <safespeed rdf:datatype="http://www.w3.org/2001/XMLSchema#double">NaN</safespeed>
+        <rdfs:comment>RULE 19
+Conduct of Vessels in Restricted Visibility
+(a) This Rule applies to vessels not in sight of one another when navigating in or near an area of
+restricted visibility.
+(b) Every vessel shall proceed at a safe speed adapted to the prevailing circumstances and conditions
+of restricted visibility. A power-driven vessel shall have engines ready for immediate manoeuvre.
+(c) Every vessel shall have due regard to the prevailing circumstances and conditions of restricted
+visibility when complying with the Rules of Section I of this Part.
+(d) A vessel which detects by radar alone the presence of another vessel shall determine if a close-
+quarters situation is developing and/or risk of collision exists. If so, she shall take avoiding action in
+ample time, provided that when such action consists of an alteration of course, so far as possible the
+following shall be avoided:
+(i) an alteration of course to port for a vessel forward of the beam, other than for a vessel
+being overtaken;
+(ii) an alteration of course towards a vessel abeam or abaft the beam.
+(e) Except where it has been determined that a risk of collision does not exist, every vessel which
+hears apparently forward of her beam the fog signal of another vessel, or which cannot avoid a close
+quarters situation with another vessel forward of her beam, shall reduce her speed to the minimum
+at which she can be kept on her course. She shall if necessary take all her way off and in any event
+navigate with extreme caution until danger of collision is over.</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#COLREGS/Situation_Analysis -->
+
+    <rdf:Description rdf:about="http://example.com/ontology#COLREGS/Situation_Analysis"/>
+    
+
+
+    <!-- http://example.com/ontology#COLREGS/Rule_6 -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#COLREGS/Rule_6">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <owl:sameAs rdf:resource="http://example.com/ontology#COLREGS/Situation_Invariant"/>
+        <inputFrom rdf:resource="http://example.com/ontology#Anemometer"/>
+        <inputFrom rdf:resource="http://example.com/ontology#Camera"/>
+        <inputFrom rdf:resource="http://example.com/ontology#Radar"/>
+        <reg_active rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</reg_active>
+        <safespeed rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.5</safespeed>
+        <rdfs:comment>Rule 6
+Safe Speed
+Every vessel shall at all times proceed at a safe speed so that she can take proper and effective action
+to avoid collision and be stopped within a distance appropriate to the prevailing circumstances and
+conditions. In determining a safe speed the following factors shall be among those taken into
+account:
+(a) By all vessels:
+(i) the state of visibility;
+(ii) the traffic density including concentrations of fishing vessels or any other vessels;
+(iii) the manoeuvrability of the vessel with special reference to stopping distance and turning
+ability in the prevailing conditions;
+(iv) at night the presence of background light such as from shore lights or from back scatter
+of her own lights;
+(v) the state of wind, sea and current, and the proximity of navigational hazards;
+(vi) the draught in relation to the available depth of water.
+(b) Additionally, by vessels with operational radar:(i) the characteristics, efficiency and limitations of the radar equipment;
+(ii) any constraints imposed by the radar range scale in use;
+(iii) the effect on radar detection of the sea state, weather and other sources of interference;
+(iv) the possibility that small vessels, ice and other floating objects may not be detected by
+radar at an adequate range;
+(v) the number, location and movement of vessels detected by radar;
+(vi) the more exact assessment of the visibility that may be possible when radar is used to
+determine the range of vessels or other objects in the vicinity.</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#COLREGS/Situation_Invariant -->
+
+    <rdf:Description rdf:about="http://example.com/ontology#COLREGS/Situation_Invariant"/>
+    
+
+
+    <!-- http://example.com/ontology#COLREGS/Rule_7 -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#COLREGS/Rule_7">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <owl:sameAs rdf:resource="http://example.com/ontology#COLREGS/Situation_Analysis"/>
+        <inputFrom rdf:resource="http://example.com/ontology#Camera"/>
+        <inputFrom rdf:resource="http://example.com/ontology#Radar"/>
+        <Risk rdf:datatype="http://www.w3.org/2001/XMLSchema#double">NaN</Risk>
+        <Role rdf:datatype="http://www.w3.org/2001/XMLSchema#double">NaN</Role>
+        <reg_active rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</reg_active>
+        <rdfs:comment>Rule 7
+Risk of Collision
+(a) Every vessel shall use all available means appropriate to the prevailing circumstances and
+conditions to determine if risk of collision exists. If there is any doubt such risk shall be deemed to
+exist.
+(b) Proper use shall be made of radar equipment if fitted and operational, including long-range
+scanning to obtain early warning of risk of collision and radar plotting or equivalent systematic
+observation of detected objects.
+(c) Assumptions shall not be made on the basis of scanty information, especially scanty radar
+information.
+(d) In determining if risk of collision exists the following considerations shall be among those taken
+into account:
+(i) Such risk shall be deemed to exist if the compass bearing of an approaching vessel does
+not appreciably change;
+(ii) such risk may sometimes exist even when an appreciable bearing change is evident,
+particularly when approaching a very large vessel or a tow or when approaching a vessel
+at close range.</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#COLREGS/Situation_Analysis -->
+
+    <rdf:Description rdf:about="http://example.com/ontology#COLREGS/Situation_Analysis"/>
+    
+
+
+    <!-- http://example.com/ontology#COLREGS/Rule_8a -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#COLREGS/Rule_8a">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <owl:sameAs rdf:resource="http://example.com/ontology#COLREGS/Situation_Invariant"/>
+        <inputFrom rdf:resource="http://example.com/ontology#Camera"/>
+        <inputFrom rdf:resource="http://example.com/ontology#Radar"/>
+        <reg_active rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</reg_active>
+        <safedistance rdf:datatype="http://www.w3.org/2001/XMLSchema#double">3.0</safedistance>
+        <rdfs:comment>Rule 8a
+Action to avoid Collision
+(A amended paragraph (a) shall enter into force on 29 November 2003, as
+amended by Resolution A.919(22))
+Any action to avoid collision shall be taken in accordance with the Rules of this Part and shall, if
+the circumstances of the case admit, be positive, made in ample time and with due regard to the
+observance of good seamanship.</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#COLREGS/Situation_Invariant -->
+
+    <rdf:Description rdf:about="http://example.com/ontology#COLREGS/Situation_Invariant"/>
+    
+
+
+    <!-- http://example.com/ontology#COLREGS/Rule_8b -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#COLREGS/Rule_8b">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <owl:sameAs rdf:resource="http://example.com/ontology#COLREGS/Situation_Invariant"/>
+        <inputFrom rdf:resource="http://example.com/ontology#Camera"/>
+        <inputFrom rdf:resource="http://example.com/ontology#Radar"/>
+        <reg_active rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</reg_active>
+        <safedistance rdf:datatype="http://www.w3.org/2001/XMLSchema#double">3.0</safedistance>
+        <safespeed rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.5</safespeed>
+        <rdfs:comment>Rule 8b
+Any alteration of course and/or speed to avoid collision, shall, if the circumstances of the case
+admit, be large enough to be readily apparent to another vessel observing visually or by radar; a
+succession of small alterations of course and/or speed should be avoided.</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#COLREGS/Situation_Invariant -->
+
+    <rdf:Description rdf:about="http://example.com/ontology#COLREGS/Situation_Invariant"/>
+    
+
+
+    <!-- http://example.com/ontology#COLREGS/Rule_8c -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#COLREGS/Rule_8c">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <owl:sameAs rdf:resource="http://example.com/ontology#COLREGS/Situation_Dependent"/>
+        <inputFrom rdf:resource="http://example.com/ontology#Camera"/>
+        <inputFrom rdf:resource="http://example.com/ontology#Radar"/>
+        <reg_active rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</reg_active>
+        <safedistance rdf:datatype="http://www.w3.org/2001/XMLSchema#double">3.0</safedistance>
+        <rdfs:comment>Rule 8c
+If there is sufficient sea room, alteration of course alone may be the most effective action to avoid
+a close-quarters situation provided that it is made in good time, is substantial and does not result in
+another close-quarters situation.</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#COLREGS/Situation_Dependent -->
+
+    <rdf:Description rdf:about="http://example.com/ontology#COLREGS/Situation_Dependent"/>
+    
+
+
+    <!-- http://example.com/ontology#COLREGS/Rule_8d -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#COLREGS/Rule_8d">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <owl:sameAs rdf:resource="http://example.com/ontology#COLREGS/Situation_Invariant"/>
+        <inputFrom rdf:resource="http://example.com/ontology#Camera"/>
+        <inputFrom rdf:resource="http://example.com/ontology#Radar"/>
+        <reg_active rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</reg_active>
+        <safedistance rdf:datatype="http://www.w3.org/2001/XMLSchema#double">NaN</safedistance>
+        <rdfs:comment>Rule 8d
+Action taken to avoid collision with another vessel shall be such as to result in passing at a safe
+distance. The effectiveness of the action shall be carefully checked until the other vessel is finally
+past and clear.</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#COLREGS/Situation_Invariant -->
+
+    <rdf:Description rdf:about="http://example.com/ontology#COLREGS/Situation_Invariant"/>
+    
+
+
+    <!-- http://example.com/ontology#COLREGS/Rule_8e -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#COLREGS/Rule_8e">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <owl:sameAs rdf:resource="http://example.com/ontology#COLREGS/Situation_Dependent"/>
+        <inputFrom rdf:resource="http://example.com/ontology#Camera"/>
+        <inputFrom rdf:resource="http://example.com/ontology#Radar"/>
+        <reg_active rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</reg_active>
+        <safespeed rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</safespeed>
+        <rdfs:comment>Rule 8e
+If necessary to avoid collision or allow more to assess the situation, a vessel shall slacken her
+speed or take all way off by stopping or reversing her means of propulsion.</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#COLREGS/Situation_Dependent -->
+
+    <rdf:Description rdf:about="http://example.com/ontology#COLREGS/Situation_Dependent"/>
+    
+
+
+    <!-- http://example.com/ontology#COLREGS/Rule_9 -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#COLREGS/Rule_9">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <owl:sameAs rdf:resource="http://example.com/ontology#COLREGS/Situation_Analysis"/>
+        <inputFrom rdf:resource="http://example.com/ontology#Accelerometer"/>
+        <inputFrom rdf:resource="http://example.com/ontology#GNSS"/>
+        <inputFrom rdf:resource="http://example.com/ontology#Gyro"/>
+        <reg_active rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</reg_active>
+        <safelanedistance rdf:datatype="http://www.w3.org/2001/XMLSchema#double">NaN</safelanedistance>
+        <rdfs:comment>Rule 9
+Narrow Channels
+(a) A vessel proceeding along the course of a narrow channel or fairway shall keep as near to the
+outer limit of the channel or fairway which lies on her starboard side as is safe and practicable.
+(b) A vessel of less than 20 metres in length or a sailing vessel shall not impede the passage of a
+vessel which can safely navigate only within a narrow channel or fairway.
+(c) A vessel engaged in fishing shall not impede the passage of any other vessel navigating within a
+narrow channel or fairway.
+(d) A vessel shall not cross a narrow channel or fairway if such crossing impedes the passage of a
+vessel which can safely navigate only within such channel or fairway. The latter vessel may use the
+sound signal prescribed in Rule 34(d) if in doubt as to the intention of the crossing vessel.
+(e)(i) In a narrow channel or fairway when overtaking can take place only if the vessel to be
+overtaken has to take action to permit safe passing, the vessel intending to overtake
+shall indicate her intention by sounding the appropriate signal prescribed in Rule
+34(c)(i). The vessel to be overtaken shall, if in agreement, sound the appropriate signal
+prescribed in Rule 34(c)(ii) and take steps to permit safe passing. If in doubt she may
+sound the signals prescribed in Rule 34(d).
+(ii) This Rule does not relieve the overtaking vessel of her obligation under Rule 13.
+(f) A vessel nearing a bend or an area of a narrow channel or fairway where other vessels
+may be obscured by an intervening obstruction shall navigate with particular alertness
+and caution and shall sound the appropriate signal prescribed in Rule 34(e).
+(g) Any vessel shall, if the circumstances of the case admit, avoid anchoring in a narrow channel.</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#COLREGS/Situation_Analysis -->
+
+    <rdf:Description rdf:about="http://example.com/ontology#COLREGS/Situation_Analysis"/>
+    
+
+
+    <!-- http://example.com/ontology#COLREGS/Situation_Analysis -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#COLREGS/Situation_Analysis">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <rdfs:comment>https://www.samgongustofa.is/media/log-og-reglur/COLREG-Consolidated-2018.pdf#page=8.51</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#COLREGS/Situation_Dependent -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#COLREGS/Situation_Dependent">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <rdfs:comment>https://www.samgongustofa.is/media/log-og-reglur/COLREG-Consolidated-2018.pdf#page=8.51</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#COLREGS/Situation_Invariant -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#COLREGS/Situation_Invariant">
+        <rdf:type rdf:resource="http://example.com/ontology#Regulations"/>
+        <rdfs:comment>https://www.samgongustofa.is/media/log-og-reglur/COLREG-Consolidated-2018.pdf#page=8.51</rdfs:comment>
+    </owl:NamedIndividual>
+    <rdf:Description>
+        <rdfs:comment>Can receive three values:
+
+1: Inland Waterway (IWT)
+
+2: Short Sea Shipping (SSS)
+
+3: Open Sea Shipping (OSS)</rdfs:comment>
+    </rdf:Description>
+    <rdf:Description>
+        <rdfs:comment>Can receive three values:
+
+1: Inland Waterway (IWT)
+
+2: Short Sea Shipping (SSS)
+
+3: Open Sea Shipping (OSS)</rdfs:comment>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi -->
+

@@ -1,0 +1,27 @@
+{
+    "imports": [
+        { "from": "sim_ftc", "import": ["run_simulation"] }
+    ],
+    "Simulation Time": 10000,
+    "Time step": 0.5,
+    "scale":0.1,
+    "Own vessel name": "Pusher-Barge",
+    "Initial conditions [own]": {
+        "Position": [2000.7, -4601.61, 0],
+        "Velocity": [4.1, 0],
+        "Yaw rate": [0],
+        "Heading": [-1.05]
+    },
+    "Sensor faults":{
+        "Own": [0,0,0,0,0,0,1],
+        "Time own":[0,0,0,0,0,0,1200]
+    },
+    "End point [own]": [10803.78, -2600.91, 0],
+    "Path definition": 20,
+    "PID Gains": {
+        "Kp": 80,
+        "Td": 10,
+        "Ti": 0.5
+    },
+    "Lookahead distance": 200
+}
