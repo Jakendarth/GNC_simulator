@@ -1,10 +1,10 @@
 # GNC Simulator
 
-[![DOI](https://zenodo.org/badge/1271233098.svg)](https://doi.org/10.5281/zenodo.20731296)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/release/python-3120/)
+[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![image](https://img.shields.io/pypi/v/uv.svg)](https://pypi.python.org/pypi/uv)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
+[![DOI](https://zenodo.org/badge/1271233098.svg)](https://doi.org/10.5281/zenodo.20731296)
 
 > [Decription pending]
 
