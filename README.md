@@ -39,7 +39,7 @@ If you use this software in your research, academic work, or projects, please ci
 
 ## ⚖️ Acknowledgements & Disclaimer
 
-*This software has been built during my involvement in the Safe Autonomous Maritime Transport Research Group (Safenet) and Delft University of Technology.*
+*This software has been built during Nikos Kougiatsos's involvement in the Safe Autonomous Maritime Transport Research Group (Safenet) and Delft University of Technology.*
 
 ---
 
