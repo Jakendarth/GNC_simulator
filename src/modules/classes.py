@@ -93,6 +93,65 @@ class vessel:
         #         self.hydrostatics=[]
         self.distance_from_bank1=10**(-3)
         self.distance_from_bank2=10**(-3)
+
+        self.log_t = []
+        self.log_x_true = []
+        self.log_y_true = []
+        self.log_x_noisy = []
+        self.log_y_noisy = []
+        self.log_psi = []
+        self.log_psi_d = []
+        self.log_SOG = []
+        self.log_delta = []
+        self.log_dls = []
+        self.log_dlp = []
+
+        #initial noise conditions
+        self.current_noise_x = 0.0
+        self.current_noise_y = 0.0
+        self.current_noise_psi = 0.0
+
+        #initial wind parameters
+        self.wind_speed_nom = 0.0
+        self.wind_dir_nom = 0.0
+        self.wind_speed_noise = 0.0
+        self.wind_dir_noise = 0.0
+        self.current_V_w = 0.0
+        self.current_psi_w = 0.0
+        
+        # initial current parameters 
+        self.current_speed_nom = 0.0
+        self.current_dir_nom = 0.0
+        self.current_noise_sigma = 0.0  
+        self.current_V_c = 0.0
+        self.current_alpha_c = 0.0
+
+        #Initial river parameters
+        self.current_v_cx = 0.0
+        self.current_v_cy = 0.0
+
+        #Initial Wave Parameters
+        self.wave_height_nom = 0.0
+        self.wave_dir_nom = 0.0
+        self.wave_height_noise = 0.0
+        self.wave_dir_noise = 0.0
+
+        self.current_Hs = 0.0
+        self.current_chi_w = 0.0
+        
+        # Wave drift coefficients (assume for 11BP)
+        self.wave_cx = 1.0  # c_x 
+        self.wave_cy = 1.0  # c_y 
+        self.wave_cn = 0.0  # c_n 
+        
+        # Aerodynamic coëfficients (ITTC Fourier for Pusher-Barge)
+        self.rho_a = 1.225
+        self.A_T = 21.0   # transversal surface area (estimated)
+        self.A_L = 100.0  # lateral surface area (estimated)
+        self.a_x0 = -0.5
+        self.a_x1 = 0.4
+        self.a_y1 = 0.8
+        self.a_n1 = 0.2
     #New
     def include_sensor_noise(self,noise):
         self.measurement_noise=noise
@@ -104,9 +163,12 @@ class vessel:
         self.ontology.x.extend([float(x1) for x1 in mystate[3]])
         self.ontology.y.extend([float(y1) for y1 in mystate[4]])
         t1_len = len(mytime.tolist())
-        self.ontology.yx.extend([float(x2+self.positioning_noise[0]*np.random.uniform(-1,1,size=None)) for x2 in mystate[3]])
-        self.ontology.yy.extend([float(y2+self.positioning_noise[1]*np.random.uniform(-1,1,size=None)) for y2 in mystate[4]])
-        self.ontology.ypsi.extend([float(p1+self.positioning_noise[2]*np.random.uniform(-1,1,size=None)) for p1 in mystate[-1]])
+        
+        # Use here the saved noise (current_noise) instead of generating new noise
+        self.ontology.yx.extend([float(x2 + self.current_noise_x) for x2 in mystate[3]])
+        self.ontology.yy.extend([float(y2 + self.current_noise_y) for y2 in mystate[4]])
+        self.ontology.ypsi.extend([float(p1 + self.current_noise_psi) for p1 in mystate[-1]])
+        
         self.ontology.psi.extend([float(p2) for p2 in mystate[-1]])
         self.ontology.psi_d.extend([float(reference)] * t1_len)
         usq = [float(i)**2 for i in mystate[0]]
@@ -118,6 +180,28 @@ class vessel:
         self.ontology.port_distance.extend([float(self.distance_from_bank2)] * t1_len)
         self.ontology.time.extend([float(tt + start_time) for tt in mytime])
         self.time=start_time
+
+        t1_len = len(mytime.tolist())
+        usq = [float(i)**2 for i in mystate[0]]
+        vsq = [float(i)**2 for i in mystate[1]]
+        Usq = [sum(x) for x in zip(usq, vsq)]
+
+        self.log_t.extend([float(tt + start_time) for tt in mytime])
+        
+        # Real mathematical position (Without noise)
+        self.log_x_true.extend([float(x2) for x2 in mystate[3]])
+        self.log_y_true.extend([float(y2) for y2 in mystate[4]])
+        
+        # Measured GPS position (With noise)
+        self.log_x_noisy.extend([float(x2 + self.current_noise_x) for x2 in mystate[3]])
+        self.log_y_noisy.extend([float(y2 + self.current_noise_y) for y2 in mystate[4]])
+        
+        self.log_psi.extend([float(p1 + self.current_noise_psi) for p1 in mystate[-1]])
+        self.log_psi_d.extend([float(reference)] * t1_len)
+        self.log_SOG.extend([float(np.sqrt(i)*(1.0+self.measurement_noise*np.random.uniform(-1,1,size=None))) for i in Usq])
+        self.log_delta.extend([float(self.u[-1])] * t1_len)
+        self.log_dls.extend([float(self.distance_from_bank1)] * t1_len)
+        self.log_dlp.extend([float(self.distance_from_bank2)] * t1_len)
     def check_for_wp_segment_switch(self, wp_segment, d_0wp):
         return check_for_wp_segment_switch(self, wp_segment, d_0wp)
 
@@ -146,12 +230,70 @@ class vessel:
         self.ontology.Yv=(-np.pi*(self.ontology.Td[0]/self.ontology.L[0])**2*(1+0.4*self.ontology.Cb[0]*self.ontology.B[0]/self.ontology.Td[0]))
         self.ontology.Yrdot=(1025*self.ontology.L[0]**(4)/2)*(-np.pi*(self.ontology.Td[0]/self.ontology.L[0])**2*(1+0.16*self.ontology.Cb[0]*self.ontology.B[0]/self.ontology.Td[0]-5.1*(self.ontology.B[0]/self.ontology.L[0])**2))
     def sensor_output(self):
+        # 1. Generate noise for every time stamp for GPS
+        self.current_noise_x = np.random.normal(loc=0.0, scale=self.positioning_noise[0])
+        self.current_noise_y = np.random.normal(loc=0.0, scale=self.positioning_noise[1])
+        self.current_noise_psi = np.random.normal(loc=0.0, scale=self.positioning_noise[2])
+
+        # Get positions
+        x_pos = self.state[3]
+        y_pos = self.state[4]
+
+        # --- Determine the environment (sea vs inland) for Wind and Current ---
+        if x_pos >= 600:
+            # Inland (x >= 600)
+            shelter_factor = 0.4  # Wind is blocked by buildings/trees in inland waters
+            wave_factor = 0.0  # No waves in inland waters
+
+
+            # Parabolic river profile for current
+            w = 150.0  # Channel width in meters (adjust as needed)
+            V_max = self.current_speed_nom 
+            v_cx_nom = max(0.0, V_max * (1.0 - (2.0 * y_pos / w)**2))
+            v_cy_nom = 0.0
+        else:
+            # SEA (x < 600)
+            shelter_factor = 1.0  # Open sea: full wind
+            wave_factor = 1.0  # Waves are present in the open sea
+            
+            # Uniform ocean current
+            v_cx_nom = self.current_speed_nom * np.cos(self.current_dir_nom)
+            v_cy_nom = self.current_speed_nom * np.sin(self.current_dir_nom)
+
+        # --- Apply wind ---
+        V_w_raw = (self.wind_speed_nom * shelter_factor) + np.random.normal(loc=0.0, scale=self.wind_speed_noise)
+        self.current_V_w = max(0.0, V_w_raw)
+        
+        psi_w_raw = self.wind_dir_nom + np.random.normal(loc=0.0, scale=self.wind_dir_noise)
+        self.current_psi_w = (psi_w_raw + np.pi) % (2 * np.pi) - np.pi
+
+        #apply wave
+        HS_raw = (self.wave_height_nom * wave_factor) + np.random.normal(loc=0.0, scale=self.wave_height_noise)
+        self.current_Hs = max(0.0, HS_raw)
+
+        chi_w_raw = self.wave_dir_nom + np.random.normal(loc=0.0, scale=self.wave_dir_noise)
+        self.current_chi_w = (chi_w_raw + np.pi) % (2 * np.pi) - np.pi
+
+        # --- Current (with independent noise) ---
+        w_cx = np.random.normal(loc=0.0, scale=self.current_noise_sigma)
+        w_cy = np.random.normal(loc=0.0, scale=self.current_noise_sigma)
+        
+        # Watch out: We slaan nu de x- en y-componenten op (v_cx en v_cy) i.p.v. magnitude en hoek
+        self.current_v_cx = v_cx_nom + w_cx
+        self.current_v_cy = v_cy_nom + w_cy
+
+        # 2. Take the noise into account for the controller feedback (self.y)
         for ii in range(0,len(self.state)):
             if ii<3:
-                self.y[ii] = self.state[ii]*(1.0+self.measurement_noise*np.random.uniform(-1,1,size=None)) # relative noise on velocities, uniform
-                # self.y.append(state_output[i]*(1.0+self.measurement_noise*np.clip(np.random.normal(0,1),-1,1))) # relative noise on velocities, normal
+                self.y[ii] = self.state[ii]*(1.0+self.measurement_noise*np.random.uniform(-1,1,size=None))
+            elif ii == 3: # X-positie
+                self.y[ii] = self.state[ii] + self.current_noise_x
+            elif ii == 4: # Y-positie
+                self.y[ii] = self.state[ii] + self.current_noise_y
+            elif ii == 5: # Heading (psi)
+                self.y[ii] = self.state[ii] + self.current_noise_psi
             else:
-                self.y[ii] = self.state[ii]+self.positioning_noise[ii-3]*np.random.uniform(-1,1,size=None) # absolute noise on coordinates, uniform
+                self.y[ii] = self.state[ii]
 
     #def calculate_LOS_ref_vs_enabled(self,wp_pos):
         
@@ -296,6 +438,25 @@ class vessel:
                 - NB : float
                     Bank effect yaw moment
         """
+        
+        #Define currents
+        psi_current = v[5]
+        u_current = v[0] # Dit is nu SOG (Speed Over Ground)
+        v_current = v[1] # Dit is nu SOG
+        r_current = v[2]
+
+        #Transformation to Body-Fixed frame
+        u_c = self.current_v_cx * np.cos(psi_current) + self.current_v_cy * np.sin(psi_current)
+        v_c = -self.current_v_cx * np.sin(psi_current) + self.current_v_cy * np.cos(psi_current)
+
+        # Calculate relative velocities
+        u_rel = u_current - u_c
+        v_rel = v_current - v_c
+        U_rel = np.sqrt(u_rel**2 + v_rel**2)
+        
+        # v_m for the hull forces is now also relative:
+        v_m_rel = v_rel - self.ontology.xg[0] * r_current
+
         #================================================
         # 1. Constants
         #================================================
@@ -399,6 +560,69 @@ class vessel:
         #print("YB is ", YB+Y_BH+Y_BP)
         #print("NB is ", NB+N_BH+N_BP)   
         #print("Uref is ", Uref)
+        #================================================
+        # 7. Wind effects calculation
+        #================================================
+        psi_current = v[5]
+        u_current = v[0]
+        v_current = v[1]
+        r_current = v[2]
+        
+        v_m = v_current - self.ontology.xg[0] * r_current
+        
+        u_R = -u_current + self.current_V_w * np.cos(self.current_psi_w - psi_current)
+        v_R = -v_m + self.current_V_w * np.sin(self.current_psi_w - psi_current)
+        V_R = np.sqrt(u_R**2 + v_R**2)
+        
+        gamma_R = -np.arctan2(v_R, -u_R)
+        
+        C_X = self.a_x0 + self.a_x1 * np.cos(gamma_R)
+        C_Y = self.a_y1 * np.sin(gamma_R)
+        C_N = self.a_n1 * np.sin(gamma_R)
+        
+        X_F_wind = 0.5 * self.rho_a * V_R**2 * C_X * self.A_T
+        Y_F_wind = 0.5 * self.rho_a * V_R**2 * C_Y * self.A_L
+        N_F_wind = 0.5 * self.rho_a * V_R**2 * C_N * self.A_L * self.ontology.L[0]
+        
+        X_wind = X_F_wind
+        Y_wind = -Y_F_wind
+        N_wind = -N_F_wind + self.ontology.xg[0] * Y_F_wind
+        
+        # add wind effects to the forces (non-dimensionalised for the ODE solver)
+        if U > 0.01: # Voorkom deling door nul bij stilstand
+            denom_surge = 1025 * 0.5 * self.ontology.L[0] * self.ontology.Td[0] * U**2
+            denom_yaw = 1025 * 0.5 * self.ontology.L[0]**2 * self.ontology.Td[0] * U**2
+            
+            XH += X_wind / denom_surge
+            YH += Y_wind / denom_surge
+            NH += N_wind / denom_yaw
+
+        #================================================
+        # 8. Wave effects calculation
+        #================================================
+        #Wave Drift Forces 
+        rho_w = 1025.0 # Density seawater
+        g = 9.81
+        
+        L = self.ontology.L[0] 
+        B = self.ontology.B[0]
+        
+        # Relative angle of wave (wrap between -pi and pi)
+        mu = (self.current_chi_w - psi_current + np.pi) % (2 * np.pi) - np.pi
+        
+        # Energy wave amplitude squared
+        zeta_a_sq = (self.current_Hs**2) / 8.0
+        
+        # Forces on the midship
+        X_wave = 0.5 * rho_w * g * zeta_a_sq * B * self.wave_cx * np.cos(mu)
+        Y_wave_mid = 0.5 * rho_w * g * zeta_a_sq * L * self.wave_cy * np.sin(mu)
+        N_wave_mid = 0.5 * rho_w * g * zeta_a_sq * (L**2) * self.wave_cn * np.sin(mu)
+        
+        # Sway and Yaw forces moved to CoG (Similar to wind forces)
+        Y_wave = Y_wave_mid
+        N_wave = N_wave_mid + self.ontology.xg[0] * Y_wave_mid
+
+
         return XH,YH,NH,XP,XR,YR,NR,YB+Y_BH+Y_BP,NB+N_BH+N_BP,U
     def rhs(self,s, v,tend=1000): 
         XH,YH,NH,XP,XR,YR,NR,YB,NB,U=self.calculate_forces(v)

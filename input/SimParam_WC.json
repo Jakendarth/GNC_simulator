@@ -1,11 +1,37 @@
 {
     "imports": [
-        { "from": "sim_colav", "import": ["run_simulation"] }
+        {
+            "from": "sim_colav",
+            "import": [
+                "run_simulation"
+            ]
+        }
     ],
-    "Simulation Time": 4800,
+    "Simulation Time": 2500,
     "Time step": 1,
-    "Sensor noise":0.03,
-    "scale":0.2,
+    "Sensor noise": 0.03, 
+    "GPS noise": 10.0,
+    "Heading noise": 0.0,
+    "Wind speed": 0.0,
+    "Wind direction": 0.0,
+    "Wind speed noise": 0.0,
+    "Wind direction noise": 0.0,
+    "Current speed": 0.0,
+    "Current direction": 0.0,
+    "Current noise sigma": 0.0,
+    "Wave height": 0.0,
+    "Wave direction": 0.0,
+    "Wave height noise sigma": 0.0,
+    "Wave direction noise sigma": 0.0,
+    "scale": 0.2,
     "Waypoint spacing": 250,
-    "Lookahead distance": 200
+    "Lookahead distance": 200,
+    "Wind coefficients": {
+        "a_x0": -0.2,
+        "a_x1": -0.5,
+        "a_y1": 0.8,
+        "a_n1": 0.2,
+        "H_wind": 5.0,
+        "rho_air": 1.225
+    }
 }

@@ -30,7 +30,11 @@ def load_sim(input_file):
 
     return loaded
 
-def read_vessels(input_file,ontology,sensor_noise,current_script_dir):
+def read_vessels(input_file, ontology, sensor_noise, gps_noise, heading_noise, 
+                 wind_speed, wind_dir, wind_speed_noise, wind_dir_noise, 
+                 current_speed, current_dir, current_noise_sigma,
+                 wave_height, wave_dir, wave_height_noise, wave_dir_noise,
+                 current_script_dir):
     vessels=[]
     with open(input_file, mode='r', newline='', encoding='utf-8') as infile:
         reader = csv.reader(infile)
@@ -38,9 +42,37 @@ def read_vessels(input_file,ontology,sensor_noise,current_script_dir):
         for row in reader:
             in_cond=[float(row[4]), float(row[5]), float(row[6]), float(row[1]),float(row[2]), 0, float(row[3])]
             name=row[8]
+            psi0 = in_cond[5]  
+            
+            # Calculate current in body-frame at t=0
+            u_c0 = current_speed * np.cos(np.radians(current_dir) - psi0)
+            v_c0 = current_speed * np.sin(np.radians(current_dir) - psi0)
+            
+            # Add current to the initial relative speed to get absolute SOG
+            in_cond[0] = in_cond[0] + u_c0  # Start surge speed (u)
+            in_cond[1] = in_cond[1] + v_c0  # Start sway speed (v)
+
             instance = vessel(name, ontology, in_cond)
             instance.route=plan_route([float(row[1]),float(row[2])],[float(row[9]),float(row[10])],1,current_script_dir)
             instance.include_sensor_noise(sensor_noise)
+            #Indlude gps noise
+            instance.positioning_noise[0] = gps_noise
+            instance.positioning_noise[1] = gps_noise
+            instance.positioning_noise[2] = np.radians(heading_noise) #turn degrees into radians
+            #Wind parameters
+            instance.wind_speed_nom = wind_speed
+            instance.wind_dir_nom = np.radians(wind_dir)
+            instance.wind_speed_noise = wind_speed_noise
+            instance.wind_dir_noise = np.radians(wind_dir_noise)
+            #Current parameters
+            instance.current_speed_nom = current_speed
+            instance.current_dir_nom = np.radians(current_dir)
+            instance.current_noise_sigma = current_noise_sigma
+            # Wave parameters
+            instance.wave_height_nom = wave_height
+            instance.wave_dir_nom = np.radians(wave_dir)
+            instance.wave_height_noise = wave_height_noise
+            instance.wave_dir_noise = np.radians(wave_dir_noise)
             vessels.append(instance)
     return vessels
 
@@ -181,16 +213,17 @@ def export_simulation_data(vessels, output_dir='out/sim'):
     for idx, vessel in enumerate(vessels):
         # Export combined comprehensive data
         log_data1 = {
-            't': vessel.ontology.time,
-            'x': vessel.ontology.yx,
-            'y': vessel.ontology.yy,
-            'psi': vessel.ontology.ypsi,
-            'psi_d': vessel.ontology.psi_d,
-            'SOG': vessel.ontology.SOG,
-            'delta': vessel.ontology.rudder_angle,
-            'dls': vessel.ontology.starboard_distance,
-            'dlp': vessel.ontology.port_distance,
-
+            't': vessel.log_t,
+            'x_true': vessel.log_x_true,
+            'y_true': vessel.log_y_true,
+            'x_noisy': vessel.log_x_noisy,
+            'y_noisy': vessel.log_y_noisy,
+            'psi': vessel.log_psi,
+            'psi_d': vessel.log_psi_d,
+            'SOG': vessel.log_SOG,
+            'delta': vessel.log_delta,
+            'dls': vessel.log_dls,
+            'dlp': vessel.log_dlp,
         }
         log_data2 = {
             'b':vessel.beta,

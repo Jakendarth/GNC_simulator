@@ -35,7 +35,21 @@ def run_simulation(screen,ontology,file_path,font,current_script_dir,output_dir)
         sim_time = d['Simulation Time']
         sim_scale=d['scale']
         t_step = d['Time step']
-        vessels=read_vessels(os.path.join(current_script_dir,'assets/vessel_traffic.csv'),ontology,d['Sensor noise'],current_script_dir)
+        gps_noise = d['GPS noise']
+        heading_noise = d['Heading noise']
+        wind_speed = d['Wind speed']
+        wind_dir = d['Wind direction']
+        wind_speed_noise = d['Wind speed noise']
+        wind_dir_noise = d['Wind direction noise']
+        current_speed = d['Current speed']
+        current_dir = d['Current direction']
+        current_noise_sigma = d['Current noise sigma']
+        wave_height = d['Wave height']
+        wave_dir = d['Wave direction']
+        wave_height_noise = d['Wave height noise sigma']
+        wave_dir_noise = d['Wave direction noise sigma']
+        
+        vessels=read_vessels(os.path.join(current_script_dir,'assets/vessel_traffic.csv'), ontology, d['Sensor noise'], gps_noise, heading_noise, wind_speed, wind_dir, wind_speed_noise, wind_dir_noise, current_speed, current_dir, current_noise_sigma, wave_height, wave_dir, wave_height_noise, wave_dir_noise, current_script_dir)
     with open(os.path.join(current_script_dir,'assets/vessel_traffic.csv'), mode='r', newline='', encoding='utf-8') as infile:
         reader = csv.reader(infile)
         next(reader)
