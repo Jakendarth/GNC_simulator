@@ -105,6 +105,7 @@ class vessel:
         self.log_delta = []
         self.log_dls = []
         self.log_dlp = []
+        self.log_y_d = []
 
         #initial noise conditions
         self.current_noise_x = 0.0
@@ -146,12 +147,12 @@ class vessel:
         
         # Aerodynamic coëfficients (ITTC Fourier for Pusher-Barge)
         self.rho_a = 1.225
-        self.A_T = 21.0   # transversal surface area (estimated)
-        self.A_L = 100.0  # lateral surface area (estimated)
-        self.a_x0 = -0.5
-        self.a_x1 = 0.4
-        self.a_y1 = 0.8
-        self.a_n1 = 0.2
+        self.A_T = 64.0   # transversal surface area (conform verslag)
+        self.A_L = 252.0  # lateral surface area (conform verslag)
+        self.a_x0 = 0.0   # Constante term op nul voor symmetrische respons
+        self.a_x1 = -1.05 # Negatieve amplitude zorgt voor afremmen bij headwind, pushen bij tailwind
+        self.a_y1 = 1.20  # Realistisch voor de enorme vlakke zijkant (uit JSON)
+        self.a_n1 = 0.25  # Realistisch giermoment (uit JSON)
     #New
     def include_sensor_noise(self,noise):
         self.measurement_noise=noise
@@ -163,7 +164,7 @@ class vessel:
         self.ontology.x.extend([float(x1) for x1 in mystate[3]])
         self.ontology.y.extend([float(y1) for y1 in mystate[4]])
         t1_len = len(mytime.tolist())
-        
+
         # Use here the saved noise (current_noise) instead of generating new noise
         self.ontology.yx.extend([float(x2 + self.current_noise_x) for x2 in mystate[3]])
         self.ontology.yy.extend([float(y2 + self.current_noise_y) for y2 in mystate[4]])
@@ -191,6 +192,14 @@ class vessel:
         # Real mathematical position (Without noise)
         self.log_x_true.extend([float(x2) for x2 in mystate[3]])
         self.log_y_true.extend([float(y2) for y2 in mystate[4]])
+
+        if hasattr(self, 'y_d'):
+            self.log_y_d.extend([float(self.y_d)] * t1_len)
+        else:
+            # Fallback: Als er geen dynamisch pad is berekend, gebruik de startpositie 
+            # (Het midden van de vaarweg, in jouw geval vaak -2000 of de initiele y)
+            self.log_y_d.extend([float(self.state[4])] * t1_len)
+
         
         # Measured GPS position (With noise)
         self.log_x_noisy.extend([float(x2 + self.current_noise_x) for x2 in mystate[3]])
@@ -240,8 +249,8 @@ class vessel:
         y_pos = self.state[4]
 
         # --- Determine the environment (sea vs inland) for Wind and Current ---
-        if x_pos >= 600:
-            # Inland (x >= 600)
+        if x_pos >= 3000:
+            # Inland (x >= 3000)
             shelter_factor = 0.4  # Wind is blocked by buildings/trees in inland waters
             wave_factor = 0.0  # No waves in inland waters
 
@@ -498,14 +507,14 @@ class vessel:
         #================================================
         # 3. Problem defined variables
         #================================================
-        U=np.sqrt((v[0])**2+(v[1])**2)
+        U = U_rel
         s=1-U/(Np*Dp)                #[checked]
         #print("Np is ", Np)
         #================================================
         # 4. Hull forces calculation
         #================================================
-        Fn=v[0]/np.sqrt(9.81*self.ontology.L[0])
-        bm=-np.arctan((v[1]-self.ontology.xg[0]*v[2])/v[0])
+        Fn = u_rel / np.sqrt(9.81 * self.ontology.L[0])
+        bm = -np.arctan(v_m_rel / u_rel) if u_rel != 0 else 0.0
         r_nd=v[2]*self.ontology.L[0]/U # Non-dimensional yaw rate
         try:
             XH=-R0*np.cos(bm)**2+self.ontology.Xbb[0]*bm**2+self.ontology.Xbr[0]*bm*r_nd+self.ontology.Xrr[0]*r_nd**2
@@ -521,22 +530,22 @@ class vessel:
         #================================================
         # 4. Propeller force calculation
         #================================================
-        b=-np.arctan((v[1])/v[0])
+        b = -np.arctan(v_rel / u_rel) if u_rel != 0 else 0.0
         bp=b-lp*r_nd
         wp=wp0*np.exp(-C1*bp**2)
-        Jp=v[0]*(1-wp)/(Np*Dp)
+        Jp = u_rel * (1 - wp) / (Np * Dp)
         KT=-0.326*p*Jp-0.2005*Jp+0.5234*p-0.0398
         XP=(2*(1-t)*1025*Np**2*Dp**4*KT)/(1025*0.5*self.ontology.L[0]*self.ontology.Td[0]*U**2)
         #================================================
         # 5. Rudder forces calculation
         #================================================
         #delta_rad = delta#*np.pi/180  # Convert to radians
-        uP=v[0]*(1-s)
-        fa = 6.13/(1+2.25)  # Gradient of the normal force coefficient with respect to rudder angle
-        bR=b-lR*r_nd
-        vR=v[1]*gR*bR
-        eta=Dp/(2)
-        uR=e*uP/(1-s)*np.sqrt(1-2*(1-eta*k)*s+(1-eta*k*(2-k))*s**2)
+        uP = u_rel * (1 - s)
+        fa = 6.13 / (1 + 2.25)  # Gradient of the normal force coefficient with respect to rudder angle
+        bR = b - lR * r_nd
+        vR = v_rel * gR * bR
+        eta = Dp / 2
+        uR = e * uP / (1 - s) * np.sqrt(1 - 2 * (1 - eta * k) * s + (1 - eta * k * (2 - k)) * s**2)
         aR=delta-np.arctan(vR/uR)
         UR=np.sqrt(uR**2+vR**2)
         FN=(0.5*1025*AR*UR**2*fa*np.sin(aR))
@@ -622,6 +631,14 @@ class vessel:
         Y_wave = Y_wave_mid
         N_wave = N_wave_mid + self.ontology.xg[0] * Y_wave_mid
 
+        # Voeg de golfkrachten toe (non-dimensionalised voor de ODE solver)
+        if U > 0.01:
+            denom_surge = 1025 * 0.5 * self.ontology.L[0] * self.ontology.Td[0] * U**2
+            denom_yaw = 1025 * 0.5 * self.ontology.L[0]**2 * self.ontology.Td[0] * U**2
+            
+            XH += X_wave / denom_surge
+            YH += Y_wave / denom_surge
+            NH += N_wave / denom_yaw
 
         return XH,YH,NH,XP,XR,YR,NR,YB+Y_BH+Y_BP,NB+N_BH+N_BP,U
     def rhs(self,s, v,tend=1000): 

@@ -218,6 +218,7 @@ def export_simulation_data(vessels, output_dir='out/sim'):
             'y_true': vessel.log_y_true,
             'x_noisy': vessel.log_x_noisy,
             'y_noisy': vessel.log_y_noisy,
+            'y_d': vessel.log_y_d,
             'psi': vessel.log_psi,
             'psi_d': vessel.log_psi_d,
             'SOG': vessel.log_SOG,

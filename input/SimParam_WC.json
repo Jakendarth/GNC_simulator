@@ -9,13 +9,13 @@
     ],
     "Simulation Time": 2500,
     "Time step": 1,
-    "Sensor noise": 0.03, 
-    "GPS noise": 10.0,
+    "Sensor noise": 0.0, 
+    "GPS noise": 0.0,
     "Heading noise": 0.0,
-    "Wind speed": 0.0,
-    "Wind direction": 0.0,
-    "Wind speed noise": 0.0,
-    "Wind direction noise": 0.0,
+    "Wind speed": 15.0,
+    "Wind direction": 90,
+    "Wind speed noise": 1.0,
+    "Wind direction noise": 3.0,
     "Current speed": 0.0,
     "Current direction": 0.0,
     "Current noise sigma": 0.0,
@@ -25,13 +25,5 @@
     "Wave direction noise sigma": 0.0,
     "scale": 0.2,
     "Waypoint spacing": 250,
-    "Lookahead distance": 200,
-    "Wind coefficients": {
-        "a_x0": -0.2,
-        "a_x1": -0.5,
-        "a_y1": 0.8,
-        "a_n1": 0.2,
-        "H_wind": 5.0,
-        "rho_air": 1.225
-    }
+    "Lookahead distance": 200
 }
