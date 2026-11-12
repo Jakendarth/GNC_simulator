@@ -141,8 +141,8 @@ class vessel:
         self.current_chi_w = 0.0
         
         # Wave drift coefficients (assume for 11BP)
-        self.wave_cx = 1.0  # c_x 
-        self.wave_cy = 1.0  # c_y 
+        self.wave_cx = 0.2  # c_x 
+        self.wave_cy = 0.2  # c_y 
         self.wave_cn = 0.0  # c_n 
         
         # Aerodynamic coëfficients (ITTC Fourier for Pusher-Barge)
@@ -639,6 +639,7 @@ class vessel:
             XH += X_wave / denom_surge
             YH += Y_wave / denom_surge
             NH += N_wave / denom_yaw
+
 
         return XH,YH,NH,XP,XR,YR,NR,YB+Y_BH+Y_BP,NB+N_BH+N_BP,U
     def rhs(self,s, v,tend=1000): 

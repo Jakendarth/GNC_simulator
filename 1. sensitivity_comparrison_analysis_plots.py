@@ -18,7 +18,7 @@ def clean_data(df, time_col='t'):
     return df[df[time_col] > 0]
 
 def main():
-    runs = ['run_4', 'run_5', 'run_6']
+    runs = ['run_1', 'run_2', 'run_3']
     noise_labels = ['Noise 0m', 'Noise 5m', 'Noise 10m']
     colors = ['blue', 'orange', 'red']
     

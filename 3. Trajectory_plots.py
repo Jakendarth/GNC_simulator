@@ -138,6 +138,5 @@ if __name__ == '__main__':
     # Run 0 (Baseline)
     plot_sensitivity_run(run_id=6, dist_type='wind', dist_val=5.0, dist_angle=90)
 
-    plot_sensitivity_run(run_id=13, dist_type='current', dist_val=0.5, dist_angle=90)
     # Run 8: Voorbeeld voor winddwarsligging:
     # plot_sensitivity_run(run_id=8, dist_type='wind', dist_val=10.0, dist_angle=90)

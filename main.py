@@ -21,13 +21,13 @@ from src.modules.helper_utils import load_sim
 # Modify these lines for each run
 #=============================================
 input_file = os.path.join(current_script_dir, "input/SimParam_WC.json")
-CURRENT_RUN_ID = 9 # Change this to 2 or 3 for the next runs
+CURRENT_RUN_ID = 14 # Change this for the next runs
 # Run 0 is clean run, without noise
 # Run 1, 2 and 3 correspond to different GPS noise levels (0.1m, 5m, 10m respectively).
 # Run 4, 5, 6 correspond to different heading noise levels (0.1deg, 1 deg, 3 deg respecitively).
 # Run 7, 8, 9 correspond to different wind speeds (5.0 m/s +-0.5m/s +-5deg, 10.0 m/s+-1, 15.0 m/s +- 1 m/s respectively) on 90 degrees with noise at 3 degrees.
 #  Run 10, 11, 12 correspond to different current speeds (0.5 m/s, 1.0 m/s, 1.5 m/s) on 90 degrees with +-0.1m/s +-5deg noise.
-# Run 13, 14, 15 corrsepond to different wave heights (1.0 m +-0.3, 5 m +- 1 m, 12 m +- 2) on 90 degrees
+# Run 13, 14, 15 corrsepond to different wave heights (1.0 m +-0.3, 3.0 m +- 1 m, 5.0 m +- 2) on 90 degrees
 #=============================================
 
 def main(output_dir):
