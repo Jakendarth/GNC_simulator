@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:7df15a7c118d99d91b122e0c8a75c937736d6039962dd67899ada5abcc2214d0",
+  "claims": [
+    {
+      "id": "claim_b0bce209509e4c1eaa9a7ad2b5182bf1",
+      "statement": "The default pipeline orders LOS guidance, MPC, integration/history update, bank-distance redraw and frame recording in each step.",
+      "evidence": [
+        {
+          "resource": "repo://src/pipelines/sim_ag_upg.py#L82-L140",
+          "version": "repo-lines-v1:sha256:a69921d7ad4451041204dd4d78f0d6176bbcf7d645d8b29de19b95cbe9a516f9:eyJzZWxlY3RlZExpbmVDb3VudCI6NTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVhNTJmN2Q3MWZmMmJmMzU2Mzk0MDFkZTVhNDUxY2QxMmI4ZjBlMjYyMDdkY2YzOGMxYjE4NmYzNGFmMDQ1N2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ5ZWQ1YTUzNGM4NGZlZWZiZWZlZmJjNjhlYTMxNjBjNjY3YjkzOWIyNDY0NzlmYTA5OTNlMGMyNGE4MzE1NzUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNiNjY3NDNiOWJmM2NhYzc1YjY5YWQ3OTgxNmU3NWIzYjE4OGZkZDgwZWQwODZhOTlkNDgyM2YxY2U1ODg1NzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjcwMDkwNDMyZWViOTQ1NWFkM2QyYWQ3MmY2NGRlZTBkZDAwMTBlYjAxMTkwZWY1OGNmNzhjZjBkYjhlMzgxMzQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a50d3a3604b541c8bb28acd08faa26b9",
+      "statement": "Vessel integration removes sinkage at index 5 for RK45 and restores it after sensor output.",
+      "evidence": [
+        {
+          "resource": "repo://src/modules/classes.py#L735-L750",
+          "version": "repo-lines-v1:sha256:cf9e0bc839c591c3982d0fa724cacedc42136f626aab6cbd6ab4f49c9a2316ad:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxNzU4NGY2OTQyMTU1Y2VhNDAyMzMyMjcxMmI5OWRkNGJjZTUzNjlkMGZjZGI3ZjMyNzYxMTU4ZDRlMGI3ZjciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0NzIxNzUwODliZGU4YzE0NmM5NGY4ODIxMmJmMjBiNGY2ODg2NTRkZWMwNDQ0MmZjODRmZjM1NjNiMDVjMmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUwMTQxZGMzMDk2OTJkNTAzMzUyN2U1NTJmYzkzMTNiMDU2MTM4YTJlYmYxYTUxZGU1M2UxMTI3ZTc2M2UyYWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk3Mjg2YTY4MGQ0OGQ4MzQ5NDk5NjRmOTQ2ODhjOThlYjEyNDFlNGU5ZDc2ODcwNTc1NmNhNWRkNTE2YjY0YzQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2da390e1aae746b7ae05c383ebbcbff5",
+      "statement": "Ontology updates append integrator samples and inject absolute position/heading noise separately from relative speed noise.",
+      "evidence": [
+        {
+          "resource": "repo://src/modules/classes.py#L122-L148",
+          "version": "repo-lines-v1:sha256:703b052db21d96c2350c11562b4e8c3d2e61134587d44d181656bababa0cd4f9:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI2NGM2MDhmZDY4OTYxNGRkOTNjNzgyNzYxYjBjYzUxYzAyZTQ5NDgxNGRmNjI3MzE4M2RiZjI0YzkzZDk4MzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZkMTExZWRkMGY2MTgwNjY3YjZmNTg4NTc0YjhhODEwNDRmMTEzZmEzOTZmNmQ2NDM0YjJkODM0NjgyNWNlMmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRlNTUxZmJkYTNiMzBiZjI1ZGNjMWM3MzQ1ZDdkMjkxMzg2MjIxMjdjMmJmZjgxMzJjNGNiNTM5ZmNmNTUwNWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjViNGEzMmEwNzVhMzBjOGY4NGY0YzA2Nzk4MDYwNjg0NTlkNmRhZGMxZGIwNGI3ZjllYzBlODE5Zjc2MTU5ZGQifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.9.0",
+    "at": "2026-11-13T18:28:11.946Z"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:d642348ee9e900714ae999957694bc339e8a996def55431fd5c97aae6a97cfae",
+  "claims": [
+    {
+      "id": "claim_c78e848d461b41b98b42cd8817fe8b65",
+      "statement": "LOS uses measured position, five-vessel-length lookahead and heading slew limited by vessel.timestep.",
+      "evidence": [
+        {
+          "resource": "repo://src/modules/intel_guidance.py#L573-L638",
+          "version": "repo-lines-v1:sha256:9160bcf3c009b38bdfad395505c8cf3d1b171bef1e16224a308f0f18e20ca078:eyJzZWxlY3RlZExpbmVDb3VudCI6NjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg0M2Q5YTNmNDQ4MGFmNzBkOWRhNTAxZDUwNWVjZDc0YjZmZjFjYzI4MTRkNWJkODMxMjI3YjE1MzlhMmZiYTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUzZDMyYTNmOTA5N2Q0Njc1ODczZjQ1ZTNlM2RlYmZlMGI2MTJiOWYzOWFjZTI0NzBhZWEzYmI0ZjhkOTgxMWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY5ZWM1NjlhMTEzNDU3MThmZjE4YmQ2OGVjYmJlN2FlMTExNzg0ZmRhYWJlOTBjMzRjMWFmNTYyNDZhZjc4MzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIzYjcyMWM5ZWRiYTkxMTA3NzNkZTU5ZWQ0YTI0YTZlYWJhNTgyNzY3ZDBiN2FjNjRhNjEzYTJlMjczNjAwYzcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_277eb76e5e1c4a48bfd0543284e65395",
+      "statement": "Anti-grounding MPC optimizes propeller and rudder with a soft clearance constraint containing 0.05 m minimum and 0.15 m buffer.",
+      "evidence": [
+        {
+          "resource": "repo://src/modules/traffic_planner.py#L235-L259",
+          "version": "repo-lines-v1:sha256:115f09caf51a312da6c420f4206add7c4272d75d4027ff1d8de6a773c1c31b30:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcxYjc2MTY3YmVlZWY1OTlmNzA1MTg5YTVhOTZjZTllZjQ4MTBlODk4YzEwNDIxYTdlMGIwZjAyNDZiYjkxZjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU1Mjc0NTg1ZWJhMGE2YmYzMzRjNzAyNDIyODk5NWI5ZDhjNjRmOGJhYjBlODJhZDA3ZjRhMjJmMGZlNDZiMzUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUxYTYyMWUzMWFiZjRhYTQzZjdjMDlkYzM4ZDAxYzQxYjRlMWU4OWYzYTViYzJmNWFjMTFkODg2MGQ5ODNhMjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ5NDEwOWJlYzA0YWE4MzYyYWVjYmUxYThlZjkzOTVjZTM1NmVhMjdmZGRhZTRiZjFiNDc4ZWE2ODM3N2JkNTcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ba5c1814a5164ea193bba6cb36ce8878",
+      "statement": "The vessel anti-grounding wrapper substitutes fixed default weights for its weights argument.",
+      "evidence": [
+        {
+          "resource": "repo://src/modules/classes.py#L165-L166",
+          "version": "repo-lines-v1:sha256:5256608dce6a3a612988659675482ca02b9bdb0ed0cc0940ed298ea26fc9672b:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2VkNjhjMjlmYTAxMDNlNWE4MGU5NmZiMTk1YWY1YmI1YWIwYjBhZjEyYTA5NjE3MmRlOGVmMDZiMjBiYzI4MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTg5ZTU5Y2NmMTBiMDlkYWUxM2QwODY1ZjBiYmFkYzg4NWFjZTA2YzI0NmU1YTAxMjQzMzVjMTFiMTM4ZTU1MiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzI1YmFiY2IwZmVlMTgxZjJlOGRiYmE0NTcwZGQwYjZkNjIyNTAyYzUxZTg4OGQyZjExOWE0OTk5YjdjYjNjMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTQ3ZmQ1ZDQxMDJkNWE4NTM1NmNkNmQxNGE5MzA4MjQ4YTliNDYwYzhhN2ExMmNiOTM1ZWJiY2IwOGU3ODg0NyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_81d64749072a4a20b0edf88cdc325162",
+      "statement": "Shore-distance measurement stores positive starboard and negative port distances, using infinities for missing intersections.",
+      "evidence": [
+        {
+          "resource": "repo://src/modules/helper_utils.py#L631-L661",
+          "version": "repo-lines-v1:sha256:7edc369a93bb75545904a97c866fff774c63675da90bfc0f58689043e6180b35:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFjOGJlYWYxNzY0ZTY3NTgxMWVmNTdlMGU3YjY4YjRhMzRhNTlmNTJmNzNiMjJjNjdiNDY4YjE5YmZkYmUyY2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImViMzRjNGQ2NWQ1NDc2NGI5MWZkNGQ2Mjk3NDZjYjRjMTRkZmI1YzI0MDJkZWY1ODc1ODE0MzAwNjgyNDg1YjIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNjM2MxYzJlMGE2OGE1NTJlOWJiMDBhMTA0MTQzOTI4NGVlYzkzNjY1MTkwYzhkYjM4ZjA0ZGRmYjNiMmFiZGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY4ZDAyMTBiMmQ5MTExODdjZmQwYzQwZGM4OTRiYmZjN2QwZjJjOGExN2FiMjQ3OTE4NzYwNjI4ZTkxNDQwODkifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.9.0",
+    "at": "2026-11-13T18:28:11.946Z"
+  }
+}

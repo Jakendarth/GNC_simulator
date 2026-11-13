@@ -10,6 +10,26 @@
 
 ---
 
+## Documentation
+
+The technical wiki is configured for **[https://jakendarth.github.io/GNC_simulator/](https://jakendarth.github.io/GNC_simulator/)**. It becomes available after the documentation changes are reviewed, merged and deployed through GitHub Pages.
+
+The wiki teaches Guidance, Navigation and Control through separate lessons on line-of-sight laws, collision-free planning, sensors and observers, PID feedback and model predictive control. Pipeline examples connect the functions. It also includes semantic vessel knowledge, four embedded recordings, related publications and an automatically generated function catalog. Existing `openwiki/` pages remain available with their generated sources and evidence records preserved.
+
+For a local preview with Python 3.13:
+
+```sh
+python3.13 -m venv .venv-docs
+source .venv-docs/bin/activate
+python -m pip install -r requirements-docs.txt
+python scripts/build_docs.py
+python -m http.server 8000 --directory site
+```
+
+See [documentation maintenance](docs/developer/documentation.md) for OpenWiki regeneration, build instructions and GitHub Pages setup. Review changes through a pull request; the documentation workflow validates pull requests and deploys only from `main`.
+
+---
+
 ## 🚀 Getting Started
 
 ### Dependency Management
