@@ -22,8 +22,8 @@ For a local preview with Python 3.13:
 python3.13 -m venv .venv-docs
 source .venv-docs/bin/activate
 python -m pip install -r requirements-docs.txt
-mkdocs build --strict
-mkdocs serve
+python scripts/build_docs.py
+python -m http.server 8000 --directory site
 ```
 
 See [documentation maintenance](docs/developer/documentation.md) for OpenWiki regeneration, build instructions and GitHub Pages setup. Review changes through a pull request; the documentation workflow validates pull requests and deploys only from `main`.

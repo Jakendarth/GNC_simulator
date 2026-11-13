@@ -6,8 +6,7 @@ on:
     paths:
       - 'openwiki/**'
       - 'docs/**'
-      - 'scripts/docs_openwiki.py'
-      - 'mkdocs.yml'
+      - 'scripts/build_docs.py'
       - 'requirements-docs.txt'
       - '.github/workflows/docs.yml'
       - 'README.md'
@@ -21,8 +20,7 @@ on:
     paths:
       - 'openwiki/**'
       - 'docs/**'
-      - 'scripts/docs_openwiki.py'
-      - 'mkdocs.yml'
+      - 'scripts/build_docs.py'
       - 'requirements-docs.txt'
       - '.github/workflows/docs.yml'
       - 'README.md'
@@ -60,7 +58,7 @@ jobs:
       - name: Install documentation dependencies
         run: python -m pip install -r requirements-docs.txt
       - name: Build and validate documentation
-        run: mkdocs build --strict
+        run: python scripts/build_docs.py
       - name: Upload GitHub Pages artifact
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v4

@@ -8,8 +8,8 @@ Publication summaries follow the linked publisher or institutional records. The 
 
 **Nikos Kougiatsos, Abhishek Dhyani and Vasso Reppa.** “Integrating rule awareness and semantic reasoning in collision-free vessel path planning.” *Control Engineering Practice* **175** (2026), 107113.
 
-[Publisher / DOI](https://doi.org/10.1016/j.conengprac.2026.107113){ .md-button }
-[TU Delft record](https://research.tudelft.nl/en/publications/integrating-rule-awareness-and-semantic-reasoning-in-collision-fr/){ .md-button }
+[Publisher / DOI](https://doi.org/10.1016/j.conengprac.2026.107113)
+[TU Delft record](https://research.tudelft.nl/en/publications/integrating-rule-awareness-and-semantic-reasoning-in-collision-fr/)
 
 Read this paper for the relationship between semantic traffic-rule information, encounter roles, collision-free path envelopes and line-of-sight (LOS) tracking. Its head-on and crossing case studies provide context for the wiki's encounter-planning material. [Publication record](https://research.tudelft.nl/en/publications/integrating-rule-awareness-and-semantic-reasoning-in-collision-fr/).
 
@@ -31,8 +31,8 @@ Read this paper for the relationship between semantic traffic-rule information, 
 
 **N. Kougiatsos, E. L. Scheffers, M. C. Van Benten, D. L. Schott, P. De Vos, R. R. Negenborn and V. Reppa.** “An intelligent agent-based resilient framework for marine vessel mission adaptations.” *IEEE Open Journal of Intelligent Transportation Systems* **6** (2025), 184–203.
 
-[Publisher / DOI](https://doi.org/10.1109/OJITS.2025.3539419){ .md-button }
-[TU Delft record](https://research.tudelft.nl/en/publications/an-intelligent-agent-based-resilient-framework-for-marine-vessel-/){ .md-button }
+[Publisher / DOI](https://doi.org/10.1109/OJITS.2025.3539419)
+[TU Delft record](https://research.tudelft.nl/en/publications/an-intelligent-agent-based-resilient-framework-for-marine-vessel-/)
 
 Read this paper for a broader view of how semantic information connects vessel architecture, control design and mission adaptation. The framework includes decisions about sensor and energy-management switching. The current navigation pipelines cover a narrower scope than that complete framework. [Publication record](https://research.tudelft.nl/en/publications/an-intelligent-agent-based-resilient-framework-for-marine-vessel-/).
 

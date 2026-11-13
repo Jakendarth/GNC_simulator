@@ -115,8 +115,12 @@ vessel.u.append(PID_controller(vessel, psi_d, t_step))
 
 `offsets` supplies the adjusted reference path to LOS. The reasoner also updates role, scenario and regulation histories. Although it returns `safe_speed`, this fragment does not connect that value to a speed controller.
 
-!!! note "Integration example, not a repaired collision pipeline"
-    `sim_colav.py` still unpacks five results, omits the required map downstream and uses an older drawing signature. This fragment documents the current interfaces; it does not repair that complete pipeline. Contact filtering and numerical degeneracies remain validation concerns.
+:::{admonition} Integration example, not a repaired collision pipeline
+:class: note
+
+`sim_colav.py` still unpacks five results, omits the required map downstream and uses an older drawing signature. This fragment documents the current interfaces; it does not repair that complete pipeline. Contact filtering and numerical degeneracies remain validation concerns.
+
+:::
 
 ## Data contracts at the seams
 

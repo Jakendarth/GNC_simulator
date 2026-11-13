@@ -20,8 +20,12 @@ The JSON `imports` entry selects a Python `run_simulation` function. In the defa
 
 The pipeline constructs its route and initial state in Python. Other JSON keys are not automatically applied just because they appear in the file. Consult the [configuration reference](openwiki/workflows/scenarios-results.md) before transferring settings between scenarios.
 
-!!! tip "Keep a record of the run"
-    Save the input configuration, source revision and output files together. The default path uses random sensor perturbations without an explicit seed, so repeated runs need not produce identical trajectories. Both anti-grounding variants use the same video filename; preserve a recording before running another comparison.
+:::{admonition} Keep a record of the run
+:class: tip
+
+Save the input configuration, source revision and output files together. The default path uses random sensor perturbations without an explicit seed, so repeated runs need not produce identical trajectories. Both anti-grounding variants use the same video filename; preserve a recording before running another comparison.
+
+:::
 
 ## Watch the simulation
 

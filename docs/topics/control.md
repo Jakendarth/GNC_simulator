@@ -44,8 +44,12 @@ $$
 
 The constants are a 0.05 m minimum and a 0.15 m buffer. A soft constraint permits up to 0.15 m of violation with a weighted penalty, so a successful optimization does not by itself prove a particular clearance margin in the simulated trajectory. In this equation `Td` means draught; it is unrelated to the PID derivative time parameter above.
 
-!!! note "Composition details"
-    The vessel anti-grounding method replaces the supplied weight vector with defaults. Standard MPC initializes from `state[0:6]`, but its step adapter removes sinkage from a seven-element state; review that difference before composing a new pipeline. Numeric dynamics and symbolic MPC also have separate force implementations and depth conversions.
+:::{admonition} Composition details
+:class: note
+
+The vessel anti-grounding method replaces the supplied weight vector with defaults. Standard MPC initializes from `state[0:6]`, but its step adapter removes sinkage from a seven-element state; review that difference before composing a new pipeline. Numeric dynamics and symbolic MPC also have separate force implementations and depth conversions.
+
+:::
 
 ## Available controllers
 

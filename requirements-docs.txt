@@ -1,3 +1,6 @@
 # Documentation tooling only; independent of the simulator environment.
-mkdocs==1.6.1
-mkdocs-material==9.8.1
+sphinx==9.2.0
+sphinx-rtd-theme==3.1.0
+myst-parser==5.2.0
+sphinxcontrib-mermaid==2.1.1
+sphinx-copybutton==0.5.2

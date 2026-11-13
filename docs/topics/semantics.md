@@ -50,8 +50,12 @@ The function traverses regulation groups with `INDIRECT_equivalent_to` and appen
 
 Distance, closest point of approach (CPA) and relative angles feed the encounter-role decision. Give-way behavior leads to optimized route offsets; Stand-On behavior keeps zero offsets. The default anti-grounding pipeline follows a different path: it calls line-of-sight (LOS) guidance directly and skips encounter reasoning.
 
-!!! note "Scope of reasoning"
-    `Guidance_Reasoner` makes explicit Python decisions using ontology data. It does not invoke an OWL consistency or classification reasoner on each step. The XML also contains CCNR groups, named for the Central Commission for the Navigation of the Rhine, but this function selects COLREGS or BPR. Named rules and activation flags alone do not establish complete regulatory compliance.
+:::{admonition} Scope of reasoning
+:class: note
+
+`Guidance_Reasoner` makes explicit Python decisions using ontology data. It does not invoke an OWL consistency or classification reasoner on each step. The XML also contains CCNR groups, named for the Central Commission for the Navigation of the Rhine, but this function selects COLREGS or BPR. Named rules and activation flags alone do not establish complete regulatory compliance.
+
+:::
 
 ## Functions that bridge knowledge and simulation
 
