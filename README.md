@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/GNC_sim_logo.png" alt="GNC Simulator logo" width="180">
+</p>
+
 # GNC Simulator
 
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/release/python-3120/)
@@ -6,47 +10,37 @@
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![DOI](https://zenodo.org/badge/1271233098.svg)](https://doi.org/10.5281/zenodo.20731296)
 
-> [Decription pending]
+Python-based vessel guidance, navigation and control (GNC) simulator for exploring
+motion models, route following, collision-free planning, feedback control and
+simulation pipelines.
 
 ---
 
 ## Documentation
 
-The technical wiki is configured for **[https://jakendarth.github.io/GNC_simulator/](https://jakendarth.github.io/GNC_simulator/)**. It becomes available after the documentation changes are reviewed, merged and deployed through GitHub Pages.
+Read the **[GNC Simulator manual](https://jakendarth.github.io/GNC_simulator/)** for installation instructions, scenario guidance and explanations of how simulator functions connect into pipelines. It covers vessel and environmental models, semantic annotations, guidance, navigation, controllers, recorded demonstrations and related publications.
 
-The wiki teaches Guidance, Navigation and Control through separate lessons on line-of-sight laws, collision-free planning, sensors and observers, PID feedback and model predictive control. Pipeline examples connect the functions. It also includes semantic vessel knowledge, four embedded recordings, related publications and an automatically generated function catalog. Existing `openwiki/` pages remain available with their generated sources and evidence records preserved.
-
-For a local preview with Python 3.13:
-
-```sh
-python3.13 -m venv .venv-docs
-source .venv-docs/bin/activate
-python -m pip install -r requirements-docs.txt
-python scripts/build_docs.py
-python -m http.server 8000 --directory site
-```
-
-See [documentation maintenance](docs/developer/documentation.md) for OpenWiki regeneration, build instructions and GitHub Pages setup. Review changes through a pull request; the documentation workflow validates pull requests and deploys only from `main`.
+The manual also includes a generated [function catalog](https://jakendarth.github.io/GNC_simulator/reference/functions/) with signatures and source links. See [documentation maintenance](docs/developer/documentation.md) to build or update the manual locally.
 
 ---
 
 ## 🚀 Getting Started
 
-### Dependency Management
-This project uses **[uv](https://github.com/astral-sh/uv)** to manage its dependencies. It is an extremely fast Python package and project manager written in Rust. 
+### Requirements
 
-*For more information on working with uv, refer to their [official documentation](https://github.com/astral-sh/uv?tab=readme-ov-file#uv).*
+The simulator requires Python 3.12 or newer, [uv](https://docs.astral.sh/uv/), and a graphical desktop environment for its Pygame window and interactive plots.
 
-### Configuration & Execution
-Simulation parameters (such as simulation time, simulation target/pipeline, initial conditions, etc.) are driven by JSON configuration files.
+### Install and run
 
-1. Navigate to the `input/` directory.
-2. Create or modify a `.json` file (e.g., `input/<filename>.json`) to specify the parameters you need.
-3. Open `main.py` and update the input file variable to point to your target `.json` file.
-4. Run the simulation.
+```sh
+git clone https://github.com/Jakendarth/GNC_simulator.git
+cd GNC_simulator
+uv sync
+mkdir -p output
+uv run python main.py output
+```
 
-### Outputs
-Once the simulation completes, plot and video files will be automatically stored in the `output/` directory (e.g., such as `.png` images).
+By default, `main.py` selects a JSON configuration from `input/`. To use another supported scenario configuration, change the `input_file` setting in `main.py`. The simulator writes outputs to the selected output directory. See the [installation guide](https://jakendarth.github.io/GNC_simulator/installation/) and [user guide](https://jakendarth.github.io/GNC_simulator/user-guide/) for configuration and output details.
 
 ---
 
@@ -58,15 +52,14 @@ If you use this software in your research, academic work, or projects, please ci
 
 ---
 
-## ⚖️ Acknowledgements & Disclaimer
+## Acknowledgements
 
-*This software has been built during Nikos Kougiatsos's involvement in the Safe Autonomous Maritime Transport Research Group (Safenet) and Delft University of Technology.*
+This software was developed during Nikos Kougiatsos's involvement with SAFE-NET and Delft University of Technology. See the manual's [Organisations](https://jakendarth.github.io/GNC_simulator/organisations/) and [Projects](https://jakendarth.github.io/GNC_simulator/projects/) pages for context.
 
 ---
 
 ## 📝 License
 
-This project is licensed under the **Apache License 2.0**. 
-See the `LICENSE` and `NOTICE` files for full details.
+This project is licensed under the **Apache License 2.0**. See [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE) for the full terms and notices, or read the plain-language [Licence and Use guide](https://jakendarth.github.io/GNC_simulator/licence-and-use/).
 
 
