@@ -20,7 +20,7 @@ html_theme_options = {
     "collapse_navigation": False,
     "navigation_depth": 3,
     "titles_only": True,
-    "style_nav_header_background": "#14354b",
+    "style_nav_header_background": "#f4f1ea",
 }
 html_baseurl = "https://jakendarth.github.io/GNC_simulator/"
 html_logo = "assets/GNC_sim_logo.png"
