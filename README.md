@@ -36,8 +36,7 @@ The simulator requires Python 3.12 or newer, [uv](https://docs.astral.sh/uv/), a
 git clone https://github.com/Jakendarth/GNC_simulator.git
 cd GNC_simulator
 uv sync
-mkdir -p output
-uv run python main.py output
+uv run main.py
 ```
 
 By default, `main.py` selects a JSON configuration from `input/`. To use another supported scenario configuration, change the `input_file` setting in `main.py`. The simulator writes outputs to the selected output directory. See the [installation guide](https://jakendarth.github.io/GNC_simulator/installation/) and [user guide](https://jakendarth.github.io/GNC_simulator/user-guide/) for configuration and output details.
