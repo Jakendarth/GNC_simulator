@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:e84ff16f28682e375f7f5464ab452ead71955594343a469e71a33e9c409edfb3",
+  "claims": [
+    {
+      "id": "claim_fc45d5504f5e4a75a269595dd4391ceb",
+      "statement": "main.py selects the anti-grounding JSON and takes a positional output directory with output as default.",
+      "evidence": [
+        {
+          "resource": "repo://main.py#L24-L45",
+          "version": "repo-lines-v1:sha256:becf189f8c49ac38360c48e7fc7aad1217f51b941fb909e186c54827ab7637aa:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRmOWQ4OWU5M2U1YTJlY2FhMmI3YTVlNDZjNjdkYzk1NTJjODBkZmVlODFkYzc5YjlhNzdmM2VjNjBjZjc1ZTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4ODNjYTIyZDFiZmQ4NTRjOTFhZWJmZDk3OGQwZDZmMjYzZDY5ZWI1MWY3MzA4ZDQ4MzA5NjBhYjNjZGIyYzQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZmMjM3YTkyNDlkMTllODgxZjdiMGI0ODQwOWMwNmE1MjUyNmU0ZWZlZWVmYzc0MzkyNmU0YzE0OWMyNDBjMTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI4MmYyNTEyZmQ2NTAyNmQyNDBlMzExZGI4YjlhNDBjNGVmNGFjNzA1MzQ2MmM0NWE0MTY4NThmNDY1MjQzY2QifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_434930bc6303490f9c15173c2d44884f",
+      "statement": "The anti-grounding JSON imports run_simulation from sim_ag_upg.",
+      "evidence": [
+        {
+          "resource": "repo://input/SimParam_anti_grounding.json#L1-L11",
+          "version": "repo-lines-v1:sha256:feebb0f20732ed48296c248d9900834257488a399bf567837066aee3d4a1bda5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2ZmIwOGZkYTFhY2I5NTdiNjExNmJkMzc4MTFhMWZlNDFhMDE2MTFjMDYzMWVkYmY3ODZkNjg4OWEyN2E1NWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQxMGIzNmFhNzRhNTliY2Y0YTg4MTg1ODM3ZjY1OGFmYWYzNjQ2ZWZmMmJiMTZjMzkyOGQwZTkzMzVlOTQ1ZDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.9.0",
+    "at": "2026-11-13T18:28:11.946Z"
+  }
+}

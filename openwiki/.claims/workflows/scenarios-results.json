@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:b52130dbc0901e11d5facb3d7b6f4b5f6c596f851b33b74c44e784af47d80e74",
+  "claims": [
+    {
+      "id": "claim_8eb61ac409f24bdc9bd9db3e7a590523",
+      "statement": "Simulation configuration uses importlib to resolve modules and named imports into a callable dictionary.",
+      "evidence": [
+        {
+          "resource": "repo://src/modules/helper_utils.py#L14-L33",
+          "version": "repo-lines-v1:sha256:37d15a3526af27e48e2bdb31c2fe39a3b3174192615a656e05dd759f2f316099:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM2MmEyNGVmODNlZDAzNDVlZjM0MmY2NGJmM2JlMGFhOTcyMDcyZWQyODlkZWI5NDIyMTNkNTEyN2Q1NjM1ZjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA4M2IwY2Y2ZWRlZmQxNDdlNjg5YTFkYmQ3MTVlZDFjN2IzN2RjOTlkZDMwODExNzg2NzI5OTYzMDQ2NGJhOTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJhMDAxZDNmYjU0M2QwMjRmNjk4ZDkzMTQ5ZjE2MmZiNGNlZjNiYjY4NDg4NzdmZTIyYTdlZDU3ZmNmZjQ4YzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ4ZDcwNTY5YmI1MmI2NDBmMGRkYzhmN2NmODZmNjEwMWQ5YzBkZWU2ZTJkZmJlYTlmNDZkOGM4OWYzMDI5YzUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d85708c87ad24ec8a623bc41780effb4",
+      "statement": "Waypoint CSV vessels are linked to the nearest route start within 5 m with heading alignment, otherwise an origin-point fallback.",
+      "evidence": [
+        {
+          "resource": "repo://src/modules/helper_utils.py#L694-L736",
+          "version": "repo-lines-v1:sha256:593d6e694076b7010cd241fe1adbfe61e275a88ce86d305dc7103a877bacf907:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0NDkzN2UxNzk3ZmQ5NzY1NDA2ZjQzZWNlNzQ1YTQ1MzI1YTFmOGE4OWExZWNiOTJiYzU4OWE1NTJjNmE5OTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk5ZmEzNDE0ZTk5ODA4N2Q2NjRhNWVhNjNkODhkMWYyZTRjNGRmMjEwYzcxMGRjNmYyYTE5YmIyNjgxNzcwOWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMxZDQ2MWE4NDkxZWZlMDM4NzJiMWQ3YzYwZWI0NTAzMWMzMTUwMzRhMTA1NzUxYmRjMjA2NzRkNGU0MWYyOWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA5ZGNkZmRjMDYxODdiMTU1ZTJhODFlY2UwNDNjNmQ3ZmY2YWFmOGQ4NjEzMjFkMTRjNGYwNTVhNTUyMzVkYmMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f38c6008d6f24de8a94c14f76c6b3815",
+      "statement": "Current export filenames do not match plot_results.py's vessel_*_comprehensive.csv search pattern.",
+      "evidence": [
+        {
+          "resource": "repo://plot_results.py#L24-L31",
+          "version": "repo-lines-v1:sha256:2fceb4102b8431971e129ca5d07d559ae7ff9121bc720703f0c975d851b835b9:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzJlMzEyNTdkYzBhZTFkNTkzMDM3YzI4MGM5YWQ1MDgxOWI4YTZjOGNmNzI4YmUwNzE2ZDAwYTNlZWNjMDRiYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYWI1YzgyNjMyZmM4MmQ0YjJjMzQwZjQyNTU4YmEzZGZhMzFjNzY1NWRmNmZjYzE2OGI0ZmRjZTU3ZmFjNjA0MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzBmYjU4NGIzNTYyNjNlNjlhMjNmZGI1MmM2MWNmMWIxNzE3MmY3YjU4YzM3MWM2NjcwNmRiZjk4Njg2NWIyNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDEzMTA5MjRhMjc1ODEzNzkzOGZhZTA1MDMzMTNlMzNjZTlmM2U2MjgyOWI4NWYyNjY4YWVlMTYwMmNlZGNiOCJ9"
+        },
+        {
+          "resource": "repo://src/modules/helper_utils.py#L340-L345",
+          "version": "repo-lines-v1:sha256:377821e0642a6c96ab75d4edbfbc874cd91520aaefd2c2dad902bcc8da959cf6:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzU5NjZiNTMyMDJlM2I5NjNiNzA4Zjk0Yzk1YTJkMDgyODY3MzRlMDVkZmRiYWZjZjE3YjhkZTZhMDk5NWE5NyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTliMzczZTI3OWUyZjhhYjE4MTEwZjkxNzM0Mzc0YTlmNWNkNTg0YzNlNDYzYTRhZGYyMzZlNWNlNDU2NjllZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTg2OTE1NjA1NDgzZGE4MjJlYzVlMDk1MjgyZjA5NTUzMzAwN2Y5MjdmMzU0YWZmN2JkNTBhMjA1MjE1ZDkwNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNmFlMWRlYjE4MzZmMmFlMWZhNWNkNmEyMGRlNzJmYTJhOWU0MzM4MDU2MTg3NGYzODkwZWI4OTQyMzc0ODkzMiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_8cf760d79d664ad081d9bfb61e894e76",
+      "statement": "The default pipeline records video but its ag_data.csv export block is commented out before grounding plots are invoked.",
+      "evidence": [
+        {
+          "resource": "repo://src/pipelines/sim_ag_upg.py#L141-L154",
+          "version": "repo-lines-v1:sha256:b301fa1a5b3023b80bc608d7e8a2e6efa71ff2ed36e782e0136912cc185ea33f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2NzA2ZDRiNDFkN2RkNjI4NzA4MDczZDIyNzAzYTA5OTE2ZThjNmQ2NjM3MDc0YTkwZWNjZTFjNDhlZGE3NjciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNhMTliYjEzNzJkZWVmMzI5NzA2ZGYxMDQ5MTFlYzU3NDk2ZTljYjk5MTFkMzY0MDU2NWVhNzY1OWViNzA2ZmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBhYWM5NjQ3ODRiN2Q1NWRlMzY2MmRjNGJjM2NkOTVlZDNkODhlOWE0ZTI1MzE2NmNiZTkzNGE1NzVkNDJhMjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_25eeb0b1be4546ce980566282eb22f1a",
+      "statement": "The sim_ag_PID variant actively uses PID rudder control with anti-grounding MPC calls commented out.",
+      "evidence": [
+        {
+          "resource": "repo://src/pipelines/sim_ag_PID.py#L87-L101",
+          "version": "repo-lines-v1:sha256:3f56232e1e0d95212bf42b885b0323997a4b0c1ed40b7a19eede3043c0c5aafb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhjMzE1ZmFiYmM0NDE3M2M1NDA2NDhmOWVmMmFhZmRjM2JiZGUwZWNiM2QzNjc2Y2VhMGRlYTkyNzllYWVmN2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjExYWI2ZDJiYjEzZGE2YWMyMTU5YjNjMTM0ZGMxYjAzMzc3MTYwY2YyYTg5YTgyYmY1OWVkZTIwMDkwNTVlYjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEwNTNlMDRlMTIwNzFkYzVmYzJiZDRhMmE3OTgzMzk2OTQ2MGYxMGMxOTU5Y2U2NmZmZWQ1MjY5MDQ3MzQ2NjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk3NDk2OWMxN2NiY2RkOWY2ZDk4YjA2MmRkM2RlNTcxNDdiMTc1MGYyNjRkMWNlNDcwNjZiNGRmYzk3N2ViZTkifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.9.0",
+    "at": "2026-11-13T18:32:56.313Z"
+  }
+}

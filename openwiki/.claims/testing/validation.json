@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:e7d9624a83bc5e158c5e08b97477150e9f15692fb20519542d3a776631068180",
+  "claims": [
+    {
+      "id": "claim_cda7c7dbdfd747f3a7c06e7520a6c165",
+      "statement": "Current main passes six pipeline arguments while the FTC pipeline accepts four.",
+      "evidence": [
+        {
+          "resource": "repo://main.py#L26-L35",
+          "version": "repo-lines-v1:sha256:1eddd71e332e1ed2d9d94893e244408e16e8a76f25e345163f9c1249e0b6b696:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdiNWI1YTZjYjk3N2EyYzY1YTBlNmQ3N2VjODc1MTkyMDU0ODQ5ZjAzOWVhNzdlZjgxYmJkODA3MTk0OGVkMTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3ODYyNWJjNWVjNzFhODYzZTVjYzQwNzVkYzYxZDdkZGQ0MjEwNGI1ZjExNTYzOGU2N2RiZDY0OWM2OGEwNDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ2MzUwNDVjMThjMWQ1NTgzOGE2NTFkODQ2YjNhMjM3YTNhNDIyYTBlYmUwMDhiNTlkMmZkZWZhZWVjMjJhZTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQwNjNmYWI1ZTRmMDk1MDYyMjVjY2E1YzI0NDI4ZDBhNTkxNzI1MDZkZTA1YThlNTFiOTdiNzllYWVmZjk5OWQifQ"
+        },
+        {
+          "resource": "repo://src/pipelines/sim_ftc.py#L11-L11",
+          "version": "repo-lines-v1:sha256:ba12f05bc8aa88b2c03a3e362378e04941e9235a229f23809053340c816adc14:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYmExMmYwNWJjOGFhODhiMmMwM2EzZTM2MjM3OGUwNDk0MWU5MjM1YTIyOWYyMzgwOTA1MzM0MGM4MTZhZGMxNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmExMmYwNWJjOGFhODhiMmMwM2EzZTM2MjM3OGUwNDk0MWU5MjM1YTIyOWYyMzgwOTA1MzM0MGM4MTZhZGMxNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzk0OGZiMjMxYjg4MjkwNzEwYWMwNzMwNGM4M2Q0NjY2OTU5Y2Y3OGUyMDI5MWNhYWVmYTFiYzUyNTY2MzA3NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiM2E2YWE5NzZjNDg4ODA3MDU2Yjc1NWJmNjgyYjE5YjQwYWY1MmY2ODM2YWVkNTMxMDI5MWI3OTE0MzJlYWYzYyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_eb5e2f62bd4d4c5990f128bea90e20b5",
+      "statement": "The collision pipeline unpacks five guidance results while Guidance_Reasoner returns six.",
+      "evidence": [
+        {
+          "resource": "repo://src/modules/intel_guidance.py#L199-L203",
+          "version": "repo-lines-v1:sha256:d618e620bd50b5dcdec12e3778b1006ad713a91495b1da6241d49972dd1895a2:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2QwNzFlYjhiNWEyYWI3OTBkNTQwNDkyMTAxNGM0MDk1ODdkZGJhMzUyZmE0NjA5OWIxMDQzM2RlODYwMWFlZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTFjYWJmMmEyOTM0NWZhZGI2ZTViNzJiZTNkYWUxNzgxZGVhNzFiMzEzNmE2ZjEzMTY3YTk4Mzc1OWVkZTc5YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDM3MGVjMzMzNmZkZDQ4NjRmNzM4OTM5NDg2YTMyNjkwZjZmMjEwYjcwOGFkYjAxN2MxNDA2MGE0ZTJiNzVjZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDAyNzYzMmJhZTI2NWUwNGYzMThmOWRjMDBlYzFhM2U5ZTEyN2FkYTgzNWE4NmNiNzMyM2M3MjYyNTFlYzI1NSJ9"
+        },
+        {
+          "resource": "repo://src/pipelines/sim_colav.py#L80-L82",
+          "version": "repo-lines-v1:sha256:5c02b607db16f1e11d0f44d731b84564dd435fe45482c59ab71f5017a7f51a0c:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjg4ZmY1MTdiZjdiMmIzZGNlMjE4MjA4ZDA4ZjhjNTUzYjc0OWMwODViMWI0MDA5YmMxYjYxM2U2YTZmZWYyZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzQ3ZWJjMzNhMDkyMDdkZTI1M2RjYjI0ZjdhZTRmOGYzYmJlNzk2ZjM3MTY5NTEyNTM4NjQwOGVmYWI5MmE5NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMmI1YTA0Yjk4MzE1MTdmYzg0MDcyOTIxZGVmYzNmZTRkZjMyMTg0OGJkZTcxMGE3MWU1NjZkNzJhN2NmYWFkNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWQ5MjQ0OTQ2OGEzYTczNGFkYTI3YzE2NTdmNTJjY2U3NDE2OTQzNjhjZmFmODM3M2ViOTExZWQ4Y2VjNDgwNSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_74d7dd4a978d45c58d1c0214d1559c21",
+      "statement": "The exporter estimation-length mismatch branch truncates log_data1 rather than log_data2.",
+      "evidence": [
+        {
+          "resource": "repo://src/modules/helper_utils.py#L327-L345",
+          "version": "repo-lines-v1:sha256:f51dbeacee42015ed3fbced2325336515c8f6a604f844eaa3ef6bc4ff672318f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUxYzRjNWU0NmFiNTQ1N2YwZjZiNWE0ZTAyNDRjYzkwODA2Njg1M2U2ZWUzZTEyYmU1OTI5MzVmYjg3YTAwOTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE5YjM3M2UyNzllMmY4YWIxODExMGY5MTczNDM3NGE5ZjVjZDU4NGMzZTQ2M2E0YWRmMjM2ZTVjZTQ1NjY5ZWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI3NzgwMzdhNTNkZDg0YmE5Y2I4N2QxNzUxZjA1NjE0NGYyZTI3OTViNzFiNzc1MDc0ODRhZGU4OWY3MzgzNTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhZTFkZWIxODM2ZjJhZTFmYTVjZDZhMjBkZTcyZmEyYTllNDMzODA1NjE4NzRmMzg5MGViODk0MjM3NDg5MzIifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.9.0",
+    "at": "2026-11-13T18:28:11.946Z"
+  }
+}

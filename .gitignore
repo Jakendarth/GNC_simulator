@@ -1,0 +1,7 @@
+# Local environments and generated documentation
+.venv/
+.venv-docs/
+site/
+__pycache__/
+*.py[cod]
+.DS_Store

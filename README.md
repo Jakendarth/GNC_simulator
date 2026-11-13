@@ -10,6 +10,26 @@
 
 ---
 
+## Documentation
+
+The user manual is configured for **[https://jakendarth.github.io/GNC_simulator/](https://jakendarth.github.io/GNC_simulator/)**. It becomes available after the documentation changes are reviewed, merged and deployed through GitHub Pages.
+
+The manual covers installation, usage, simulation scenarios, GNC algorithms and developer guidance. Its technical reference is built directly from the existing `openwiki/` pages, preserving their generated sources and evidence records.
+
+For a local preview with Python 3.13:
+
+```sh
+python3.13 -m venv .venv-docs
+source .venv-docs/bin/activate
+python -m pip install -r requirements-docs.txt
+mkdocs build --strict
+mkdocs serve
+```
+
+See [documentation maintenance](docs/developer/documentation.md) for OpenWiki regeneration, build instructions and GitHub Pages setup. Review changes through a pull request; the documentation workflow validates pull requests and deploys only from `main`.
+
+---
+
 ## 🚀 Getting Started
 
 ### Dependency Management
