@@ -27,6 +27,8 @@ For a publication change, edit metadata, DOI links, BibTeX and proceedings statu
 
 When adding or moving a page, update the `{toctree}` blocks in `docs/index.md` and incoming links. Theme, parser and extension settings live in `docs/conf.py`. The strict build treats Sphinx warnings as errors and checks the rendered site for missing links, anchors, images and videos.
 
+Reference lists only the function catalog and vessel/environmental models. Other linked technical pages remain accessible but unlisted; `unlisted_reference_pages` in `docs/conf.py` marks those build inputs as standalone pages without changing OpenWiki sources. Licence and Use has its own sidebar section.
+
 ## Build and preview locally
 
 Install Python 3.13 to match continuous integration (CI), then create and activate a documentation environment:

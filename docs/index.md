@@ -188,7 +188,6 @@ publications
 
 organisations
 projects
-licence-and-use
 ```
 
 ```{toctree}
@@ -197,14 +196,13 @@ licence-and-use
 :caption: Reference
 
 reference/functions
-Vessel and Environment Models <topics/dynamics>
-OpenWiki control reference <openwiki/concepts/guidance-control>
-openwiki/architecture/simulation-state
-openwiki/testing/validation
-developer/documentation
-All OpenWiki pages <openwiki/index>
-Architecture index <openwiki/architecture/index>
-Concepts index <openwiki/concepts/index>
-Testing index <openwiki/testing/index>
-Workflows index <openwiki/workflows/index>
+Vessel and Environmental Models <topics/dynamics>
+```
+
+```{toctree}
+:hidden:
+:maxdepth: 2
+:caption: Licence and Use
+
+licence-and-use
 ```

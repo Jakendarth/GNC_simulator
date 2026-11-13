@@ -1,4 +1,6 @@
-# Vessel dynamics, channel and sensing
+<a id="vessel-dynamics-channel-and-sensing"></a>
+
+# Vessel and Environmental Models
 
 The vessel model calculates motion from actuator commands. Sensors and history updates expose that motion to the next guidance step. Channel depth and distance to the banks influence both the physical response and clearance calculations.
 
