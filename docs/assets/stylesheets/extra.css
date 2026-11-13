@@ -7,3 +7,26 @@
 .md-typeset h2 { font-weight: 600; }
 .md-typeset table:not([class]) { font-size: 0.78rem; }
 .md-typeset .admonition { border-radius: 0.35rem; }
+
+.wiki-hero {
+  display: flow-root;
+  margin: 1.5rem 0 2rem;
+  padding: 1.5rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 0.7rem;
+  background: var(--md-code-bg-color);
+}
+.wiki-hero h2 { margin-top: 0; }
+.wiki-logo { float: right; margin: 0 0 1rem 1.5rem; border-radius: 0.65rem; }
+.md-typeset video {
+  display: block;
+  width: 100%;
+  max-height: 36rem;
+  background: #071d30;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+}
+@media (max-width: 600px) {
+  .wiki-logo { float: none; display: block; margin: 0 auto 1.5rem; }
+  .wiki-hero { padding: 1rem; }
+}

@@ -1,5 +1,5 @@
-site_name: GNC Simulator · User Manual
-site_description: Installation, simulation workflows, GNC algorithms and developer reference for GNC Simulator.
+site_name: GNC Simulator · Technical Wiki
+site_description: Functions, semantic models, GNC theory, pipeline examples and recorded demonstrations.
 site_url: https://jakendarth.github.io/GNC_simulator/
 repo_url: https://github.com/Jakendarth/GNC_simulator
 repo_name: Jakendarth/GNC_simulator
@@ -8,6 +8,11 @@ site_dir: site
 strict: true
 watch:
   - openwiki
+  - src
+  - main.py
+  - plot_results.py
+  - assets/GNC_sim_logo.png
+  - output
 hooks:
   - scripts/docs_openwiki.py
 
@@ -15,8 +20,9 @@ theme:
   name: material
   language: en
   font: false
+  logo: assets/GNC_sim_logo.png
+  favicon: assets/GNC_sim_logo.png
   icon:
-    logo: material/ferry
     repo: fontawesome/brands/github
   features:
     - navigation.tabs
@@ -82,19 +88,29 @@ validation:
     anchors: warn
 
 nav:
-  - Getting Started:
+  - Start Here:
       - Overview: index.md
+      - Installation: installation.md
       - Quickstart: openwiki/quickstart.md
-  - Installation:
-      - Environment and first run: installation.md
-  - User Guide:
       - Running and inspecting results: user-guide.md
-  - Simulation Scenarios:
-      - Available scenarios: scenarios.md
-      - Configuration, assets and results: openwiki/workflows/scenarios-results.md
-  - GNC Algorithms:
-      - Guidance and anti-grounding control: openwiki/concepts/guidance-control.md
-  - Developer Guide:
+  - Semantics:
+      - Ontology, knowledge and runtime meaning: topics/semantics.md
+  - Guidance:
+      - Routes, encounters and LOS: topics/guidance.md
+  - Control & Dynamics:
+      - PID and predictive control: topics/control.md
+      - Vessel, channel and sensing: topics/dynamics.md
+      - OpenWiki control reference: openwiki/concepts/guidance-control.md
+  - Pipelines:
+      - Connecting the functions: pipelines.md
+      - Scenario configurations: scenarios.md
+      - Assets and results: openwiki/workflows/scenarios-results.md
+  - Demonstrations:
+      - Recorded simulations: demonstrations.md
+  - Publications:
+      - Research and citation: publications.md
+  - Reference:
+      - Function catalog: reference/functions.md
       - Simulation lifecycle and state: openwiki/architecture/simulation-state.md
       - Validation and known gaps: openwiki/testing/validation.md
       - Maintaining this manual: developer/documentation.md

@@ -12,9 +12,9 @@
 
 ## Documentation
 
-The user manual is configured for **[https://jakendarth.github.io/GNC_simulator/](https://jakendarth.github.io/GNC_simulator/)**. It becomes available after the documentation changes are reviewed, merged and deployed through GitHub Pages.
+The technical wiki is configured for **[https://jakendarth.github.io/GNC_simulator/](https://jakendarth.github.io/GNC_simulator/)**. It becomes available after the documentation changes are reviewed, merged and deployed through GitHub Pages.
 
-The manual covers installation, usage, simulation scenarios, GNC algorithms and developer guidance. Its technical reference is built directly from the existing `openwiki/` pages, preserving their generated sources and evidence records.
+The wiki explains semantic vessel knowledge, available guidance/control/dynamics functions, and how they connect in pipeline examples. It includes the simulator logo, four embedded recordings, related publications and an automatically generated function catalog. Existing `openwiki/` pages remain available with their generated sources and evidence records preserved.
 
 For a local preview with Python 3.13:
 

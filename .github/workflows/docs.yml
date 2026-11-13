@@ -11,6 +11,11 @@ on:
       - 'requirements-docs.txt'
       - '.github/workflows/docs.yml'
       - 'README.md'
+      - 'src/**/*.py'
+      - 'main.py'
+      - 'plot_results.py'
+      - 'assets/GNC_sim_logo.png'
+      - 'output/*.mp4'
   pull_request:
     branches: [main]
     paths:
@@ -21,6 +26,11 @@ on:
       - 'requirements-docs.txt'
       - '.github/workflows/docs.yml'
       - 'README.md'
+      - 'src/**/*.py'
+      - 'main.py'
+      - 'plot_results.py'
+      - 'assets/GNC_sim_logo.png'
+      - 'output/*.mp4'
   workflow_dispatch:
 
 permissions:
