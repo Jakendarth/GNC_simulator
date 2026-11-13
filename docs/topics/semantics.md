@@ -1,10 +1,14 @@
 # Semantic model and runtime meaning
 
-The simulator couples numerical vessel models to a shared vocabulary for vessels, sensors, operating conditions and regulations. This page explains that vocabulary and the Python functions that use it. The [guidance page](guidance.md) follows the resulting decisions into a reference path.
+The simulator uses an ontology—a structured vocabulary and a set of named objects—to connect vessel parameters, sensor information and regulation-related concepts. This shared model gives numerical values a meaning that other functions can use.
+
+Read this page to understand what is stored in the ontology and how Python decisions use it. Then follow [Guidance](guidance.md) to see how those decisions affect a reference path.
 
 ## What the ontology represents
 
-An OWL ontology describes classes, individual objects and their properties. Object properties connect individuals; data properties attach values. This terminology follows the [W3C OWL 2 Primer](https://www.w3.org/TR/owl2-primer/). The simulator loads its RDF/XML ontology from [`assets/database.xml`](https://github.com/Jakendarth/GNC_simulator/blob/main/assets/database.xml).
+The Web Ontology Language (OWL) describes classes, individuals and properties. A class names a category, an individual names a particular object, an object property connects individuals, and a data property attaches a value. For the underlying terminology, see the [W3C OWL 2 Primer](https://www.w3.org/TR/owl2-primer/).
+
+At startup, the simulator loads [`assets/database.xml`](https://github.com/Jakendarth/GNC_simulator/blob/main/assets/database.xml), an ontology serialized in RDF/XML. The similarly named XML file at the repository root is not the file loaded by `main.py`.
 
 | Concept in the file | Meaning in this simulator | Examples |
 | --- | --- | --- |
@@ -15,15 +19,15 @@ An OWL ontology describes classes, individual objects and their properties. Obje
 | Regulation data | Named rule individuals and activation histories | `COLREGS/Rule_14`, `BPR/Article_604`, `reg_active` |
 | Object properties | Declared information-flow relations | `inputFrom` and its inverse `outputTo` |
 
-The named vessels bind a Python object's numeric state to its ontology individual. Calling `vessel("Own", ontology, x0)` selects `ontology.Own`. Names other than the explicitly handled Own/Other1/Other2/Other3 names fall back to `Other4`; arbitrary new names are not automatically registered.
+Creating `vessel("Own", ontology, x0)` associates a Python vessel object with `ontology.Own`. The Python object holds numeric state and controller state; the ontology supplies parameters and receives runtime histories. The constructor handles `Own`, `Other1`, `Other2` and `Other3` explicitly and maps all other names to `Other4`. To add a new vessel identity, review that mapping as well as the ontology.
 
 ## Three meanings to keep separate
 
-**Domain semantics** describe what a property or individual represents: `Td` is vessel draught, `psi_d` is desired heading, and a rule individual represents a regulation-related concept.
+**Domain semantics: what a value means.** `Td` represents vessel draught, `psi_d` represents desired heading, and a rule individual represents a regulation-related concept.
 
-**Decision semantics** describe how the program acts on that knowledge. `Guidance_Reasoner` selects regulation groups, computes encounter geometry and calls `Finite_State_Machine` to assign a Give-way or Stand-On role. These roles and scenarios live on the Python vessel object.
+**Decision semantics: how a value affects behavior.** `Guidance_Reasoner` selects regulation groups, computes encounter geometry and calls `Finite_State_Machine` to assign a Give-way or Stand-On role. The role and scenario are stored on the Python vessel object.
 
-**Execution semantics** describe storage and ordering. Functions often access physical parameters through the first ontology value (`L[0]`) and measurements through the latest value (`yx[-1]`). Runtime histories grow at the numerical integrator's sample times, not just once per displayed frame.
+**Execution semantics: when and where a value is read or written.** Functions commonly read parameters from the first ontology value, such as `L[0]`, and measurements from the latest value, such as `yx[-1]`. The integrator produces multiple samples within a simulation step; history updates append those samples rather than one value per displayed frame.
 
 ```mermaid
 flowchart LR
@@ -38,6 +42,17 @@ flowchart LR
   C --> D
 ```
 
+## Regulation activation and geometric decisions
+
+The code uses two regulation labels: COLREGS for international collision regulations, and BPR for the Dutch inland navigation regulations. `Guidance_Reasoner` selects the COLREGS branch when scaled x ≤ 600 and the BPR branch beyond it. This threshold is part of the scenario logic, not a general geographic lookup.
+
+The function traverses regulation groups with `INDIRECT_equivalent_to` and appends `reg_active` flags. The XML connects rule individuals and situation groups using `owl:sameAs`. In OWL, that relation asserts identity; it is stronger than a membership relation. Review this modeling choice before changing the ontology or adding formal inference.
+
+Distance, closest point of approach (CPA) and relative angles feed the encounter-role decision. Give-way behavior leads to optimized route offsets; Stand-On behavior keeps zero offsets. The default anti-grounding pipeline follows a different path: it calls line-of-sight (LOS) guidance directly and skips encounter reasoning.
+
+!!! note "Scope of reasoning"
+    `Guidance_Reasoner` makes explicit Python decisions using ontology data. It does not invoke an OWL consistency or classification reasoner on each step. The XML also contains CCNR groups, named for the Central Commission for the Navigation of the Rhine, but this function selects COLREGS or BPR. Named rules and activation flags alone do not establish complete regulatory compliance.
+
 ## Functions that bridge knowledge and simulation
 
 | Function | Inputs and responsibility | Output or mutation | Connects to |
@@ -49,18 +64,9 @@ flowchart LR
 | `Guidance_Reasoner(...)` | Vessel, contacts, ontology, scale and map polyline | Regulation activation history, roles and route offsets | LOS guidance |
 | `Finite_State_Machine(...)` | Relative headings/bearing, range, CPA distance and bank distances | Mutates vessel `role` and `scenario` | Path-envelope selection |
 
-## Regulation activation and geometric decisions
-
-`Guidance_Reasoner` chooses the COLREGS branch when scaled x ≤ 600 and the BPR branch beyond it. It traverses regulation groups with `INDIRECT_equivalent_to` and appends activation flags. Group membership in the XML uses `owl:sameAs` links; those links have identity semantics in OWL, rather than the meaning of a generic membership relation. This is a modeling detail to review if changing the ontology or adding formal inference.
-
-The function then uses distance, closest point of approach and relative angles to assign encounter roles. A Give-way role leads to a geometric path-offset optimization; Stand-On retains zero offsets. The current default anti-grounding pipeline calls LOS directly and does not invoke this encounter reasoning stage.
-
-!!! note "Scope of reasoning"
-    The active path performs explicit Python decisions over ontology data. It does not call an OWL consistency/classification reasoner during each simulation step, and the presence of named regulations does not establish complete rule compliance. CCNR groups exist in the XML, while this function's active geographic branch selects COLREGS or BPR.
-
 ## Reading and inspecting the model
 
-This inspection example requires the simulator environment but does not run its GUI:
+Activate the simulator environment and run the following Python code from the repository root. It loads the ontology and prints `Own` vessel parameters and properties without opening the graphical interface. Printed property order may vary.
 
 ```python
 from pathlib import Path

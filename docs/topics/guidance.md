@@ -1,6 +1,48 @@
 # Routes, encounters and LOS guidance
 
-Guidance turns a mission route and the vessel's current situation into a desired heading. It sits between the [semantic model](semantics.md) and [actuator control](control.md): it changes the reference the controller tracks, rather than directly applying forces.
+Guidance answers two questions: which path should the vessel follow, and which heading should it track now? Route planners and encounter logic address the first; line-of-sight (LOS) guidance addresses the second.
+
+The [semantic model](semantics.md) supplies vessel and regulation-related information. Guidance uses that information and measured motion to produce a reference for [actuator control](control.md). Read this page when choosing a guidance function or connecting encounter planning to route tracking.
+
+## Closest point of approach
+
+The closest point of approach (CPA) estimates separation if both vessels continue with their current velocities. `compute_CPA` rotates body-frame velocities into the world frame before forming relative velocity.
+
+Let \(p\) be own-vessel position minus contact position in metres, and \(v\) the corresponding relative velocity in metres per second. The estimated time to CPA, in seconds, is:
+
+$$
+t_{CPA}=-\frac{v^T p}{\|v\|^2}.
+$$
+
+For a future CPA, the distance is \(\|p+v t_{CPA}\|\). A negative time places CPA in the past, so the function reports current separation instead. The return tuple is `(t_cpa, d_cpa, current_distance)`.
+
+The implementation does not guard division by zero when relative speed is zero. It also combines physical velocity with measured position/heading data. Validate these cases before using CPA as a decision threshold; the calculation does not predict future controller responses.
+
+## Rule-aware path offsets
+
+`Guidance_Reasoner` considers contact geometry within five own-vessel lengths, records regulation activation and calls the encounter state machine. If the role is Give-way, `generate_path_envelope2` adjusts route points using CVXPY optimization. Each problem minimizes squared displacement while applying contact, infrastructure and side-preference constraints.
+
+The returned arrays \(D_x\) and \(D_y\) are offsets in the route's coordinate units. At waypoint \(k\), guidance uses:
+
+$$
+p_{reference,k}=p_{route,k}+\begin{bmatrix}D_{x,k}\\D_{y,k}\end{bmatrix}.
+$$
+
+LOS tracks the adjusted route. This path optimization precedes the actuator optimization performed by model predictive control (MPC).
+
+If the envelope problem has no numeric displacement solution, it reuses the previous offsets supplied by its caller. The current reasoner supplies zero-initialized arrays, so this fallback does not retain the previous simulation step's optimized path.
+
+## Line-of-sight tracking
+
+Standard LOS steers toward the route while correcting lateral deviation. It projects measured position onto the active segment and advances past segments already crossed. Let \(\alpha\) be segment heading in radians, \(y_e\) signed cross-track error in metres, and \(L\) vessel length in metres. With lookahead distance \(\Delta\), the correction is:
+
+$$
+\psi_{raw}=\alpha-\operatorname{atan2}(y_e,\Delta),\qquad\Delta=5L.
+$$
+
+The function wraps the result to the angle range and limits each heading change to \((\pi/90)\,\texttt{vessel.timestep}\) radians. At the route end it holds the previous desired heading. `vessel.timestep` defaults to 1; changing a pipeline's integration interval does not automatically update this member. Standard LOS uses `5 * L` for lookahead, independently of the JSON `Lookahead distance` field.
+
+The adaptive variant also integrates `eso_rhs`, an extended-state observer used to estimate motion and disturbance/fault-related quantities. It records estimated speed, heading, sideslip and cross-track histories, and reads lookahead from `input/SimParam.json`. Choose it only after checking the observer state and history requirements; sharing a heading return value does not make it a direct replacement for standard LOS.
 
 ## Function map
 
@@ -21,45 +63,9 @@ Guidance turns a mission route and the vessel's current situation into a desired
 
 Use explicit module names when choosing between the two `plan_route` functions. Their signatures, sampling and configuration dependencies differ.
 
-## Closest point of approach
-
-The implementation rotates each vessel's body-frame velocity into the world frame and computes relative motion. For relative position \(p\) and relative velocity \(v\), its constant-velocity estimate uses:
-
-$$
-t_{CPA}=-\frac{v^T p}{\|v\|^2}.
-$$
-
-For a future closest approach, distance is \(\|p+v t_{CPA}\|\). For a negative time, the function retains current separation as its CPA distance. It does not guard the zero-relative-speed denominator, so that case requires attention when composing or testing a pipeline.
-
-CPA is a geometric prediction under the current velocities. It does not simulate both vessels' future closed-loop responses.
-
-## Rule-aware path offsets
-
-`Guidance_Reasoner` filters contacts within five vessel lengths, activates regulation-related histories and calls the encounter state machine. If Give-way behavior is selected, `generate_path_envelope2` solves per-waypoint CVXPY problems minimizing squared x/y displacement subject to contact, infrastructure and side-preference constraints.
-
-Its output is a deviation from the existing route:
-
-$$
-p_{reference,k}=p_{route,k}+\begin{bmatrix}D_{x,k}\\D_{y,k}\end{bmatrix}.
-$$
-
-LOS consumes that reference. The offset optimizer is a separate stage from the MPC actuator optimizer. The current reasoner initializes the previous-offset arrays to zero before calling the envelope function, so its fallback does not preserve a previous simulation step's optimized path.
-
-## Line-of-sight tracking
-
-The standard LOS function projects position onto the active route segment and skips segments already passed. Let \(\alpha\) be segment heading and \(y_e\) signed cross-track error. The implemented correction is:
-
-$$
-\psi_{raw}=\alpha-\operatorname{atan2}(y_e,\Delta),\qquad\Delta=5L.
-$$
-
-The result is wrapped and limited to a heading change of \((\pi/90)\,\texttt{vessel.timestep}\) per call. At the route end it holds the previous desired heading. These details explain why a route's geometry, vessel length and timestep all affect the reference seen by the controller.
-
-`compute_LOS_ref_adaptive` also integrates `eso_rhs` and records estimated speed, heading, fault/disturbance terms, sideslip and cross-track quantities. It expects the extended-state and history conventions of that path. It is not interchangeable with standard LOS solely on the basis of a matching return type.
-
 ## Connect guidance to a controller
 
-Within an initialized pipeline:
+Use this fragment inside a pipeline after initializing `barge`, its numeric route, ontology histories and timestep. The existing anti-grounding pipelines import the guidance and controller functions used here:
 
 ```python
 # route_offsets=None follows the original route.

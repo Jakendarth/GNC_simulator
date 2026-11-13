@@ -1,16 +1,20 @@
 # Connecting the functions
 
-A pipeline owns initialization, the sequence of guidance/control/dynamics calls, simulation time and output. Reusing individual functions requires preserving their state, geometry and history contracts.
+A pipeline coordinates one simulation scenario: it initializes vessels and routes, runs guidance and control, integrates motion, and records results. Use the examples below to trace the existing implementation or identify the boundaries a new pipeline must preserve.
+
+Read [state and coordinate meanings](topics/dynamics.md#state-and-coordinate-meanings) first if you are unfamiliar with the vessel state. The examples are loop fragments checked against source; they are not standalone programs or runtime-validated experiments.
 
 ## Pipeline interface
 
-`main.py` imports the callable selected by JSON and invokes:
+The selected JSON file names a `run_simulation` callable. `main.py` loads it and passes the graphical display, ontology, input path, font, repository directory and output directory:
 
 ```python
 run_simulation(screen, ontology, input_file, font, current_script_dir, output_dir)
 ```
 
-The anti-grounding, PID and collision pipelines have this six-argument interface. The older FTC pipeline accepts four arguments and is not directly compatible. See [scenario configurations](scenarios.md) for how to select a callable.
+The anti-grounding, proportional–integral–derivative (PID) and collision pipelines accept these six arguments. The older fault-tolerant control (FTC) pipeline accepts four. Check [scenario configurations](scenarios.md) before selecting a callable.
+
+The diagram shows the single-vessel sequence used by the anti-grounding variants. Model predictive control (MPC) or PID supplies commands between guidance and integration.
 
 ```mermaid
 flowchart TD
@@ -28,7 +32,9 @@ flowchart TD
 
 ## Example 1: the existing anti-grounding loop
 
-The following is an explanatory extraction of the active calls in [`sim_ag_upg.py`](https://github.com/Jakendarth/GNC_simulator/blob/main/src/pipelines/sim_ag_upg.py#L87-L139). It belongs inside that pipeline after vessel, route, ontology histories and shoreline geometry are initialized; it is not a complete executable program.
+Use this example to follow one iteration of [`sim_ag_upg.py`](https://github.com/Jakendarth/GNC_simulator/blob/main/src/pipelines/sim_ag_upg.py#L87-L139). Before entering the loop, that pipeline creates `barge`, initializes its ontology histories, assigns a numeric route and measures initial bank distances.
+
+The fragment uses the pipeline's imported functions and `copy` module. It also assumes its `screen`, `font`, `t_step`, `sim_scale`, `time`, `times_to_draw`, `look_ahead` and `current_script_dir` variables. The calls proceed in this order: calculate heading, obtain actuator commands, integrate motion, append histories, then refresh rendering and bank distances.
 
 ```python
 psi_d = compute_LOS_ref(barge, None, current_script_dir)
@@ -61,11 +67,13 @@ calc_bank_distances_shore(
 )
 ```
 
-The surrounding pipeline handles Pygame events, frame recording, time increment and termination. Initial state is `[u,v,r,x,y,z,psi]`; `update_ontology_start_values` synchronizes initial pose/velocity values, and the route is a two-row numeric array. See [state ownership](openwiki/architecture/simulation-state.md) for the complete lifecycle.
+The surrounding loop handles window events, frame recording, time increment and termination. `update_ontology_start_values` synchronizes initial pose and velocity values with state `[u,v,r,x,y,z,psi]`. Routes have two coordinate rows. See [state ownership](openwiki/architecture/simulation-state.md) for initialization and history details.
+
+After the integration call, `barge.state` contains the terminal physical state and the ontology contains the new sampled histories. Bank distances measured during this redraw become inputs to the next iteration.
 
 ## Example 2: substitute the existing PID controller
 
-[`sim_ag_PID.py`](https://github.com/Jakendarth/GNC_simulator/blob/main/src/pipelines/sim_ag_PID.py#L87-L101) retains standard LOS and the same integration/history boundary, replacing the MPC block with:
+Use this variation to see how the controller can change while guidance and integration retain the same interfaces. [`sim_ag_PID.py`](https://github.com/Jakendarth/GNC_simulator/blob/main/src/pipelines/sim_ag_PID.py#L87-L101) uses standard line-of-sight (LOS) guidance, appends a PID rudder command and follows the same integration/history sequence:
 
 ```python
 psi_d = compute_LOS_ref(barge, None, current_script_dir)
@@ -76,11 +84,11 @@ barge.dynamic_ontology_update(
 )
 ```
 
-This is a heading-control substitution: it does not solve the anti-grounding MPC optimization, and it leaves the initialized propeller-speed history in place. Both variants currently use the same video output name, so preserve recordings before comparing runs. Watch the separate [navigation recordings](demonstrations.md#navigation-recordings) for context.
+This substitutes heading control only. It leaves propeller speed at the initialized command and does not optimize the MPC clearance constraint. Both variants write the same video filename, so preserve outputs between runs. The [navigation recordings](demonstrations.md#navigation-recordings) provide examples of recorded behavior.
 
 ## Example 3: connect encounter reasoning to LOS
 
-An encounter-aware composition has an additional stage before control:
+Encounter-aware guidance adds a planning stage before heading control. It evaluates contacts and roles, then supplies route offsets to LOS:
 
 ```mermaid
 flowchart LR
@@ -92,7 +100,7 @@ flowchart LR
   C --> D[Dynamics and history update]
 ```
 
-This adapter fragment illustrates the **current six-result function contract**. It requires an initialized vessel, initialized contacts, current signed bank distances, and a nondegenerate boundary polyline in screen coordinates:
+This fragment illustrates the **current six-result function contract**. Initialize the vessel and contacts, supply current signed bank distances, and provide `boundary_polyline` in screen coordinates with at least two distinct points and no zero-length segments. The reasoner needs this boundary to find the nearest segment:
 
 ```python
 offsets, safe_speed, safe_distance, scenario, contacts, segment = (
@@ -105,14 +113,14 @@ psi_d = compute_LOS_ref(vessel, offsets, current_script_dir)
 vessel.u.append(PID_controller(vessel, psi_d, t_step))
 ```
 
-The returned `safe_speed` is not automatically a speed-control command; this fragment only connects the heading path. `Guidance_Reasoner` itself mutates role/scenario and regulation histories.
+`offsets` supplies the adjusted reference path to LOS. The reasoner also updates role, scenario and regulation histories. Although it returns `safe_speed`, this fragment does not connect that value to a speed controller.
 
 !!! note "Integration example, not a repaired collision pipeline"
-    The shipped `sim_colav.py` still unpacks five results, omits the map expected downstream and calls drawing with an older signature. The fragment above explains how the current functions connect; it does not claim the full collision pipeline has been fixed or runtime validated. Contact filtering and numerical degeneracies also need focused validation.
+    `sim_colav.py` still unpacks five results, omits the required map downstream and uses an older drawing signature. This fragment documents the current interfaces; it does not repair that complete pipeline. Contact filtering and numerical degeneracies remain validation concerns.
 
 ## Data contracts at the seams
 
-| Seam | Preserve |
+| Connection | Required agreement |
 | --- | --- |
 | Route → guidance | Two equal-length coordinate rows; offsets with matching shape |
 | Ontology → guidance | Nonempty measured-position, heading and speed histories |

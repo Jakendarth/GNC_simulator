@@ -1,22 +1,38 @@
 # Vessel dynamics, channel and sensing
 
-The physical model closes the guidance/control loop: actuator commands produce vessel motion, measurements feed the next guidance step, and channel geometry affects forces and clearance.
+The vessel model calculates motion from actuator commands. Sensors and history updates expose that motion to the next guidance step. Channel depth and distance to the banks influence both the physical response and clearance calculations.
+
+Use this page when passing state between functions, choosing a depth representation, or replacing a map or measurement model. The [pipeline examples](../pipelines.md) show where these functions run.
 
 ## State and coordinate meanings
 
 | Quantity | Meaning | Convention in the current loop |
 | --- | --- | --- |
-| `u`, `v`, `r` | Surge velocity, sway velocity, yaw rate | Body-frame motion quantities |
-| `x`, `y`, `psi` | World position and heading | Heading used by sine/cosine functions is in radians |
-| `z` | Calculated sinkage | Inserted at state index 5 after integration |
-| `Np`, `u[-1]` | Propeller speed and rudder command | Propeller speed in rotations/s; rudder angle in radians |
+| State `u`, `v`, `r` | Forward velocity, lateral velocity, yaw rate | Body-frame velocities in m/s; yaw rate in rad/s |
+| State `x`, `y`, `psi` | World position and heading | Positions in metres; heading in radians |
+| `z` | Calculated sinkage in metres | Inserted at state index 5 after integration |
+| `vessel.Np[-1]`, `vessel.u[-1]` | Latest propeller-speed and rudder commands | Rotations/s and radians respectively; `vessel.u` is a command history, distinct from state surge velocity |
 | `yx`, `yy`, `ypsi` | Measurement histories | Latest samples are read by guidance |
 | `x`, `y`, `psi` ontology properties | Physical trajectory histories | Distinct from measured histories |
 | `UKC` | Under-keel clearance history | Depth minus draught minus sinkage at the logger's depth call |
 
-The world-to-screen mapping used in the synthetic channel scales x and flips/scales y. Avoid passing screen coordinates directly into a world-state function.
+The physical state is `[u, v, r, x, y, z, psi]`. The default integrator removes sinkage and advances `[u, v, r, x, y, psi]`, then restores the calculated `z`. The MPC adapter uses a third ordering: `[x, y, psi, u, v, r]`.
+
+For the synthetic channel, screen x is scaled world x and screen y is negative scaled world y. Keep this conversion at the map boundary; screen pixels and world-state coordinates serve different functions.
 
 ## Physical-model functions
+
+The active six-state model transforms body-frame velocities into world-frame position rates:
+
+$$
+\dot{x}=u\cos\psi-v\sin\psi,\qquad
+\dot{y}=u\sin\psi+v\cos\psi,\qquad
+\dot{\psi}=r.
+$$
+
+Here dots denote time derivatives and `psi` is heading. The remaining derivatives—surge acceleration, sway acceleration and yaw acceleration—depend on forces, added mass and coupling terms. Four `force_switch` entries scale hull, propeller, rudder and bank contributions, in that order. The default anti-grounding scenario enables all four.
+
+The integration functions return sample times and six rows of motion samples, while updating the vessel's terminal state. `dynamic_ontology_update` consumes those samples to build histories. The alternative Radau model uses different parameter scaling; selecting it requires checking the physical parameter conventions as well as the function signature.
 
 | Function | Responsibility | Connection |
 | --- | --- | --- |
@@ -29,15 +45,6 @@ The world-to-screen mapping used in the synthetic channel scales x and flips/sca
 | `vessel.update_derivatives_inland(envr)` | Alternative depth-dependent derivative update | Requires the attributes used by that implementation |
 | `hydrostatics(file_name)` | Extracts selected PDF tables and writes an Excel file | Offline helper; not called by the default pipeline |
 
-The planar kinematics in the active six-state system are:
-
-$$
-\dot{x}=u\cos\psi-v\sin\psi,\qquad
-\dot{y}=u\sin\psi+v\cos\psi,\qquad
-\dot{\psi}=r.
-$$
-
-The remaining derivatives depend on forces, added mass and coupling terms. Four `force_switch` entries independently scale hull, propeller, rudder and bank contributions. The default anti-grounding scenario sets all four to 1.
 
 ## Channel and clearance functions
 
@@ -50,13 +57,17 @@ The remaining derivatives depend on forces, added mass and coupling terms. Four 
 | `calc_UKC_violations(t_vals, UKC_vals, UKC_limit)` | Finds below-threshold clearance intervals | Returns time intervals and corresponding index intervals |
 | `retrieve_t_from_x(t_vals, x_vals, x_sample)` | Locates time for a requested longitudinal position | Assumes increasing x for interpolation |
 
-These are alternative representations, not interchangeable depth services. The current synthetic function's `min_depth`/`max_depth` parameters do not control its active depth formula. Controller prediction, numeric dynamics and logging also use different scale constants; see the [OpenWiki coupling notes](../openwiki/concepts/guidance-control.md#depth-geometry-and-coupling).
+Choose the depth function that matches your scenario's coordinates and data. `get_channel_depth` describes the synthetic channel in screen coordinates; `cal_depth` uses a longitudinal profile. Passing one representation into a caller designed for the other changes the model.
+
+In the current synthetic function, `min_depth` and `max_depth` do not control the active formula. Controller prediction, numeric dynamics and UKC logging also use different scale constants. Review these call sites together before changing geometry; the [OpenWiki coupling notes](../openwiki/concepts/guidance-control.md#depth-geometry-and-coupling) identify them.
 
 ## Measurements and bank geometry
 
-`include_sensor_noise(noise)` sets relative velocity/speed measurement noise, while the vessel also initializes independent absolute positioning/heading noise. `sensor_output()` updates the numeric measured state. `dynamic_ontology_update()` records measured and true trajectories at the integrator's sampled times. Calling both is not equivalent to just appending one terminal point.
+The simulator maintains measured quantities separately from the physical trajectory. `include_sensor_noise(noise)` sets relative velocity/speed noise, while position and heading have independent absolute noise settings. Setting relative noise to zero therefore does not remove all measurement perturbations.
 
-`include_sensor_faults(f, tf)` stores fault settings on the vessel; the older FTC pipeline calls a different, nonexistent method name. Review the observer and sensor path before treating that API as a complete fault-injection scenario.
+`sensor_output()` updates the numeric measured state. `dynamic_ontology_update()` appends measured and physical trajectories at integrator sample times, repeating the current command and reference over those samples. Use both at their intended points in the pipeline; appending only the terminal position would change the histories consumed by guidance and plotting.
+
+`include_sensor_faults(f, tf)` stores fault settings. The older fault-tolerant control (FTC) pipeline calls a different method name that the current vessel class does not define. Inspect the full observer and sensor path before using it as a fault-injection experiment.
 
 | Geometry or rendering function | Role in a pipeline |
 | --- | --- |
@@ -70,8 +81,8 @@ These are alternative representations, not interchangeable depth services. The c
 | `draw_vessels_no_map`, `draw_route`, `draw_vessels` | Visual overlays with different geometry arguments |
 | `check_vessel_bounds(...)` | Checks vessel positions against a supplied water path |
 
-Shore measurements use positive starboard and negative port distances; missing intersections become signed infinities. In the default loop, bank distances refresh after dynamics, making them inputs to the following step.
+The shoreline ray calculation stores starboard distance as positive and port distance as negative. A missing intersection becomes positive or negative infinity respectively. Preserve these signs when supplying a new geometry implementation. In the default loop, bank distances refresh after dynamics and feed the following step.
 
-The complete [function catalog](../reference/functions.md) also lists plotting utilities, CSV loaders, sensor dependency classes and legacy helpers. `ARR`, `Division` and `Solution` exist in `classes.py`, but they are not assembled into the default navigation loop. Their presence does not establish that the complete resilient architecture from the [related paper](../publications.md#control-dynamics-and-resilience) is implemented here.
+Use the [function catalog](../reference/functions.md) for exact signatures of plotting utilities, CSV loaders and other helpers. `ARR`, `Division` and `Solution` are sensor-dependency and solution-related classes in `classes.py`; the default navigation pipeline does not assemble them into a resilient architecture. The [related paper](../publications.md#control-dynamics-and-resilience) provides the broader research context.
 
 Source: [`classes.py`](https://github.com/Jakendarth/GNC_simulator/blob/main/src/modules/classes.py), [`channel.py`](https://github.com/Jakendarth/GNC_simulator/blob/main/src/modules/channel.py), [`mapper.py`](https://github.com/Jakendarth/GNC_simulator/blob/main/src/modules/mapper.py), and [`helper_utils.py`](https://github.com/Jakendarth/GNC_simulator/blob/main/src/modules/helper_utils.py).

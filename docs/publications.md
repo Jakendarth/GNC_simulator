@@ -1,6 +1,8 @@
 # Research and publications
 
-The papers below provide the research context for the wiki's topic tabs. Their contribution summaries come from the linked publisher/institutional records, or from author-supplied bibliographic information where noted. Topic-to-code mappings are reading guidance; they do not establish that every feature or experiment in a paper is implemented by this repository.
+Use this page to find the research behind the wiki's topics and copy citations. Each entry gives a bibliographic reference, a short account of its relevance, links to related documentation and BibTeX.
+
+Publication summaries follow the linked publisher or institutional records. The conference entry retains the authors' supplied status. The reading suggestions connect topics; they do not establish that this repository implements every method or reproduces every experiment in a paper.
 
 ## Rule-aware collision-free planning
 
@@ -9,7 +11,7 @@ The papers below provide the research context for the wiki's topic tabs. Their c
 [Publisher / DOI](https://doi.org/10.1016/j.conengprac.2026.107113){ .md-button }
 [TU Delft record](https://research.tudelft.nl/en/publications/integrating-rule-awareness-and-semantic-reasoning-in-collision-fr/){ .md-button }
 
-The paper connects semantic traffic-rule information, encounter-role assignment, collision-free path envelopes and LOS tracking in multi-environment navigation. Its case study includes head-on and crossing encounters. This makes it the closest reading companion to the wiki's semantic and encounter-guidance topics. [Publication record](https://research.tudelft.nl/en/publications/integrating-rule-awareness-and-semantic-reasoning-in-collision-fr/).
+Read this paper for the relationship between semantic traffic-rule information, encounter roles, collision-free path envelopes and line-of-sight (LOS) tracking. Its head-on and crossing case studies provide context for the wiki's encounter-planning material. [Publication record](https://research.tudelft.nl/en/publications/integrating-rule-awareness-and-semantic-reasoning-in-collision-fr/).
 
 **Read alongside:** [Semantics](topics/semantics.md), [Guidance](topics/guidance.md), [encounter composition](pipelines.md#example-3-connect-encounter-reasoning-to-los), and [encounter recordings](demonstrations.md#encounter-recordings).
 
@@ -32,7 +34,7 @@ The paper connects semantic traffic-rule information, encounter-role assignment,
 [Publisher / DOI](https://doi.org/10.1109/OJITS.2025.3539419){ .md-button }
 [TU Delft record](https://research.tudelft.nl/en/publications/an-intelligent-agent-based-resilient-framework-for-marine-vessel-/){ .md-button }
 
-The paper describes semantic connections between vessel architecture and control design, with decision support for mission changes and resilient automation configurations. Its wider framework includes sensor and energy-management switching. These are research context for semantic composition and resilience; the current navigation pipelines should not be read as implementations of the paper's entire framework. [Publication record](https://research.tudelft.nl/en/publications/an-intelligent-agent-based-resilient-framework-for-marine-vessel-/).
+Read this paper for a broader view of how semantic information connects vessel architecture, control design and mission adaptation. The framework includes decisions about sensor and energy-management switching. The current navigation pipelines cover a narrower scope than that complete framework. [Publication record](https://research.tudelft.nl/en/publications/an-intelligent-agent-based-resilient-framework-for-marine-vessel-/).
 
 **Read alongside:** [semantic vocabulary](topics/semantics.md), [state and sensing](topics/dynamics.md), and [pipeline composition](pipelines.md).
 
@@ -53,9 +55,9 @@ The paper describes semantic connections between vessel architecture and control
 
 **N. Kougiatsos and V. Reppa.** “Virtual sensor-informed motion planning for safe autonomous waterborne navigation.” *Transport Research Arena 2026*, Budapest, Hungary (2026).
 
-**Status:** to appear in the proceedings, according to the author-supplied citation. The official [TRA 2026 program booklet](https://traconference.eu/events/traconferece/pdfs/6eb61f9a-1779298793.pdf) lists this title and authors. A final proceedings DOI and page range have not been supplied or verified here.
+**Bibliographic status:** the author-supplied citation states “to appear in the proceedings.” The official [TRA 2026 program booklet](https://traconference.eu/events/traconferece/pdfs/6eb61f9a-1779298793.pdf) lists the title and authors. A final proceedings DOI and page range remain unverified in this documentation.
 
-**Read alongside:** [observer-informed LOS](topics/guidance.md#line-of-sight-tracking), [control](topics/control.md), and [sensing and histories](topics/dynamics.md#measurements-and-bank-geometry). This grouping follows the supplied title; it does not assign specific current code functions to the paper's method without a verified full-text mapping.
+**Read alongside:** [observer-informed LOS](topics/guidance.md#line-of-sight-tracking), [control](topics/control.md), and [sensing and histories](topics/dynamics.md#measurements-and-bank-geometry). These are topic suggestions based on the supplied title. A function-by-function mapping to the paper's method has not been verified.
 
 ```bibtex
 @inproceedings{kougiatsos2026virtualsensor,
@@ -70,20 +72,20 @@ The paper describes semantic connections between vessel architecture and control
 
 ## Semantics and rule-aware planning
 
-Start with [rule-aware collision-free planning](#rule-aware-collision-free-planning) for regulation activation and encounter-role concepts, then [resilient mission adaptation](#resilient-mission-adaptation) for the broader semantic architecture perspective.
+For the Semantics tab, start with [rule-aware collision-free planning](#rule-aware-collision-free-planning). Continue with [resilient mission adaptation](#resilient-mission-adaptation) to place the ontology in a broader system-architecture context.
 
 ## Guidance and virtual sensing
 
-Pair [rule-aware collision-free planning](#rule-aware-collision-free-planning) with [virtual sensor-informed motion planning](#virtual-sensor-informed-motion-planning) when reading the guidance tab. See the status and implementation-mapping notes above.
+For the Guidance tab, use [rule-aware collision-free planning](#rule-aware-collision-free-planning) to study encounter planning. The [virtual-sensor paper](#virtual-sensor-informed-motion-planning) is related reading for observer-informed motion planning; its bibliographic and code-mapping limits are noted above.
 
 ## Control, dynamics and resilience
 
-The [resilient-framework paper](#resilient-mission-adaptation) and [virtual-sensor paper](#virtual-sensor-informed-motion-planning) are contextual reading. Controller equations and numerical state contracts in this wiki are documented from current source.
+For the Control and Dynamics tab, use the [resilient-framework paper](#resilient-mission-adaptation) and [virtual-sensor paper](#virtual-sensor-informed-motion-planning) as context. The wiki's controller equations and state conventions describe current source and should be checked there when implementing changes.
 
 ## Pipeline composition and mission adaptation
 
-The [resilient-framework paper](#resilient-mission-adaptation) motivates the architectural reading, while [rule-aware planning](#rule-aware-collision-free-planning) accompanies the encounter-guidance composition.
+For the Pipelines tab, read the [resilient-framework paper](#resilient-mission-adaptation) for architectural motivation and [rule-aware planning](#rule-aware-collision-free-planning) for the encounter-guidance sequence.
 
 ## Cite the software
 
-Use the repository's [`CITATION.cff`](https://github.com/Jakendarth/GNC_simulator/blob/main/CITATION.cff) for the software citation. Cite the relevant paper separately when discussing its research contribution. Adding a new paper or updating proceedings status requires only this page and the related topic links, followed by a strict documentation build.
+Use [`CITATION.cff`](https://github.com/Jakendarth/GNC_simulator/blob/main/CITATION.cff) to cite the software, and cite the relevant paper when discussing a research contribution. To update a publication, revise this page and its topic links, then run the strict build described in the [documentation maintenance guide](developer/documentation.md).
