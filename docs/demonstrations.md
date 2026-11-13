@@ -47,7 +47,7 @@ This recording provides visual context for a crossing encounter. Read [encounter
 
 ### Multi-environment head-on
 
-Use this recording with the [semantic role-assignment explanation](topics/semantics.md#regulation-activation-and-geometric-decisions) to inspect a head-on encounter.
+Use this recording with the [semantic role-assignment explanation](semantics/reasoning.md#regulation-activation-and-geometric-decisions) to inspect a head-on encounter.
 
 <video controls preload="none" playsinline poster="../assets/video-posters/multi_environment_head_on.png" aria-label="Multi-environment head-on encounter recording">
   <source src="../assets/videos/multi_environment_head_on.mp4" type="video/mp4">
@@ -56,4 +56,4 @@ Use this recording with the [semantic role-assignment explanation](topics/semant
 
 [Open or download the head-on video](assets/videos/multi_environment_head_on.mp4)
 
-The [collision-free planning publication](publications.md#rule-aware-collision-free-planning) discusses head-on and crossing encounters. The recordings do not carry enough metadata to identify them as particular published experiments. For the software interfaces behind encounter-aware navigation, return to [encounter guidance](guidance/collision-free-planning.md#rule-aware-path-offsets) and [semantic role assignment](topics/semantics.md#regulation-activation-and-geometric-decisions).
+The [collision-free planning publication](publications.md#rule-aware-collision-free-planning) discusses head-on and crossing encounters. The recordings do not carry enough metadata to identify them as particular published experiments. For the software interfaces behind encounter-aware navigation, return to [encounter guidance](guidance/collision-free-planning.md#rule-aware-path-offsets) and [semantic role assignment](semantics/reasoning.md#regulation-activation-and-geometric-decisions).

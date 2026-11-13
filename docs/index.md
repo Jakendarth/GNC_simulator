@@ -33,7 +33,7 @@ If you are new to the repository, read [Installation](installation.md), then [Ru
 
     Understand the shared vocabulary for vessels, sensors and regulations, and how Python functions use it during a run.
 
-    [Open Semantics](topics/semantics.md)
+    [Semantic Annotation](semantics/annotation.md) · [Dynamic Updates](semantics/dynamic-updates.md) · [Semantic Reasoning](semantics/reasoning.md)
 
 -   **Guidance and planning**
 
@@ -119,7 +119,10 @@ Running and inspecting results <user-guide>
 :maxdepth: 2
 :caption: Semantics
 
-topics/semantics
+Overview <topics/semantics>
+semantics/annotation
+semantics/dynamic-updates
+semantics/reasoning
 ```
 
 ```{toctree}
