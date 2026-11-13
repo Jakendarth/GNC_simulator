@@ -98,3 +98,122 @@ def calc_UKC_violations(t_vals,UKC_vals,UKC_limit=0.20):
         t_violations.append([t_start,t_vals[-1]])
         index_t_violations.append([i_start,len(t_vals)-1])
     return t_violations,index_t_violations
+
+def get_channel_depth(x, y, screen_width, screen_height, min_depth=3.1, max_depth=3.3):
+    """
+    Exposed Hydrodynamic API: Returns the exact piecewise depth h(x,y) in meters.
+    Calculates true perpendicular distance natively to handle river bends.
+    """
+    norm_x = x / screen_width
+    if norm_x < 0 or norm_x > 1:
+        return 0.0  # Out of bounds
+    phys_x = norm_x * 1200
+
+    w_pixels = 48.8 * 1
+    half_w_pixels = w_pixels / 2
+    
+    # 1. Analytical centerline and its derivative (slope)
+
+    y_c_norm = (
+        0.5
+        + 0.2 * np.sin(norm_x*1* np.pi)
+    )
+
+    y_c = (
+        y_c_norm
+        * screen_height
+    )
+
+    dy_dnormx = (
+        0.2
+        * np.pi
+        * np.cos(norm_x*1 * np.pi)
+    )
+
+    dy_dx = (
+        dy_dnormx
+        * (screen_height / screen_width)
+    )
+
+    # 2. Convert vertical offset to true perpendicular offset
+
+    cos_theta = (
+        1.0
+        / np.sqrt(
+            1.0 + dy_dx**2
+        )
+    )
+
+    pixel_offset_y = (
+        y - y_c
+    )
+
+    true_perp_offset = (
+        pixel_offset_y
+        * cos_theta
+    )
+    
+    # Check if coordinate is outside the strictly uniform riverbanks
+    if np.abs(true_perp_offset) > half_w_pixels:
+        return 0.0
+        
+    # Scale true offset uniformly to physical meters (-12.2m to +12.2m)
+    phys_y = (true_perp_offset / half_w_pixels) * 24.4
+    abs_y = np.abs(phys_y)
+
+    # CEMT Class III - normal profile, Table 18
+
+    D  = 3.5      # waterway depth [m]
+    Wd = 16.4     # bottom width [m]
+    Wt = 32.8     # width at laden-vessel keel plane [m]
+    T  = 2.74      # Class III laden reference draught [m]
+    x_max = 1200.0
+
+    # Longitudinal depth variation:
+    # x = 0 m   -> h = 3.50 m
+    # x = 600 m -> h = 3.10 m
+    x_depth = np.clip(phys_x, 0.0, x_max)
+    h1 = 3.3 - (3.3 - 3.1) / x_max * x_depth#h1 = D + 25e-6 * phys_x
+
+    half_Wd = Wd / 2.0   # 8.2 m
+    half_Wt = Wt / 2.0   # 16.4 m
+
+    if 0 <= abs_y <= half_Wd:
+        # Flat bottom
+        depth = h1
+
+    elif half_Wd < abs_y <= half_Wt:
+        # Gradual slope from D at Wd/2
+        # to reference draught T at Wt/2
+        depth = (
+            h1
+            + (T - h1)
+            / (half_Wt - half_Wd)
+            * (abs_y - half_Wd)
+        )
+    elif half_Wt < abs_y <= 20.4:
+        # Gradual slope from D at Wd/2
+        # to reference draught T at Wt/2
+        depth = (
+            T
+            - (0.74)/4
+            * (abs_y - half_Wt)
+        )
+
+    else:
+        depth = 0.0
+    # h1 = 3.15 + 25e-6 * phys_x
+
+    # # Evaluate your piece-wise analytical channel distribution
+    # if 0 <= abs_y <= 5.1:
+    #     depth = h1
+    # elif 5.1 < abs_y <= 10.2:
+    #     depth = h1 + (2.74 - h1) / 5.1 * (abs_y - 5.1)
+    # elif 10.2 < abs_y <= 11.2:
+    #     depth = 2.74 - 0.74 * (abs_y - 10.2)
+    # elif abs_y > 11.2:
+    #     depth = 2.0
+    # else:
+    #     depth = 0.0
+
+    return round(max(0.0, depth), 2)

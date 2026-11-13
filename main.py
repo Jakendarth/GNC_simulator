@@ -21,14 +21,14 @@ from helper_utils import load_sim
 #=============================================
 # Modify only this line
 #=============================================
-input_file=os.path.join(current_script_dir, "input/SimParam_WC.json")
+input_file=os.path.join(current_script_dir, "input/SimParam_anti_grounding.json")
 #=============================================
 def main(output_dir):
     libs=load_sim(input_file)
     run_simulation=libs["run_simulation"]
     pygame.init()
     screen = pygame.display.set_mode((1200, 800))
-    a = pygame.image.load(os.path.join(current_script_dir, "assets/safenet.png"))
+    a = pygame.image.load(os.path.join(current_script_dir, "assets/GNC_sim_logo.png"))
     pygame.display.set_icon(a)
     ontology = get_ontology(os.path.join(current_script_dir,"assets/database.xml")).load()
     font = pygame.font.SysFont('Consolas', 25)

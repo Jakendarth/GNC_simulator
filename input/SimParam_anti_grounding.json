@@ -1,16 +1,11 @@
 {
     "imports": [
-        { "from": "sim_ag", "import": ["run_simulation"] }
+        { "from": "sim_ag_upg", "import": ["run_simulation"] }
     ],
-    "Simulation Time": 1000,
-    "Time step": 0.5,
-    "Own vessel name": "Pusher-Barge",
-    "Initial conditions [own]": {
-        "Position": [-100, 0, 0],
-        "Velocity": [2.572, 0],
-        "Yaw rate": [0],
-        "Heading": [0]
-    },
-    "End point [own]": [900, 0, 0],
-    "End point [other]": [-100, 0, 0]
+    "Simulation Time": 10000,
+    "Time step": 1,
+    "Sensor noise":0.00,
+    "scale":1,
+    "Waypoint spacing": 250,
+    "Lookahead distance": 200
 }

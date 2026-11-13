@@ -7,7 +7,7 @@ sys.path.insert(1, 'src/')
 from channel import *
 from intel_guidance import *
 
-def calculate_forces(self,v,delta,Np,depth,sinkage,yB3_k):
+def calculate_forces(self,v,delta,Np,depth,sinkage,yB3_k,Dp=None,AR=None,wb=None):
     # input: self - constants for the vessel; v - vessel states;
     # sequence of v: [u,v,r,x,y,\psi] + [z]
     # input: delta - rudder angle, Np - propeller revolutional speed
@@ -16,24 +16,38 @@ def calculate_forces(self,v,delta,Np,depth,sinkage,yB3_k):
     #================================================
     # 1. Constants
     #================================================
+    Dp_default = 1.8
+    AR_default = 4
+    wb_default=4
+    # --- Optional user overrides ---
+    if Dp is None:
+        Dp = Dp_default
+    else:
+        Dp = float(Dp)
+
+    if AR is None:
+        AR = AR_default
+    else:
+        AR = float(AR)
+    if wb is None:
+        wb = wb_default
+    else:
+        wb = float(wb)
     R0=0.0428                    #[checked]
     t=0.326                      #[checked]
     wp0=0.576                    #[checked]
     p=0.328
     C1=0.98
-    Dp=1.8                       #[checked]
     lp=(self.ontology.L[0]/2+self.ontology.xg[0])/(self.ontology.L[0])
     aH=0.418                     #[checked]
     lR=-1.113                    #[checked]
     tR=0.055                     #[checked]
     xH=-0.189*(self.ontology.L[0])                    #[checked]
     gR=0.293                     #[checked]
-    AR=4
     e=1.823                      #[checked]
     k=0.6/e                      #[checked]
     w=0.3
     xR=-self.ontology.L[0]/2
-    wb=4 # Bank width
     # yp=self.distance_from_bank1
     # ys=self.distance_from_bank2
     # yp=-(0.5*wb+v[4])
@@ -50,7 +64,8 @@ def calculate_forces(self,v,delta,Np,depth,sinkage,yB3_k):
     #================================================
     # 2. Problem defined variables
     #================================================
-    U=casadi.sqrt(casadi.power((v[0]-0.02),2)+casadi.power((v[1]-0.01),2))
+    #U=casadi.sqrt(casadi.power((v[0]-0.02),2)+casadi.power((v[1]-0.01),2))
+    U = casadi.sqrt(casadi.power(v[0], 2) + casadi.power(v[1], 2))
     s=1-U/(Np*Dp)                #[checked]
     #print("Np is ", Np)
     #================================================
@@ -116,9 +131,7 @@ def calculate_forces(self,v,delta,Np,depth,sinkage,yB3_k):
     NB = (sum(k * casadi.sign(yB3)*casadi.power(casadi.fabs(yB3),(i//3+1))*casadi.power(T_hT,(i%3)) for i, k in enumerate(b_ikHP)) * 0.5*1025*self.ontology.L[0]**2 * self.ontology.Td[0]*Fn*casadi.power(Uref,2))/(1025*0.5*self.ontology.L[0]**2*self.ontology.Td[0]*casadi.power(U,2))
     return XH,YH,NH,XP,XR,YR,NR,YB+Y_BH+Y_BP,NB+N_BH+N_BP,U
 
-def MPC_controller(myvessel,psi_d):
-    MPC_prediction_horizon=5
-    MPC_time_step=0.5
+def Anti_Grounding_MPC_controller(myvessel,psi_d=0, MPC_prediction_horizon=5,MPC_time_step=0.5,min_depth=3.1,max_depth=3.3,sim_scale=0.2,weights=np.array([1, 1e-2, -5e-4, 1e-4, 1e-2])):
     model_type = 'continuous'
     model = mpc.model.Model(model_type) 
     # Set state variables
@@ -139,81 +152,68 @@ def MPC_controller(myvessel,psi_d):
     model.set_rhs('x_1',x_5*casadi.cos(x_4)-x_6*casadi.sin(x_4))
     model.set_rhs('x_2',x_5*casadi.sin(x_4)+x_6*casadi.cos(x_4))
     v_sym = casadi.vertcat(x_5, x_6, x_7, x_1, x_2, x_4, x_3)
-    self=myvessel
     # check the minimum depth within the horizon assuming current speed
-    u_now_x=self.y[0]*np.cos(self.y[-1])-self.y[1]*np.sin(self.y[-1]) # ground speed in x-direction
-    v_now_y=self.y[0]*np.sin(self.y[-1])+self.y[1]*np.cos(self.y[-1]) # ground speed in y-direction
+    u_now_x=myvessel.ontology.SOG[-1]*np.cos(myvessel.ontology.ypsi[-1])#-self.y[1]*np.sin(self.y[-1]) # ground speed in x-direction
+    v_now_y=myvessel.ontology.SOG[-1]*np.sin(myvessel.ontology.ypsi[-1])#+self.y[1]*np.cos(self.y[-1]) # ground speed in y-direction
     depths=[]
     for i in range(MPC_prediction_horizon+1):
-        depths.append(cal_depth([self.y[3]+i*MPC_time_step*u_now_x,self.y[4]+i*MPC_time_step*v_now_y],self.depths_data))
+        #depths.append(cal_depth([self.y[3]+i*MPC_time_step*u_now_x,self.y[4]+i*MPC_time_step*v_now_y],self.depths_data))
+        depths.append(get_channel_depth(sim_scale*(myvessel.ontology.x[-1]+i*MPC_time_step*u_now_x), -sim_scale*(myvessel.ontology.y[-1]+i*MPC_time_step*v_now_y), 1200, 800))
     # depths[0] is the current depth, np.min(depths) is the minimum depth
-    x_grid_horizon=[self.y[3]+i*MPC_time_step*u_now_x for i in range (MPC_prediction_horizon+1)] # the available x coordinates
-    depth_inter= casadi.interpolant("D_INT","bspline",[x_grid_horizon],depths) # interpolant for the depths
-    Am=self.ontology.B[0]*self.ontology.Td[0]
-    beff=4*self.ontology.B[0] # consider W=4B constant
-    Ac=beff*depths[0]
+    #x_grid_horizon=[myvessel.ontology.yx[-1]+i*MPC_time_step*u_now_x for i in range (MPC_prediction_horizon+1)] # the available x coordinates
+    #depth_inter= casadi.interpolant("D_INT","bspline",[x_grid_horizon],depths) # interpolant for the depths
+    Am=myvessel.ontology.B[0]*myvessel.ontology.Td[0]
+    beff=24.4 # consider W=4B constant
+    h=np.min(depths)
+    print("h is ",h)
+    if h!=0:
+        Ac=beff*depths[0]
+    else:
+        Ac=beff*3.3
     S_f=0.98*Am/Ac
     K_barrass=5.74*S_f**0.76
     if K_barrass<1:
         K_barrass=1
     if K_barrass>2:
         K_barrass=2
-    z0_calc=0.01*K_barrass*self.ontology.Cb[0]*((self.y[0]**2+self.y[1]**2))*(3.6/1.852)**2
-    # print(f"{z0_calc:.4f} vs. {self.z:.4f}") # error in z initial prediction
-    # XH,YH,NH,XP,XR,YR,NR,YB,NB,U=calculate_forces(self,v_sym,delta,Np,depth=depths[0],sinkage=z0_calc)
-    yB3_current=0.5*self.ontology.B[0]*(1/(-(0.5*beff+myvessel.y[4]))+1/(0.5*beff-myvessel.y[4]))
-    XH,YH,NH,XP,XR,YR,NR,YB,NB,U=calculate_forces(self,v_sym,delta,Np,depth=depths[0],sinkage=x_3,yB3_k=yB3_current)
-    # h=1.2*self.ontology.Td[0] # consider h=1.2Td constant
-    h=np.min(depths)# from the minimum depth get minimum Ac to get maximum K_barrrass
-    # h=depth_inter(x_1)
-    Ac=beff*h 
-    S_f=0.98*Am/Ac
-    K_barrass=5.74*S_f**0.76
-    # K_barrass=casadi.fmax(K_barrass,1)
-    # K_barrass=casadi.fmin(K_barrass,2)
-    if K_barrass<1:
-        K_barrass=1
-    if K_barrass>2:
-        K_barrass=2
+    z0_calc=0.01*K_barrass*myvessel.ontology.Cb[0]*((myvessel.ontology.SOG[-1]*3.6/1.852)**2)
+    # print(f"{z0_calc:.4f} vs. {myvessel.z:.4f}") # error in z initial prediction
+    # XH,YH,NH,XP,XR,YR,NR,YB,NB,U=calculate_forces(myvessel,v_sym,delta,Np,depth=depths[0],sinkage=z0_calc)
+    yB3_current=0.5*myvessel.ontology.B[0]*(1/(-(0.5*beff+myvessel.ontology.yx[-1]))+1/(0.5*beff-myvessel.ontology.yx[-1]))
+    XH,YH,NH,XP,XR,YR,NR,YB,NB,U=calculate_forces(myvessel,v_sym,delta,Np,depth=depths[0],sinkage=x_3,yB3_k=yB3_current)
     # U_safe = U
-    # alg_fun = x_3 - 0.133 * self.ontology.Cb[0] * casadi.power((Am / (Ac - Am)), 2 / 3) * casadi.power(U_safe, 2.08)
-    alg_fun = x_3 - 0.01*K_barrass*self.ontology.Cb[0]*(U*3.6/1.852)**2 # assume K_barrass as the maximum within the horizon
+    # alg_fun = x_3 - 0.133 * myvessel.ontology.Cb[0] * casadi.power((Am / (Ac - Am)), 2 / 3) * casadi.power(U_safe, 2.08)
+    alg_fun = x_3 - 0.01*K_barrass*myvessel.ontology.Cb[0]*(U*3.6/1.852)**2 # assume K_barrass as the maximum within the horizon
     model.set_alg('x_3',alg_fun)
     model.set_rhs('x_4',x_7)
-    # m26=0.0006*(0.5*1025*casadi.power(self.ontology.L[0],3)*self.ontology.Td[0])
-    XH=XH*self.ontology.force_switch[0]
-    YH=YH*self.ontology.force_switch[0]
-    NH=NH*self.ontology.force_switch[0]
-    XP=XP*self.ontology.force_switch[1]
-    XR=XR*self.ontology.force_switch[2]
-    YR=YR*self.ontology.force_switch[2]
-    NR=NR*self.ontology.force_switch[2]
-    YB=YB*self.ontology.force_switch[3]
-    NB=NB*self.ontology.force_switch[3]
+    # m26=0.0006*(0.5*1025*casadi.power(myvessel.ontology.L[0],3)*myvessel.ontology.Td[0])
+    XH=XH*myvessel.ontology.force_switch[0]
+    YH=YH*myvessel.ontology.force_switch[0]
+    NH=NH*myvessel.ontology.force_switch[0]
+    XP=XP*myvessel.ontology.force_switch[1]
+    XR=XR*myvessel.ontology.force_switch[2]
+    YR=YR*myvessel.ontology.force_switch[2]
+    NR=NR*myvessel.ontology.force_switch[2]
+    YB=YB*myvessel.ontology.force_switch[3]
+    NB=NB*myvessel.ontology.force_switch[3]
     m11_nd, m22_nd, m26_nd, m66_nd = cal_addedmass_nd(hdratio=1.2)
-    Td_affected=self.ontology.Td[0]+0.01*K_barrass*self.ontology.Cb[0]*(U*3.6/1.852)**2  # assume K_barrass as the maximum within the horizon
-    m11=m11_nd*(0.5*1025*self.ontology.L[0]**2*Td_affected)
-    m22=m22_nd*(0.5*1025*self.ontology.L[0]**2*Td_affected)
-    m26=m26_nd*(0.5*1025*self.ontology.L[0]**3*Td_affected)
-    m66=m66_nd*(0.5*1025*self.ontology.L[0]**4*Td_affected)
-    # X_d=(1025*0.5*self.ontology.L[0]*self.ontology.Td[0]*U**2)*(XP+XR)+(1025*0.5*self.ontology.L[0]*Td_affected*U**2)*XH
-    # Y_d=(1025*0.5*self.ontology.L[0]*self.ontology.Td[0]*U**2)*YR+(1025*0.5*self.ontology.L[0]*Td_affected*U**2)*(YH+YB)
-    # N_d=(1025*0.5*self.ontology.L[0]**2*self.ontology.Td[0]*U**2)*NR+(1025*0.5*self.ontology.L[0]**2*Td_affected*U**2)*(NH+NB)
-    X_d=(1025*0.5*self.ontology.L[0]*self.ontology.Td[0]*U**2)*(XP+XR)+(1025*0.5*self.ontology.L[0]*Td_affected*U**2)*XH
-    Y_d=(1025*0.5*self.ontology.L[0]*self.ontology.Td[0]*U**2)*(YR+YB)+(1025*0.5*self.ontology.L[0]*Td_affected*U**2)*YH
-    N_d=(1025*0.5*self.ontology.L[0]**2*self.ontology.Td[0]*U**2)*(NR+NB)+(1025*0.5*self.ontology.L[0]**2*Td_affected*U**2)*NH
-    Y_m=Y_d-(self.ontology.m[0]+m11)*x_5*x_7
-    N=N_d-Y_d*self.ontology.xg[0] # Y*xg already extracted
-    vdot_num_matrix_det=Y_m*(self.ontology.Iz[0]+m66)-N*m26 # np.array([[Y_m,m26],[N,self.ontology.Iz[0]+m66]])
-    rdot_num_matrix_det=(self.ontology.m[0]+m22)*N-m26*Y_m # np.array([[self.ontology.m[0]+m22,Y_m],[m26,N]])
-    coeff_matrix_det=(self.ontology.m[0]+m22)*(self.ontology.Iz[0]+m66)-m26*m26 # np.array([[self.ontology.m[0]+m22, m26],[m26, self.ontology.Iz[0]+m66]])
-    model.set_rhs('x_5',(X_d+(self.ontology.m[0]+m22)*x_6*x_7)/(self.ontology.m[0]+m11))
+    Td_affected=myvessel.ontology.Td[0]+0.01*K_barrass*myvessel.ontology.Cb[0]*(U*3.6/1.852)**2  # assume K_barrass as the maximum within the horizon
+    m11=m11_nd*(0.5*1025*myvessel.ontology.L[0]**2*Td_affected)
+    m22=m22_nd*(0.5*1025*myvessel.ontology.L[0]**2*Td_affected)
+    m26=m26_nd*(0.5*1025*myvessel.ontology.L[0]**3*Td_affected)
+    m66=m66_nd*(0.5*1025*myvessel.ontology.L[0]**4*Td_affected)
+    X_d=(1025*0.5*myvessel.ontology.L[0]*myvessel.ontology.Td[0]*U**2)*(XP+XR)+(1025*0.5*myvessel.ontology.L[0]*Td_affected*U**2)*XH
+    Y_d=(1025*0.5*myvessel.ontology.L[0]*myvessel.ontology.Td[0]*U**2)*(YR+YB)+(1025*0.5*myvessel.ontology.L[0]*Td_affected*U**2)*YH
+    N_d=(1025*0.5*myvessel.ontology.L[0]**2*myvessel.ontology.Td[0]*U**2)*(NR+NB)+(1025*0.5*myvessel.ontology.L[0]**2*Td_affected*U**2)*NH
+    Y_m=Y_d-(myvessel.ontology.m[0]+m11)*x_5*x_7
+    N=N_d-Y_d*myvessel.ontology.xg[0] # Y*xg already extracted
+    vdot_num_matrix_det=Y_m*(myvessel.ontology.Iz[0]+m66)-N*m26 # np.array([[Y_m,m26],[N,myvessel.ontology.Iz[0]+m66]])
+    rdot_num_matrix_det=(myvessel.ontology.m[0]+m22)*N-m26*Y_m # np.array([[myvessel.ontology.m[0]+m22,Y_m],[m26,N]])
+    coeff_matrix_det=(myvessel.ontology.m[0]+m22)*(myvessel.ontology.Iz[0]+m66)-m26*m26 # np.array([[myvessel.ontology.m[0]+m22, m26],[m26, myvessel.ontology.Iz[0]+m66]])
+    model.set_rhs('x_5',(X_d+(myvessel.ontology.m[0]+m22)*x_6*x_7)/(myvessel.ontology.m[0]+m11))
     model.set_rhs('x_6',vdot_num_matrix_det/coeff_matrix_det)
     model.set_rhs('x_7',rdot_num_matrix_det/coeff_matrix_det)
-    # model.set_rhs('x_5',((1025*0.5*self.ontology.L[0]*self.ontology.Td[0]*casadi.power(U_safe,2))*(XH+XP+XR)+(self.ontology.m[0]+self.ontology.my[0])*x_6*x_7)/(self.ontology.m[0]+self.ontology.mx[0]))
-    # model.set_rhs('x_6',((1025*0.5*self.ontology.L[0]*self.ontology.Td[0]*casadi.power(U_safe,2))*(YH+YR+YB)*(self.ontology.Iz[0]+self.ontology.Jz[0])/m26-(self.ontology.m[0]+self.ontology.mx[0])*x_5*x_7*(self.ontology.Iz[0]+self.ontology.Jz[0])/m26+(1025*0.5*self.ontology.L[0]*self.ontology.Td[0]*casadi.power(U_safe,2))*(YH+YR+YB)*self.ontology.xg[0]-(((1025*0.5*casadi.power(self.ontology.L[0],2)*self.ontology.Td[0]*casadi.power(U_safe,2))*(NH+NR+NB))))/((self.ontology.m[0]+self.ontology.my[0])/m26*(self.ontology.Iz[0]+self.ontology.Jz[0])-m26))
-    # model.set_rhs('x_7',((1025*0.5*casadi.power(self.ontology.L[0],2)*self.ontology.Td[0]*casadi.power(U_safe,2))*(NH+NR+NB)-(1025*0.5*self.ontology.L[0]*self.ontology.Td[0]*casadi.power(U_safe,2))*(YH+YR+YB)*self.ontology.xg[0]-m26*((1025*0.5*self.ontology.L[0]*self.ontology.Td[0]*casadi.power(U_safe,2))*(YH+YR+YB)*(self.ontology.Iz[0]+self.ontology.Jz[0])/m26-(self.ontology.m[0]+self.ontology.mx[0])*x_5*x_7*(self.ontology.Iz[0]+self.ontology.Jz[0])/m26-(((1025*0.5*casadi.power(self.ontology.L[0],2)*self.ontology.Td[0]*casadi.power(U_safe,2))*(NH+NR+NB))))/((self.ontology.m[0]+self.ontology.my[0])/m26*(self.ontology.Iz[0]+self.ontology.Jz[0])-m26))/(self.ontology.Iz[0]+self.ontology.Jz[0]))
-    #p_template = vesselmpc.get_p_template(11)
+
     model.setup()
     # Create controller
     vesselmpc = mpc.controller.MPC(model)
@@ -223,115 +223,197 @@ def MPC_controller(myvessel,psi_d):
         t_step= MPC_time_step,
         store_full_solution= False,
         nlpsol_opts={"ipopt.linear_solver": "mumps","ipopt.print_level": 0, "ipopt.sb": "yes", "print_time": 0}#{'ipopt.linear_solver': 'mumps'},
-        # nlpsol_opts={"ipopt.linear_solver": "mumps", "ipopt.sb": "yes"}#{'ipopt.linear_solver': 'mumps'},
+        #nlpsol_opts={"ipopt.linear_solver": "mumps", "ipopt.sb": "yes"}#{'ipopt.linear_solver': 'mumps'},
     )
-    #p_template = vesselmpc.get_p_template(n_combinations=1)
-    #def p_fun(t_now):
-    #    p_template[0]['psi_ref']=psi_d
-    #    return p_template
-    #vesselmpc.set_p_fun(p_fun)
     tvp_template = vesselmpc.get_tvp_template()
     def tvp_fun(t_now):
         for k in range(vesselmpc.settings.n_horizon+1):
             tvp_template['_tvp',k,'psi_ref']= psi_d
-        # print(psi_d)
         return tvp_template
     vesselmpc.set_tvp_fun(tvp_fun)
     # Objective function, ship speed included
-    mterm = (1)*casadi.power((-x_4+psi_ref),2) + (-3e-6)*(casadi.power(x_5,2)+casadi.power(x_6,2))
-    lterm = (1)*casadi.power((-x_4+psi_ref),2) + (-3e-6)*(casadi.power(x_5,2)+casadi.power(x_6,2))
+    mterm = weights[0]*casadi.power((-x_4+psi_ref),2) + weights[2]*(casadi.power(x_5,2)+casadi.power(x_6,2))
+    lterm = weights[0]*casadi.power((-x_4+psi_ref),2) + weights[2]*(casadi.power(x_5,2)+casadi.power(x_6,2))
     vesselmpc.set_objective(mterm=mterm, lterm=lterm)
     vesselmpc.set_rterm( # penalty on control input change rate
-        Np=1e-7,
-        delta=1e-7
+        Np=weights[3],
+        delta=weights[4]
     )
-    # Constraints
-    #vesselmpc.bounds['lower','_u','p'] = 0.328
-    #vesselmpc.bounds['upper','_u','p'] = 0.328
-    vesselmpc.bounds['lower','_u','Np'] = 100/60
-    vesselmpc.bounds['upper','_u','Np'] = 500/60
+    vesselmpc.bounds['lower','_u','Np'] = 50/60
+    vesselmpc.bounds['upper','_u','Np'] = 600/60
     vesselmpc.bounds['lower','_u','delta'] = -35*np.pi/180
     vesselmpc.bounds['upper','_u','delta'] = 35*np.pi/180
-    # vesselmpc.bounds['lower','_z','x_3'] = 0
-    # vesselmpc.bounds['upper','_z','x_3'] = self.ontology.Td[0]*0.2
-    # nonlinear_expr= casadi.fabs(-casadi.atan2(x_6,x_5))*180/np.pi
-    # vesselmpc.set_nl_cons('cons', nonlinear_expr, 0.2)
-    U_max=7*1.852/3.60 # maximum speed as 7 knots
-    nonlinear_expr = x_5**2 + x_6**2
+    U_max=5*1.852/3.60 # maximum speed as 7 knots
+    nonlinear_expr = casadi.power(x_5,2)+casadi.power(x_6,2)
     vesselmpc.set_nl_cons('cons', nonlinear_expr, U_max**2)
     # == grounding constraint: x_3 + Td + UKC_min - h(SB) <= 0
     UKC_min = 0.05  # hard constraint for UKC
     UKC_buff = 0.15  # reserved UKC value for safety
-    # vesselmpc.bounds['upper','_z','x_3'] = np.min(depths) - self.ontology.Td[0]  # grounding constraint as ub
-    nonlinear_expr = x_3 + self.ontology.Td[0] + UKC_min + UKC_buff - np.min(depths)
-    # nonlinear_expr = x_3 + self.ontology.Td[0] + UKC_min + UKC_buff - depth_inter(x_1)
-    # nonlinear_expr = x_3 + self.ontology.Td[0] - np.min(depths)
-    # print(nonlinear_expr)
-    # nonlinear_ub = UKC_min + cal_depth([self.y[0],self.y[1]]) - self.ontology.Td[0] # get depth from current coordinates
-    # nonlinear_cons=vesselmpc.set_nl_cons('cons_g', nonlinear_expr, 0) # grounding constraint, note might be violated
-    nonlinear_cons=vesselmpc.set_nl_cons('cons_g', nonlinear_expr, 0, soft_constraint=True, penalty_term_cons=1e-3, maximum_violation=UKC_buff) # grounding constraint (soft)
-    # print(f"({self.y[3]:.2f},{self.y[4]:.3f}) "+f"{nonlinear_cons}")
+    # vesselmpc.bounds['upper','_z','x_3'] = np.min(depths) - myvessel.ontology.Td[0]  # grounding constraint as ub
+    nonlinear_expr = x_3 + myvessel.ontology.Td[0] + UKC_min + UKC_buff - h
+    vesselmpc.set_nl_cons('cons_g', nonlinear_expr,0,soft_constraint=True, penalty_term_cons=weights[1], maximum_violation=UKC_buff) # grounding constraint (soft)
     vesselmpc.setup()
-    # print(np.array(self.y[3:5]+self.y[5:]+self.y[0:3]).reshape(-1,1))
-    vesselmpc.x0 = np.array(self.y[3:5]+self.y[5:]+self.y[0:3]).reshape(-1,1) # x,y,\psi,u,v,r
-    # vesselmpc.z0 = np.array(self.z) # initial value of z, but self.z cannot be used here since it is not output
+    vesselmpc.x0 = np.array(myvessel.state[3:5]+myvessel.state[6:]+myvessel.state[0:3]).reshape(-1,1) # x,y,\psi,u,v,r
     vesselmpc.z0=z0_calc # initial z based on the calcualtion of sensor output
-    vesselmpc.u0 = np.array([self.Np[-1],self.u[-1]*np.pi/180]) # initial guess as the current control, note that Np>=100
+    vesselmpc.u0 = np.array([myvessel.Np[-1],myvessel.u[-1]]) # initial guess as the current control, note that Np>=100
     vesselmpc.set_initial_guess()
-    #self.psi_ref = psi_d
-    # Set initial state
-    #vesselmpc.set_initial_guess()
-    #estimator = mpc.estimator.StateFeedback(model)
-    #simulator = mpc.simulator.Simulator(model)
-    #model.check_consistency()
+    return vesselmpc
 
-    # params_simulator = {
-    #     'integration_tool': 'idas',
-    #     'abstol': 1e-8,
-    #     'reltol': 1e-8,
-    #     't_step': 0.04
-    # }
-    # p_num = simulator.get_p_template()
-    # p_num['psi_ref'] = psi_d
-    # p_num['XH'] = XH1*self.ontology.force_switch[0]
-    # p_num['YH'] = YH1*self.ontology.force_switch[0]
-    # p_num['NH'] = NH1*self.ontology.force_switch[0]
-    # p_num['XP'] = XP1*self.ontology.force_switch[1]
-    # p_num['XR'] = XR1*self.ontology.force_switch[2]
-    # p_num['YR'] = YR1*self.ontology.force_switch[2]
-    # p_num['NR'] = NR1*self.ontology.force_switch[2]
-    # p_num['YB'] = YB1*self.ontology.force_switch[3]
-    # p_num['NB'] = NB1*self.ontology.force_switch[3]
-    # p_num['U'] = U1
-    # def p_fun(t_now):
-    #     return p_num
-    # simulator.set_p_fun(p_fun)
-    # simulator.set_param(**params_simulator)
-    # simulator.setup()
-    # x0=np.array(self.y[3:5]+self.y[6:]+self.y[0:3]).reshape(-1,1)
-    # z0=np.array([self.y[5]]).reshape(-1,1)
-    # vesselmpc.x0 = x0
-    # vesselmpc.z0=z0
-    # simulator.x0 = x0
-    # simulator.z0=z0
-    # estimator.x0 = x0
-    # estimator.z0 = z0
-    # simulator.reset_history()
-    # simulator.set_initial_guess()
-    #print("x0",x0)
-    #print(dx_next.shape)
-    #print("z0",z0)
-    #print("PSI_D",psi_d)
-    #print("sim_x_num =", simulator.x0)
-    #print("sim_z_num =", simulator.z0)
-    return vesselmpc #, simulator, estimator
+def MPC_controller(myvessel, psi_d, MPC_prediction_horizon=5, MPC_time_step=0.5, min_depth=3.1, max_depth=3.3, sim_scale=0.2):
+    model_type = 'continuous'
+    model = mpc.model.Model(model_type) 
+    
+    # State mapping
+    x_1 = model.set_variable(var_type='_x', var_name='x_1', shape=(1,1))
+    x_2 = model.set_variable(var_type='_x', var_name='x_2', shape=(1,1))
+    x_3 = model.set_variable(var_type='_x', var_name='x_3', shape=(1,1))
+    x_4 = model.set_variable(var_type='_x', var_name='x_4', shape=(1,1))
+    x_5 = model.set_variable(var_type='_x', var_name='x_5', shape=(1,1))
+    x_6 = model.set_variable(var_type='_x', var_name='x_6', shape=(1,1))
+    
+    Np = model.set_variable(var_type='_u', var_name='Np', shape=(1,1))
+    delta = model.set_variable(var_type='_u', var_name='delta', shape=(1,1))
+    psi_ref = model.set_variable(var_type='_tvp', var_name='psi_ref', shape=(1,1))
+    
+    model.set_rhs('x_1', x_4 * casadi.cos(x_3) - x_5 * casadi.sin(x_3))
+    model.set_rhs('x_2', x_4 * casadi.sin(x_3) + x_5 * casadi.cos(x_3))
+    model.set_rhs('x_3', x_6)
+    
+    v_sym = casadi.vertcat(x_4, x_5, x_6, x_1, x_2, x_3)
+    beff = 4 * myvessel.ontology.B[0]
+    yB3_current = 0.5 * myvessel.ontology.B[0] * (1/(-(0.5 * beff + myvessel.y[4])) + 1/(0.5 * beff - myvessel.y[4]))
+    Dp=0.7*myvessel.ontology.Td[0]
+    AR=0.02*myvessel.ontology.L[0]*myvessel.ontology.Td[0]
+    XH, YH, NH, XP, XR, YR, NR, YB, NB, U = calculate_forces(myvessel, v_sym, delta, Np, depth=20, sinkage=0, yB3_k=yB3_current,Dp=Dp,AR=AR,wb=2) 
+    
+    XH *= myvessel.ontology.force_switch[0]
+    YH *= myvessel.ontology.force_switch[0]
+    NH *= myvessel.ontology.force_switch[0]
+    XP *= myvessel.ontology.force_switch[1]
+    XR *= myvessel.ontology.force_switch[2]
+    YR *= myvessel.ontology.force_switch[2]
+    NR *= myvessel.ontology.force_switch[2]
+    YB *= myvessel.ontology.force_switch[3]
+    NB *= myvessel.ontology.force_switch[3]
+    
+    
+    rho = 1025
+    L = myvessel.ontology.L[0]
+    Td=myvessel.ontology.Td[0]
+    m = myvessel.ontology.m[0] * rho * 0.5 * L**3
+    Iz = myvessel.ontology.Iz[0] * rho * 0.5 * L**5
+    xg = 0.2 * L   # CG offset
+    
+    # --- Added mass (dimensional, consistent scaling) ---
+    Xudot = myvessel.ontology.Xudot * rho * 0.5 * L**3
+    Yvdot = myvessel.ontology.Yvdot * rho * 0.5 * L**3
+    Yrdot = myvessel.ontology.Yrdot * rho * 0.5 * L**4
+    Nvdot = myvessel.ontology.Nvdot * rho * 0.5 * L**4
+    Nrdot = myvessel.ontology.Nrdot * rho * 0.5 * L**5
+    #Nvdot=Yrdot
+    
+    c13 = -(m - Yvdot) * x_5 - (m * xg - Yrdot) * x_6
+    c23 = (m - Xudot) * x_4
+    
+    X_d = (rho * 0.5 * L * Td * U**2) * (XH+XP + XR)
+    Y_d = (rho * 0.5 * L * Td * U**2) * (YH+ YR)+ YB
+    N_d = (rho * 0.5 * L**2 * Td * U**2) * (NH+NR)+ NB
+    
+    # 1. Compute force values analytically in CasADi space
+    rhs_surge = X_d - (c13 * x_6) 
+    rhs_sway = Y_d - (c23 * x_6) 
+    rhs_yaw = N_d - (-c13 * x_4 + -c23 * x_5) 
+    
+    # 2. Analytical 2D Matrix Inversion to resolve coupled mass parameters safely
+    m22 = m - Yvdot
+    m23 = m * xg - Yrdot
+    m32 = m * xg - Nvdot
+    m33 = Iz - Nrdot
+    
+    det_M = (m22 * m33) - (m23 * m32)
+    
+    # Accelerations with coupling properties intact
+    dot_u = rhs_surge / (m - Xudot)
+    dot_v = ((m33 * rhs_sway) - (m23 * rhs_yaw)) / det_M
+    dot_r = ((m22 * rhs_yaw) - (m32 * rhs_sway)) / det_M
+    
+    model.set_rhs('x_4', dot_u)
+    model.set_rhs('x_5', dot_v)
+    model.set_rhs('x_6', dot_r)
+
+    model.setup()
+    
+    vesselmpc = mpc.controller.MPC(model)
+    vesselmpc.set_param(
+        n_horizon=MPC_prediction_horizon,
+        t_step=MPC_time_step,
+        store_full_solution=False,
+        nlpsol_opts={"ipopt.linear_solver": "mumps", "ipopt.print_level": 0, "ipopt.sb": "yes", "print_time": 0}
+    )
+    
+    tvp_template = vesselmpc.get_tvp_template()
+    def tvp_fun(t_now):
+        for k in range(vesselmpc.settings.n_horizon+1):
+            tvp_template['_tvp', k, 'psi_ref'] = psi_d
+        return tvp_template
+    vesselmpc.set_tvp_fun(tvp_fun)
+    heading_error = casadi.power((x_3 - psi_ref),2)
+
+    mterm = (10)*casadi.power(heading_error,2) 
+    lterm = (10)*casadi.power(heading_error,2) 
+    vesselmpc.set_objective(mterm=mterm, lterm=lterm)
+    vesselmpc.set_rterm(Np=1e-3, delta=1e-3)
+    
+    vesselmpc.bounds['lower','_u','Np'] = 50/60
+    vesselmpc.bounds['upper','_u','Np'] = 600/60
+    vesselmpc.bounds['lower','_u','delta'] = -35*np.pi/180
+    vesselmpc.bounds['upper','_u','delta'] = 35*np.pi/180
+    
+    U_max = 7 * 1.852 / 3.60
+    nonlinear_expr = x_4**2 + x_5**2
+    vesselmpc.set_nl_cons('cons', nonlinear_expr, U_max**2)
+    vesselmpc.setup()
+    
+    u_sim, v_sim, r_sim, x_sim, y_sim, psi_sim = myvessel.state[0:6]
+    vesselmpc.x0 = np.array([x_sim, y_sim, psi_sim, u_sim, v_sim, r_sim]).reshape(-1, 1)
+    vesselmpc.u0 = np.array([myvessel.Np[-1], myvessel.u[-1]])
+    vesselmpc.set_initial_guess()
+    
+    return vesselmpc
 
 def get_next_mpc_step(vessel):
-    x0=np.array(vessel.state[3:5]+vessel.state[6:]+vessel.state[0:3]).reshape(-1,1)
+    #x0=np.array(vessel.state[3:5]+vessel.state[6:]+vessel.state[0:3]).reshape(-1,1)
+    #x0 = np.array(vessel.state[3:6] + vessel.state[0:3]).reshape(-1,1)
+    if len(vessel.state) == 7:
+        clean_state = [x for i, x in enumerate(vessel.state) if i != 5]
+    else:
+        clean_state = vessel.state
+
+    # 2. Extract using the simulator's true ordering: [u, v, r, x, y, psi]
+    u_sim   = float(clean_state[0])
+    v_sim   = float(clean_state[1])
+    r_sim   = float(clean_state[2])
+    x_sim   = float(clean_state[3])
+    y_sim   = float(clean_state[4])
+    psi_sim = float(clean_state[5])
+    
+    # 3. Pack into the exact format your MPC model setup expects: [x_1, x_2, x_3, x_4, x_5, x_6]
+    # which is [X, Y, psi, u, v, r]
+    x0 = np.array([x_sim, y_sim, psi_sim, u_sim, v_sim, r_sim]).reshape(-1, 1)
+    # print(vessel.state)
     u = vessel.MPC.make_step(x0)
+    return u
+    # y_next=vessel.simulator.make_step(u)
+    # x=vessel.estimator.make_step(y_next)
+
+def get_next_ag_step(vessel):
+    x0=np.array(vessel.state[3:5]+vessel.state[6:]+vessel.state[0:3]).reshape(-1,1)
+    #print(x0)
+    u = vessel.Anti_Grounding_MPC.make_step(x0)
     # y_next=vessel.simulator.make_step(u)
     # x=vessel.estimator.make_step(y_next)
     return u
+
 
 def PID_controller(self, psi_d, dt):
     """
@@ -390,7 +472,7 @@ def PID_controller(self, psi_d, dt):
     T1_2=((Yvdot-m_nd)*(Nr-m_nd*xg_nd)+(Nrdot-Iz_nd)*Yv-(Yrdot-m_nd*xg_nd)*Nv-(Nvdot-m_nd*xg_nd)*(Yr-m_nd))/(Yv*(Nr-m_nd*xg_nd)-Nv*(Yr-m_nd))
     T3=((Nv-m_nd*xg_nd)*Yd-(Yvdot-m_nd)*Nd)/(Nv*Yd-Yv*Nd)
     T_nd=T1_2-T3
-    U=2.5
+    U=2.2
     T = T_nd*self.ontology.L[0]/U #27.0;                       # Nomoto gains at U = 9 m/s
     K = K_nd*U/self.ontology.L[0]#0.18;
     # print(self.type)

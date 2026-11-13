@@ -1,3 +1,4 @@
+from turtle import ycor
 import matplotlib.animation as animation
 from matplotlib import rc
 from matplotlib import ticker
@@ -10,10 +11,20 @@ from itertools import cycle
 from scipy.interpolate import interp1d
 import pygame
 from channel import *
+from matplotlib.collections import LineCollection
+from matplotlib.lines import Line2D
+import pandas as pd
 #from mpl_toolkits.basemap import Basemap
 #import geopandas as gpd
 
 
+def from_screen(px, py, minx, maxx, miny, maxy):
+    HEIGHT, WIDTH = 800, 1200
+
+    x = minx + px * ((maxx - minx) / WIDTH)
+    y = miny + (HEIGHT - py) * ((maxy - miny) / HEIGHT)
+
+    return x, y
 def plot_environment(self):
     '''
     map = Basemap(projection='lcc', resolution='h',llcrnrlon=10.3395, llcrnrlat=59.402636, urcrnrlon=10.727223, urcrnrlat=59.507541, epsg=3857)
@@ -484,177 +495,1523 @@ def plot_reg_switching(ontology,step,total_time):
     now_str = now.strftime("%Y-%m-%d-%H-%M-%S")
     plt.savefig('output/Reg_switching_'+now_str+'.png')
 
-def plots_grounding(myvessel,suppress_output):
+def plots_grounding(vessels,shore_top,shore_bottom,suppress_output):
     # === Parameters ===
-    UKC0=0.05 # minimum UKC required
-    UKC1=0.15 # buffer UKC kept
-    W_channel=4*10.67 # channel width
+    UKC0 = 0.05       # minimum UKC required
+    UKC1 = 0.15       # buffer UKC kept
+    W_channel = 24.4  # channel width
+
+    myvessel = vessels[0]
+
+
     # === Data preparation ===
-    x_ref_route=myvessel.route[0]
-    y_ref_route=myvessel.route[1]
-    # x_range=[np.min(x_ref_route),np.max(x_ref_route)]
-    # x_grid=np.linspace(x_range[0],x_range[1],num=5000)
-    depths_data=get_depths_from_file(filename='assets/ChannDepths.csv')
-    # depth_samples=[cal_depth([x_cor,0],depths_data) for x_cor in x_grid]
-    psi_error=np.array(myvessel.ontology.ypsi) - np.array(myvessel.ontology.psi_d)
+    x_ref_route = myvessel.route[0]
+    y_ref_route = myvessel.route[1]
+
+    depths_data = get_depths_from_file(
+        filename='assets/ChannDepths.csv'
+    )
+
+    psi_error = (
+        np.array(myvessel.ontology.ypsi)
+        - np.array(myvessel.ontology.psi_d)
+    )
+
+
     # === KPI calculation ===
-    y_deviation=myvessel.ontology.yy-np.interp(myvessel.ontology.x,x_ref_route,y_ref_route)
-    max_tracking_err=np.max(np.abs(myvessel.ontology.yy-np.interp(myvessel.ontology.x,x_ref_route,y_ref_route))) # in meters
-    max_abs_psi_err=np.max(np.abs(psi_error)) # in rads
-    UKC=np.array(myvessel.ontology.UKC)
-    min_UKC=np.min(UKC) # in meters
-    mean_UKC=np.average(UKC) # in meters
+
+    y_deviation = (
+        myvessel.ontology.yy
+        - np.interp(
+            myvessel.ontology.x,
+            x_ref_route,
+            y_ref_route
+        )
+    )
+
+    max_tracking_err = np.max(
+        np.abs(y_deviation)
+    )
+
+    max_abs_psi_err = np.max(
+        np.abs(psi_error)
+    )
+
+    UKC = np.array(
+        myvessel.ontology.UKC
+    )
+
+    min_UKC = np.min(UKC)
+    mean_UKC = np.average(UKC)
+
+
     print(f"Max deviation to ref: {max_tracking_err:.2f} meters")
-    print(f"Max yaw angle error: {max_abs_psi_err: .3E} rads")
+    print(f"Max yaw angle error:  {max_abs_psi_err:.3E} rads")
     print(f"Mean UKC:             {mean_UKC:.3f} meters")
     print(f"Minimum UKC:          {min_UKC:.3f} meters")
-    t_UKC_buffer_violations,index_UKC_buffer_violations=calc_UKC_violations(myvessel.ontology.time,myvessel.ontology.UKC,UKC_limit=UKC0+UKC1)
-    UKC_buffer_violation_time=0.0 # in seconds
+
+
+    # === UKC buffer violation ===
+
+    t_UKC_buffer_violations, index_UKC_buffer_violations = calc_UKC_violations(
+        myvessel.ontology.time,
+        myvessel.ontology.UKC,
+        UKC_limit=UKC0 + UKC1
+    )
+
+    UKC_buffer_violation_time = 0.0
+
     try:
         for t_violation in t_UKC_buffer_violations:
-            UKC_buffer_violation_time=UKC_buffer_violation_time+t_violation[1]-t_violation[0]
+            UKC_buffer_violation_time += (
+                t_violation[1] - t_violation[0]
+            )
     except:
         pass
-    print(f"Total UKC buff time:  {UKC_buffer_violation_time:.1f} seconds")
-    ATE=[] # along-track error, with measurements
-    CTE=[] # cross-track error, with measurements
-    for i in range(len(myvessel.ontology.yx)):
-        try:
-            route_index=(np.array(x_ref_route)>myvessel.ontology.yx[i]).tolist().index(True) # index of the next waypoint
-            route_index=route_index-1 # index of the last waypoint
-            x_route_index=x_ref_route[route_index]
-            y_route_index=y_ref_route[route_index]
-            psi_route_index=0
-            if(route_index>0):
-                psi_route_index=np.atan2(y_ref_route[route_index+1]-y_route_index,x_ref_route[route_index+1]-x_route_index)
-        except: # already pass all waypoints
-            # route_index=len(x_ref_route)-1
-            psi_route_index=0
-            x_route_index=x_ref_route[-1]
-            y_route_index=y_ref_route[-1]
-        ATE.append((myvessel.ontology.yx[i]-x_route_index)*np.cos(psi_route_index)+(myvessel.ontology.yy[i]-y_route_index)*np.sin(psi_route_index))
-        CTE.append(-(myvessel.ontology.yx[i]-x_route_index)*np.sin(psi_route_index)+(myvessel.ontology.yy[i]-y_route_index)*np.cos(psi_route_index))
+
+    print(
+        f"Total UKC buff time:  "
+        f"{UKC_buffer_violation_time:.1f} seconds"
+    )
+
+
+        # === Along-track / cross-track errors ===
+
+    ATE = []
+    CTE = []
+
+    x_route = np.asarray(x_ref_route, dtype=float)
+    y_route = np.asarray(y_ref_route, dtype=float)
+
+    x_vessel = np.asarray(myvessel.ontology.x, dtype=float)
+    y_vessel = np.asarray(myvessel.ontology.y, dtype=float)
+
+
+    for x, y in zip(x_vessel, y_vessel):
+
+        best_distance = np.inf
+        best_cte = 0.0
+        best_ate = 0.0
+
+        for j in range(len(x_route) - 1):
+
+            x1 = x_route[j]
+            y1 = y_route[j]
+
+            x2 = x_route[j + 1]
+            y2 = y_route[j + 1]
+
+            dx = x2 - x1
+            dy = y2 - y1
+
+            segment_length_sq = dx**2 + dy**2
+
+            if segment_length_sq == 0:
+                continue
+
+
+            # Projection of vessel onto route segment
+            s = (
+                (x - x1) * dx
+                + (y - y1) * dy
+            ) / segment_length_sq
+
+            # Restrict projection to actual segment
+            s_clamped = np.clip(s, 0.0, 1.0)
+
+            x_closest = x1 + s_clamped * dx
+            y_closest = y1 + s_clamped * dy
+
+
+            # Distance to this route segment
+            distance = np.hypot(
+                x - x_closest,
+                y - y_closest
+            )
+
+
+            if distance < best_distance:
+
+                best_distance = distance
+
+                psi_route = np.arctan2(
+                    dy,
+                    dx
+                )
+
+                # Error relative to closest point
+                ex = x - x_closest
+                ey = y - y_closest
+
+                best_ate = (
+                    ex * np.cos(psi_route)
+                    + ey * np.sin(psi_route)
+                )
+
+                best_cte = (
+                    -ex * np.sin(psi_route)
+                    + ey * np.cos(psi_route)
+                )
+
+
+        ATE.append(best_ate)
+        CTE.append(best_cte)
+
+
+    ATE = np.asarray(ATE)
+    CTE = np.asarray(CTE)
+
+    # ============================================================
+    # Cross-track error
+    # ============================================================
+
+    x_route = np.asarray(
+        x_ref_route,
+        dtype=float
+    )
+
+    y_route = np.asarray(
+        y_ref_route,
+        dtype=float
+    )
+
+    x_vessel = np.asarray(
+        myvessel.ontology.x,
+        dtype=float
+    )
+
+    y_vessel = np.asarray(
+        myvessel.ontology.y,
+        dtype=float
+    )
+
+
+    CTE = []
+
+
+    for x, y in zip(x_vessel, y_vessel):
+
+        min_distance = np.inf
+        signed_cte = 0.0
+
+        for j in range(len(x_route) - 1):
+
+            # Route segment
+            x1 = x_route[j]
+            y1 = y_route[j]
+
+            x2 = x_route[j + 1]
+            y2 = y_route[j + 1]
+
+            dx = x2 - x1
+            dy = y2 - y1
+
+            segment_length_sq = dx**2 + dy**2
+
+            if segment_length_sq == 0:
+                continue
+
+
+            # ----------------------------------------------------
+            # Closest point on THIS route segment
+            # ----------------------------------------------------
+
+            s = (
+                (x - x1) * dx
+                + (y - y1) * dy
+            ) / segment_length_sq
+
+            # Restrict projection to segment
+            s = np.clip(
+                s,
+                0.0,
+                1.0
+            )
+
+            x_closest = x1 + s * dx
+            y_closest = y1 + s * dy
+
+
+            # ----------------------------------------------------
+            # Distance to this segment
+            # ----------------------------------------------------
+
+            ex = x - x_closest
+            ey = y - y_closest
+
+            distance = np.hypot(
+                ex,
+                ey
+            )
+
+
+            # ----------------------------------------------------
+            # Keep closest route segment
+            # ----------------------------------------------------
+
+            if distance < min_distance:
+
+                min_distance = distance
+
+                psi_route = np.arctan2(
+                    dy,
+                    dx
+                )
+
+                signed_cte = (
+                    -ex * np.sin(psi_route)
+                    + ey * np.cos(psi_route)
+                )
+
+
+        CTE.append(
+            signed_cte
+        )
+
+
+    CTE = np.asarray(
+        CTE,
+        dtype=float
+    )
+    # ============================================================
+    # Performance metrics - Zhang et al. (2025), Section 3
+    # ============================================================
+
+    CTE = np.asarray(
+        CTE,
+        dtype=float
+    )
+
+    delta = np.asarray(
+        myvessel.ontology.rudder_angle,
+        dtype=float
+    )
+
+
+    # Maximum Absolute Cross-Track Error (MAXTE)
+    MAXTE = np.max(
+        np.abs(CTE)
+    )
+
+
+    # Average Absolute Cross-Track Error (AAXTE)
+    AAXTE = np.mean(
+        np.abs(CTE)
+    )
+
+
+    # Average Absolute Control Effort (AACE)
+    # Rudder angle is kept in radians.
+    AACE_delta = np.mean(
+    np.abs(delta)**2
+    )
+
+    AACE_nP = np.mean(
+        np.abs([nP for nP in myvessel.ontology.propeller_speed])**2
+    )
+
+
+    print("\n=== Path-following performance metrics ===")
+    print(f"MAXTE: {MAXTE:.4f} m")
+    print(f"AAXTE: {AAXTE:.4f} m")
+    print(f"AACE delta: {AACE_delta:.6f} rad^2")
+    print(f"AACE nP:    {AACE_nP:.6f} (rps)^2")
     UKCA=np.array(myvessel.ontology.UKC)/(UKC0+UKC1) # UKC allowance percentage
     UKCA_mean=np.average(UKCA)
     UKCA_std=np.std(UKCA)
-    # === Plots generation ===
     px = 1/plt.rcParams['figure.dpi']
-    plt.rcParams['font.family'] = 'Arial' 
+    plt.rcParams['font.family'] = 'Times New Roman' 
     plt.rcParams['font.size'] = 12
-    figure, axs=plt.subplots(2,2,figsize=(1200*px, 700*px))
-    axs=[axs[0,0],axs[0,1],axs[1,0],axs[1,1]]
-    axs[0].plot(myvessel.ontology.time,myvessel.ontology.SOG,'b')
-    axs[0].set_title(r'(a) Ship speed ($U$)')
-    axs[0].set_ylabel(r'$U$ (m/s)')
-    axs[0].set_xlabel('Time (s)')
-    # axs[1,0].plot(x_grid,depth_samples)
-    # axs[1,0].set_title('Depth profile')
-    line_np=axs[1].plot(myvessel.ontology.time,[nP* 60 for nP in myvessel.ontology.propeller_speed],'b')
-    line_np[0].set_label('nP')
-    axs[1].set_title(r'(b) Propeller speed ($n_P$)')
-    axs[1].set_xlabel('Time (s)')
-    axs[1].set_ylabel(r'$n_P$ (RPM)')
-    # axs[1].legend()
-    line_delta=axs[2].plot(myvessel.ontology.time,[np.rad2deg(delta) for delta in myvessel.ontology.rudder_angle],'b',alpha=0.7)
-    axs[2].set_title(r'(c) Rudder angle ($\delta$)')
-    axs[2].set_xlabel('Time (s)')
-    axs[2].set_ylabel(r'$\delta$ (degree)')
-    line_delta[0].set_label('delta')
-    axs[3].set_title(r'(d) Rudder angle ($\delta$), $t=14\sim45$s')
-    try:
-        index_start=myvessel.ontology.time.index(14)
-        index_end=myvessel.ontology.time.index(45)
-        line_delta_sel=axs[3].plot(myvessel.ontology.time[index_start:index_end+1],[np.rad2deg(delta) for delta in myvessel.ontology.rudder_angle[index_start:index_end+1]],'b')
-    except:
-        pass
-    axs[2].set_xlabel('Time (s)')
-    axs[2].set_ylabel(r'$\delta$ (degree)')
-    # axs[2].legend()
-    figure.tight_layout()
-    figure, axs=plt.subplots(1,2,figsize=(1200*px, 400*px))
-    lines_psi=[]
-    lines_psi.extend(axs[0].plot(myvessel.ontology.time,np.rad2deg(myvessel.ontology.psi_d),"#ffae00"))
-    lines_psi.extend(axs[0].plot(myvessel.ontology.time,np.rad2deg(myvessel.ontology.ypsi),'b',alpha=0.50))
-    lines_psi[0].set_label('Reference')
-    lines_psi[1].set_label('Yaw angle')
-    axs[0].set_title('(a) Heading angle')
-    axs[0].set_xlabel('Time (s)')
-    axs[0].set_ylabel(r'Yaw angle ($^\circ$)')
-    axs[0].legend()
-    lines_psi_err=axs[1].plot(myvessel.ontology.time,np.rad2deg(psi_error),'b')
-    axs[1].annotate(f"Max abs yaw angle\nerror:{np.rad2deg(max_abs_psi_err): .3f} degs",(0,(0+2*np.rad2deg(np.min(psi_error))/3)))
-    axs[1].set_title('(b) Yaw angle error')
-    lines_psi_err[0].set_label('Error')
-    axs[1].set_xlabel('Time (s)')
-    axs[1].set_ylabel(r'Yaw angle ($^\circ$)')
-    # axs[1].legend()
-    figure.tight_layout()
-    figure, axs=plt.subplots(1,2,figsize=(1200*px, 400*px))
-    line_TD=axs[0].plot(myvessel.ontology.time,y_deviation,'b')
-    axs[0].set_title('(a) Tracking deviation (TD)')
-    axs[0].set_xlabel('Time (s)')
-    axs[0].set_ylabel('TD (m)')
-    axs[0].annotate(f"Max.abs: {max_tracking_err:.4f}\nMean:    {np.mean(y_deviation):.4f}\nStd.dev: {np.std(y_deviation):.4f}",(0.2*myvessel.ontology.time[-1],-0.004))
-    line_cte=axs[1].plot(myvessel.ontology.time,CTE,'b',alpha=0.7)
-    axs[1].set_title('(b) Cross-track error (CTE)')
-    axs[1].set_xlabel('Time (s)')
-    axs[1].set_ylabel('CTE (m)')
-    figure.tight_layout()
-    figure, axs=plt.subplots(1,2,figsize=(1200*px, 400*px))
-    line_z=axs[0].plot(myvessel.ontology.time,myvessel.ontology.zhat,'b')
-    axs[0].set_title(r'(a) Squat sinkage ($z$)')
-    axs[0].set_xlabel('Time (s)')
-    axs[0].set_ylabel('Sinkage (m)')
-    line_UKCA=axs[1].plot([myvessel.ontology.time[0],myvessel.ontology.time[-1]],[100,100],'k--',myvessel.ontology.time,UKCA*100,'b')
-    axs[1].set_title('(b) UKC allowance (UKCA)')
-    axs[1].set_xlabel('Time (s)')
-    axs[1].set_ylabel('UKCA (%)')
-    axs[1].yaxis.set_major_formatter(ticker.PercentFormatter(decimals=1))
-    axs[1].annotate(f"Mean:    {100*UKCA_mean:.1f}%\nStd.dev: {100*UKCA_std:.1f}%",(0.2*myvessel.ontology.time[-1],40))
-    figure.tight_layout()
-    figure, axs=plt.subplots(2,1,figsize=(1200*px, 600*px))
-    lines=axs[0].plot(x_ref_route,y_ref_route,'k',x_ref_route,y_ref_route,'ro',markerfacecolor='none')
-    lines.extend(axs[0].plot(myvessel.ontology.x,myvessel.ontology.yy,'b'))
-    lines[0].set_label('Reference')
-    lines[1].set_label('Waypoints')
-    lines[2].set_label('Trajectory')
-    axs[0].set_title('(a) Path following')
-    axs[0].set_xlabel('x (m)')
-    axs[0].set_ylabel('y (m)')
-    axs[0].set_ylim(-W_channel/2,W_channel/2)
-    axs[0].invert_yaxis()
-    axs[0].annotate(f"Max abs deviation: {max_tracking_err:.3f} meters",((x_ref_route[0]*2+x_ref_route[-1]*3)/5,(y_ref_route[0]+y_ref_route[-1]+W_channel)/4))
-    axs[0].legend(loc='upper right')
-    depth_values=[cal_depth([x_cor,0],depths_data) for x_cor in myvessel.ontology.x]
-    channel_UKC_min=[depth-UKC0 for depth in depth_values]
-    channel_UKC_buff=[depth-UKC0-UKC1 for depth in depth_values]
-    vessel_keel=[z+myvessel.ontology.Td[0] for z in myvessel.ontology.zhat]
-    vessel_draft=[myvessel.ontology.Td[0]]*len(myvessel.ontology.zhat)
-    axs[1].set_title('(b) Grounding avoidance')
-    axs[1].invert_yaxis()
-    lines=axs[1].plot(myvessel.ontology.x,depth_values,'k',myvessel.ontology.x,vessel_keel,"#0022ff",myvessel.ontology.x,vessel_draft,'k--')
-    area0=axs[1].fill_between(myvessel.ontology.x,depth_values,channel_UKC_min,color="#d00404")
-    area1=axs[1].fill_between(myvessel.ontology.x,channel_UKC_min,channel_UKC_buff,color="#ffff009d")
-    area2=axs[1].fill_between(myvessel.ontology.x,channel_UKC_buff,vessel_keel,color="#85ffff")
-    area3=axs[1].fill_between(myvessel.ontology.x,vessel_keel,vessel_draft,color="#009519")
-    try:
-        for index in index_UKC_buffer_violations:
-            axs[1].plot(myvessel.ontology.x[index[0]:index[1]],vessel_keel[index[0]:index[1]],'r')
-    except:
-        pass
-    lines[0].set_label('Waterway floor')
-    lines[1].set_label('Keel position')
-    lines[2].set_label('Static draft')
-    area0.set_label('Minimum UKC')
-    area1.set_label('Buffer UKC')
-    area2.set_label('Extra UKC')
-    area3.set_label('Squat sinkage')
-    axs[1].legend(handles=[lines[2], area3, lines[1], area2, area1, area0, lines[0]],loc='upper right')
-    axs[1].set_xlabel('x (m)')
-    axs[1].set_ylabel('Depth from water surface (m)')
-    axs[1].annotate(f"Mean UKC: {mean_UKC:.3f} meters",((2*myvessel.ontology.x[0]+3*myvessel.ontology.x[-1])/5,myvessel.ontology.Td[0]+myvessel.ontology.zhat[-1]/4))
-    axs[1].annotate(f"Min    UKC: {min_UKC:.3f} meters",((2*myvessel.ontology.x[0]+3*myvessel.ontology.x[-1])/5,myvessel.ontology.Td[0]+myvessel.ontology.zhat[-1]/4+0.05))
-    figure.tight_layout()
+    # ============================================================
+    # Figure 1: Vessel trajectory and UKC violations
+    # ============================================================
+
+    figure1, ax1 = plt.subplots(figsize=(12, 4.5))
+
+    # ------------------------------------------------------------
+    # Main vessel trajectory
+    # ------------------------------------------------------------
+    x_traj = np.asarray(myvessel.ontology.x, dtype=float)
+    y_traj = np.asarray(myvessel.ontology.y, dtype=float)
+    UKC_traj = np.asarray(myvessel.ontology.UKC, dtype=float)
+
+    # ------------------------------------------------------------
+    # Make sure histories have identical length
+    # ------------------------------------------------------------
+    n = min(len(x_traj), len(y_traj), len(UKC_traj))
+    x_traj = x_traj[:n]
+    y_traj = y_traj[:n]
+    UKC_traj = UKC_traj[:n]
+
+    # ------------------------------------------------------------
+    # Load trajectory from output/ag_data.csv
+    # First three columns: t_vals, x_vals, y_vals
+    # ------------------------------------------------------------
+    ag_data = pd.read_csv("output/ag_data.csv")
+
+    x_ag = ag_data["x_vals"].to_numpy(dtype=float)
+    y_ag = ag_data["y_vals"].to_numpy(dtype=float)
+    sim_scale = 1
+    # ------------------------------------------------------------
+    # Reference trajectory
+    # ------------------------------------------------------------
+    X_NORM = np.linspace(0, 1, 20)
+
+    CENTER_Y_NORM = (
+        0.5
+        + 0.2 * np.sin(1 * X_NORM * np.pi)
+    )
+
+    WIDTH_NORM = np.full_like(
+        X_NORM,
+        0.16
+    )
+
+    route_x = np.linspace(0, 1200, 20)
+    route_y = []
+
+    for x in route_x:
+        norm_x = x / 1200
+        w_portion = 0
+        y_c = np.interp(norm_x, X_NORM, CENTER_Y_NORM) * 800
+        route_y.append(max(0, y_c + w_portion))
+
+    route_x = np.asarray([x / sim_scale for x in route_x], dtype=float)
+    route_y = np.asarray([-y / sim_scale for y in route_y], dtype=float)
+
+    # ------------------------------------------------------------
+    # Convert shore boundaries from pixels to metres
+    # ------------------------------------------------------------
+
+    shore_top_m = np.asarray([
+        (px_shore / sim_scale, py_shore / (-sim_scale))
+        for px_shore, py_shore in shore_top
+    ], dtype=float)
+
+    shore_bottom_m = np.asarray([
+        (px_shore / sim_scale, py_shore / (-sim_scale))
+        for px_shore, py_shore in shore_bottom
+    ], dtype=float)
+
+    x_shore_top = shore_top_m[:, 0]
+    y_shore_top = shore_top_m[:, 1]
+
+    x_shore_bottom = shore_bottom_m[:, 0]
+    y_shore_bottom = shore_bottom_m[:, 1]
+
+    # ------------------------------------------------------------
+    # Displace everything by y offset
+    # ------------------------------------------------------------
+    y_offset = 400
+
+    y_traj = y_traj + y_offset
+    y_ag = y_ag + y_offset
+    route_y = route_y + y_offset
+
+    y_shore_top = y_shore_top + y_offset
+    y_shore_bottom = y_shore_bottom + y_offset
+
+    # ------------------------------------------------------------
+    # Sort shore coordinates according to x
+    # ------------------------------------------------------------
+    top_order = np.argsort(x_shore_top)
+    x_shore_top = x_shore_top[top_order]
+    y_shore_top = y_shore_top[top_order]
+
+    bottom_order = np.argsort(x_shore_bottom)
+    x_shore_bottom = x_shore_bottom[bottom_order]
+    y_shore_bottom = y_shore_bottom[bottom_order]
+
+    # ------------------------------------------------------------
+    # Common x-grid for filling the waterway
+    # ------------------------------------------------------------
+    x_shore_min = max(np.min(x_shore_top), np.min(x_shore_bottom))
+    x_shore_max = min(np.max(x_shore_top), np.max(x_shore_bottom))
+
+    x_shore_grid = np.linspace(x_shore_min, x_shore_max, 1000)
+
+    y_top_grid = np.interp(x_shore_grid, x_shore_top, y_shore_top)
+    y_bottom_grid = np.interp(x_shore_grid, x_shore_bottom, y_shore_bottom)
+
+    # ------------------------------------------------------------
+    # Determine geometrical upper/lower boundaries
+    # ------------------------------------------------------------
+    y_upper_grid = np.maximum(y_top_grid, y_bottom_grid)
+    y_lower_grid = np.minimum(y_top_grid, y_bottom_grid)
+
+    # ------------------------------------------------------------
+    # Plot limits
+    # ------------------------------------------------------------
+    shore_range = np.max(y_upper_grid) - np.min(y_lower_grid)
+    if shore_range <= 0:
+        shore_range = 1.0
+
+    margin = 0.15 * shore_range
+
+    y_plot_min = min(
+        np.min(y_lower_grid),
+        np.min(y_traj),
+        np.min(y_ag),
+        np.min(route_y)
+    ) - margin
+
+    y_plot_max = max(
+        np.max(y_upper_grid),
+        np.max(y_traj),
+        np.max(y_ag),
+        np.max(route_y)
+    ) + margin
+
+    # ------------------------------------------------------------
+    # Background colors
+    # ------------------------------------------------------------
+    beige_color = "#E8DCC4"
+    water_color = "#8FB7D9"
+
+    # Land below lower shore
+    ax1.fill_between(
+        x_shore_grid,
+        y_plot_min,
+        y_lower_grid,
+        color=beige_color,
+        alpha=0.8,
+        zorder=0
+    )
+
+    # Waterway
+    ax1.fill_between(
+        x_shore_grid,
+        y_lower_grid,
+        y_upper_grid,
+        color=water_color,
+        alpha=0.65,
+        zorder=0
+    )
+
+    # Land above upper shore
+    ax1.fill_between(
+        x_shore_grid,
+        y_upper_grid,
+        y_plot_max,
+        color=beige_color,
+        alpha=0.8,
+        zorder=0
+    )
+
+    # ------------------------------------------------------------
+    # Shore boundaries
+    # ------------------------------------------------------------
+    ax1.plot(
+        x_shore_top,
+        y_shore_top,
+        color='k',
+        linewidth=1.2,
+        zorder=2
+    )
+
+    ax1.plot(
+        x_shore_bottom,
+        y_shore_bottom,
+        color='k',
+        linewidth=1.2,
+        zorder=2
+    )
+
+    # ------------------------------------------------------------
+    # Additional trajectories
+    # ------------------------------------------------------------
+    ax1.plot(
+        route_x,
+        route_y,
+        color="black",
+        linestyle="--",
+        linewidth=1.8,
+        label="Reference trajectory",
+        zorder=3
+    )
+    Td=2.74
+    # ------------------------------------------------------------
+    # Additional trajectories
+    # ------------------------------------------------------------
+
+    ax1.plot(
+        route_x,
+        route_y,
+        color="black",
+        linestyle="-.",
+        linewidth=1.8,
+        label="Reference trajectory",
+        zorder=3
+    )
+
+    # ------------------------------------------------------------
+    # Read comparison trajectory and squat from CSV
+    # ------------------------------------------------------------
+
+    ag_data = pd.read_csv("output/ag_data.csv")
+
+    x_ag = ag_data["x_vals"].to_numpy(dtype=float)
+    y_ag = ag_data["y_vals"].to_numpy(dtype=float) + y_offset
+    z_ag = ag_data["z_vals"].to_numpy(dtype=float)
+
+    # IMPORTANT:
+    # Remove the + y_offset above if y_ag was already offset earlier.
+
+    h_ag = np.asarray([
+        get_channel_depth(
+            sim_scale * x,
+            -sim_scale * y,
+            1200,
+            800,
+            min_depth=3.15,
+            max_depth=3.3
+        )
+        for x, y in zip(x_ag, y_ag - y_offset)
+    ], dtype=float)
+
+    # Calculate UKC
+    UKC_ag = h_ag - Td - z_ag
+
+    # ------------------------------------------------------------
+    # Common UKC thresholds
+    # ------------------------------------------------------------
+
+    UKC_minimum = UKC0
+    UKC_buffer_limit = UKC0 + UKC1
+
+    safe_color = "cyan"
+    buffer_color = "#ffff00"
+    grounding_color = "red"
+
+
+    # ------------------------------------------------------------
+    # Helper: create UKC-colored trajectory
+    # ------------------------------------------------------------
+    def add_ukc_trajectory(
+        ax, x, y, ukc,
+        linewidth=2.5,
+        zorder=5,
+        linestyle="solid",
+        marker=None,
+        marker_interval=30,
+        marker_size=5,
+        outline=False,
+        outline_color="white",
+        outline_width=0.7
+    ):
+        n_points = min(len(x), len(y), len(ukc))
+
+        x = np.asarray(x[:n_points], dtype=float)
+        y = np.asarray(y[:n_points], dtype=float)
+        ukc = np.asarray(ukc[:n_points], dtype=float)
+
+        if n_points < 2:
+            return np.zeros(n_points, dtype=int)
+
+        # UKC classification
+        ukc_state = np.zeros(n_points, dtype=int)
+
+        ukc_state[
+            (ukc < UKC_buffer_limit) &
+            (ukc >= UKC_minimum)
+        ] = 1
+
+        ukc_state[ukc < UKC_minimum] = 2
+
+        # Build segments
+        points = np.column_stack((x, y)).reshape(-1, 1, 2)
+        segments = np.concatenate(
+            [points[:-1], points[1:]], axis=1
+        )
+
+        segment_state = np.maximum(
+            ukc_state[:-1], ukc_state[1:]
+        )
+
+        state_colors = [
+            safe_color,
+            buffer_color,
+            grounding_color
+        ]
+
+        colors = [
+            state_colors[state]
+            for state in segment_state
+        ]
+
+        # Optional outline
+        if outline:
+            ax.add_collection(LineCollection(
+                segments,
+                colors=outline_color,
+                linewidths=linewidth + 2 * outline_width,
+                linestyles=linestyle,
+                zorder=zorder - 0.1
+            ))
+
+        # UKC-colored trajectory
+        ax.add_collection(LineCollection(
+            segments,
+            colors=colors,
+            linewidths=linewidth,
+            linestyles=linestyle,
+            zorder=zorder
+        ))
+
+        # Periodic markers, colored by local UKC state
+        if marker is not None:
+            indices = np.arange(
+                0, n_points, marker_interval
+            )
+
+            for state, color in enumerate(state_colors):
+                selected = indices[
+                    ukc_state[indices] == state
+                ]
+
+                ax.plot(
+                    x[selected],
+                    y[selected],
+                    linestyle="None",
+                    marker=marker,
+                    markersize=marker_size,
+                    markerfacecolor=color,
+                    markeredgecolor="black",
+                    markeredgewidth=0.6,
+                    zorder=zorder + 1
+                )
+
+        return ukc_state
+    
+    # PID trajectory: dashed with triangles
+    ukc_state_ag = add_ukc_trajectory(
+        ax1, x_ag, y_ag, UKC_ag,
+        linewidth=2.0,
+        zorder=4,
+        linestyle="dashed",
+        marker="^",
+        marker_interval=30,
+        marker_size=5,
+        outline=True,
+        outline_color="black",
+        outline_width=0.4
+    )
+
+    # NMPC trajectory: solid with circles
+    ukc_state_main = add_ukc_trajectory(
+        ax1, x_traj, y_traj, UKC_traj,
+        linewidth=2.8,
+        zorder=6,
+        linestyle="solid",
+        marker="o",
+        marker_interval=30,
+        marker_size=5,
+        outline=True,
+        outline_color="white",
+        outline_width=0.7
+    )
+
+
+    # ------------------------------------------------------------
+    # Legend
+    # ------------------------------------------------------------
+
+    legend_elements = [
+        Line2D(
+            [0], [0],
+            color="black",
+            linestyle="-.",
+            linewidth=1,
+            label="Reference trajectory"
+        ),
+        Line2D(
+            [0], [0],
+            color="gray",
+            linestyle="-",
+            linewidth=1.2,
+            label="Anti-grounding controller"
+        ),
+        Line2D(
+            [0], [0],
+            color="gray",
+            linestyle="--",
+            linewidth=1.2,
+            label="Comparison trajectory"
+        ),
+        Line2D(
+            [0], [0],
+            color=safe_color,
+            linewidth=2.5,
+            label="Safe UKC"
+        ),
+        Line2D(
+            [0], [0],
+            color=buffer_color,
+            linewidth=2.5,
+            label="UKC buffer violation"
+        ),
+        Line2D(
+            [0], [0],
+            color=grounding_color,
+            linewidth=2.5,
+            label="Minimum UKC violation"
+        ),
+    ]
+
+    # ax1.legend(
+    #     handles=legend_elements,
+    #     loc="best",
+    #     fontsize=9,
+    #     framealpha=0.9
+    # )
+
+    # ------------------------------------------------------------
+    # Axes
+    # ------------------------------------------------------------
+
+    ax1.set_xlim(0, 1200)
+    ax1.set_ylim(y_plot_min, y_plot_max)
+
+    ax1.set_xlabel("x (m)")
+    ax1.set_ylabel("y (m)")
+
+    figure1.tight_layout()
+
+    # ============================================================
+    # Figure 2: Vertical anti-grounding behaviour
+    # ============================================================
+
+    figure2, ax2 = plt.subplots(
+        figsize=(1200*px, 350*px)
+    )
+
+
+    # ------------------------------------------------------------
+    # Waterway depth at actual vessel position
+    # ------------------------------------------------------------
+
+    depth_values = np.array([
+                get_channel_depth(x*1, -y*1, 1200, 800)
+                for x, y in zip(myvessel.ontology.x,myvessel.ontology.y)
+            ])
+
+
+    # ------------------------------------------------------------
+    # UKC boundaries
+    # ------------------------------------------------------------
+
+    channel_UKC_min = (
+        depth_values - UKC0
+    )
+
+    channel_UKC_buff = (
+        depth_values - UKC0 - UKC1
+    )
+
+
+    # ------------------------------------------------------------
+    # Vessel keel and static draft
+    # ------------------------------------------------------------
+
+    vessel_keel = np.asarray([
+        z + myvessel.ontology.Td[0]
+        for z in myvessel.ontology.zhat
+    ], dtype=float)
+
+
+    vessel_draft = np.full(
+        len(myvessel.ontology.zhat),
+        myvessel.ontology.Td[0],
+        dtype=float
+    )
+
+
+    x_plot = np.asarray(
+        myvessel.ontology.x,
+        dtype=float
+    )
+
+
+    # ------------------------------------------------------------
+    # UKC represented by THIS figure
+    # ------------------------------------------------------------
+
+    UKC_plot = (
+        depth_values - vessel_keel
+    )
+
+    buffer_violation = (
+        UKC_plot < (UKC0 + UKC1)
+    )
+
+    safe_operation = ~buffer_violation
+
+
+    # ------------------------------------------------------------
+    # Axes orientation
+    # ------------------------------------------------------------
+
+    ax2.invert_yaxis()
+
+
+    # ------------------------------------------------------------
+    # Waterway floor and static draft
+    # ------------------------------------------------------------
+
+    floor_line, = ax2.plot(
+        x_plot,
+        depth_values,
+        'k',
+        label='Waterway floor'
+    )
+
+    draft_line, = ax2.plot(
+        x_plot,
+        vessel_draft,
+        'k--',
+        label='Static draft'
+    )
+
+
+    # ------------------------------------------------------------
+    # UKC areas
+    # ------------------------------------------------------------
+
+    # Minimum UKC
+    area0 = ax2.fill_between(
+        x_plot,
+        depth_values,
+        channel_UKC_min,
+        color="#d00404",
+        label='Minimum UKC'
+    )
+
+
+    # Buffer UKC
+    area1 = ax2.fill_between(
+        x_plot,
+        channel_UKC_min,
+        channel_UKC_buff,
+        color="#ffff009d",
+        label='Buffer UKC'
+    )
+
+
+    # Extra UKC:
+    # only draw where the vessel actually has UKC > UKC0 + UKC1
+    area2 = ax2.fill_between(
+        x_plot,
+        channel_UKC_buff,
+        vessel_keel,
+        where=safe_operation,
+        interpolate=True,
+        color="#85ffff",
+        label='Extra UKC'
+    )
+
+
+    # Squat sinkage
+    area3 = ax2.fill_between(
+        x_plot,
+        vessel_keel,
+        vessel_draft,
+        color="#009519",
+        label='Squat sinkage'
+    )
+
+
+    # ------------------------------------------------------------
+    # Keel position
+    # ------------------------------------------------------------
+
+    # Solid blue when UKC buffer is satisfied
+    safe_keel = np.where(
+        safe_operation,
+        vessel_keel,
+        np.nan
+    )
+
+    keel_safe_line, = ax2.plot(
+        x_plot,
+        safe_keel,
+        color="#0022ff",
+        linestyle="-",
+        linewidth=1.5,
+        label='Keel position'
+    )
+
+
+    # Dashed blue when UKC buffer is violated
+    violation_keel = np.where(
+        buffer_violation,
+        vessel_keel,
+        np.nan
+    )
+
+    keel_violation_line, = ax2.plot(
+        x_plot,
+        violation_keel,
+        color="#0022ff",
+        linestyle="--",
+        linewidth=1.8,
+        label='UKC buffer violation'
+    )
+
+
+    # ------------------------------------------------------------
+    # Legend
+    # ------------------------------------------------------------
+
+    ax2.legend(
+        handles=[
+            draft_line,
+            area3,
+            keel_safe_line,
+            keel_violation_line,
+            area2,
+            area1,
+            area0,
+            floor_line
+        ],
+        loc='upper right'
+    )
+
+
+    # ------------------------------------------------------------
+    # Axes
+    # ------------------------------------------------------------
+
+    ax2.set_xlabel('x (m)')
+    ax2.set_ylabel('Vertical position below water surface (m)')
+    ax2.set_xlim(0, 6000)
+
+    figure2.tight_layout()
+    # ============================================================
+    # Figure 3: UKC versus time
+    # ============================================================
+
+    figure3, ax3 = plt.subplots(
+        figsize=(7, 4)
+    )
+
+    time = np.asarray(
+        myvessel.ontology.time,
+        dtype=float
+    )
+
+    UKC = np.asarray(
+        myvessel.ontology.UKC,
+        dtype=float
+    )
+
+    n = min(len(time), len(UKC))
+    time = time[:n]
+    UKC = UKC[:n]
+
+
+    # ------------------------------------------------------------
+    # Remove start/end simulation transients
+    # ------------------------------------------------------------
+
+    trim_start = 5
+    trim_end = 5
+
+    time_plot = time[trim_start:-trim_end]
+    UKC_plot = UKC[trim_start:-trim_end]
+
+
+    # ------------------------------------------------------------
+    # Plot UKC
+    # ------------------------------------------------------------
+
+    ax3.plot(
+        time_plot,
+        UKC_plot,
+        color="#0022ff",
+        linewidth=1.5,
+        label='UKC'
+    )
+
+
+    # Minimum UKC
+    ax3.axhline(
+        UKC0,
+        color='red',
+        linestyle='--',
+        linewidth=1.3,
+        label='Minimum UKC'
+    )
+
+
+    # Minimum UKC + buffer
+    ax3.axhline(
+        UKC0 + UKC1,
+        color='#d9b300',
+        linestyle='--',
+        linewidth=1.3,
+        label='Buffer UKC'
+    )
+
+
+    # ------------------------------------------------------------
+    # Axes
+    # ------------------------------------------------------------
+
+    ax3.set_xlim(
+        time_plot[0],
+        time_plot[-1]
+    )
+
+    ax3.set_ylim(
+        0.0,
+        0.5
+    )
+
+    ax3.set_xlabel('Time (s)')
+    ax3.set_ylabel('UKC (m)')
+
+
+    # ------------------------------------------------------------
+    # Legend
+    # ------------------------------------------------------------
+
+    # ax3.legend(
+    #     loc='upper right',
+    #     frameon=True
+    # )
+    plt.grid()
+
+    figure3.tight_layout()
+    # ============================================================
+    # Figure 4: SOG versus time
+    # ============================================================
+
+    figure4, ax4 = plt.subplots(
+        figsize=(7, 4)
+    )
+
+    time = np.asarray(
+        myvessel.ontology.time,
+        dtype=float
+    )
+
+    SOG = np.asarray(
+        myvessel.ontology.SOG,
+        dtype=float
+    )
+
+    n = min(len(time), len(SOG))
+    time = time[:n]
+    SOG = SOG[:n]
+
+
+    # ------------------------------------------------------------
+    # Remove first/last 5 s simulation transients
+    # ------------------------------------------------------------
+
+    mask = (
+        (time >= time[0] + 5)
+        & (time <= time[-1] - 5)
+    )
+
+    time_plot = time[mask]
+    SOG_plot = SOG[mask]
+
+
+    # Maximum speed: 5 kn -> m/s
+    U_max = 5 * 1.852 / 3.60
+
+
+    # ------------------------------------------------------------
+    # Plot
+    # ------------------------------------------------------------
+
+    ax4.plot(
+        time_plot,
+        SOG_plot,
+        color='b',
+        linewidth=1.5,
+        label=r'$U_s$'
+    )
+
+    ax4.axhline(
+        U_max,
+        color='red',
+        linestyle='--',
+        linewidth=1.3,
+        label=r'$\bar{U}_s$'
+    )
+
+
+    # ------------------------------------------------------------
+    # Axes
+    # ------------------------------------------------------------
+
+    ax4.set_xlim(
+        time_plot[0],
+        time_plot[-1]
+    )
+
+    ax4.set_xlabel('Time (s)')
+    ax4.set_ylabel(r'$U_s$ (m/s)')
+
+    # ax4.legend(
+    #     loc='best'
+    # )
+
+    plt.grid()
+    figure4.tight_layout()
+    # ============================================================
+    # Figure 5: CTE versus time
+    # ============================================================
+
+    figure5, ax5 = plt.subplots(
+        figsize=(7, 4)
+    )
+
+    time = np.asarray(
+        myvessel.ontology.time,
+        dtype=float
+    )
+
+    CTE_plot_all = np.asarray(
+        CTE,
+        dtype=float
+    )
+
+    n = min(len(time), len(CTE_plot_all))
+    time = time[:n]
+    CTE_plot_all = CTE_plot_all[:n]
+
+
+    # ------------------------------------------------------------
+    # Remove first/last 5 s simulation transients
+    # ------------------------------------------------------------
+
+    mask = (
+        (time >= time[0] + 5)
+        & (time <= time[-1] - 5)
+    )
+
+    time_plot = time[mask]
+    CTE_plot = CTE_plot_all[mask]
+
+
+    # ------------------------------------------------------------
+    # Plot
+    # ------------------------------------------------------------
+
+    ax5.plot(
+        time_plot,
+        CTE_plot,
+        color='b',
+        linewidth=1.5
+    )
+
+
+    # ------------------------------------------------------------
+    # Axes
+    # ------------------------------------------------------------
+
+    ax5.set_xlim(
+        time_plot[0],
+        time_plot[-1]
+    )
+
+    ax5.set_xlabel('Time (s)')
+    ax5.set_ylabel('CTE (m)')
+    plt.grid()
+    figure5.tight_layout()
+    # ============================================================
+    # Figure 6: Propeller-speed control effort
+    # ============================================================
+
+    figure6, ax6 = plt.subplots(
+        figsize=(7.2, 2.8)
+    )
+
+    time = np.asarray(
+        myvessel.ontology.time,
+        dtype=float
+    )
+
+    nP = np.asarray(
+        myvessel.ontology.propeller_speed,
+        dtype=float
+    )   # rps
+
+
+    n = min(len(time), len(nP))
+    time_np = time[:n]
+    nP = nP[:n]
+
+
+    # Remove first/last 5 s simulation transients
+    mask_np = (
+        (time_np >= time_np[0] + 5)
+        & (time_np <= time_np[-1] - 5)
+    )
+
+    time_np_plot = time_np[mask_np]
+    nP_plot = nP[mask_np]
+
+
+    # MPC bounds [rps]
+    nP_min = 50.0
+    nP_max = 600.0
+
+
+    ax6.plot(
+        time_np_plot,
+        [nP*60 for nP in nP_plot],
+        color='b',
+        linewidth=1.5,
+        label=r'$n_P$'
+    )
+
+    ax6.axhline(
+        nP_max,
+        color='red',
+        linestyle='--',
+        linewidth=1.3,
+        label='Upper bound'
+    )
+
+    ax6.axhline(
+        nP_min,
+        color='red',
+        linestyle='--',
+        linewidth=1.3,
+        label='Lower bound'
+    )
+
+    ax6.set_xlim(
+        time_np_plot[0],
+        time_np_plot[-1]
+    )
+
+    ax6.set_xlabel('Time (s)')
+    ax6.set_ylabel(r'$n_P$ (rps)')
+
+    # ax6.legend(loc='best')
+    plt.grid()
+    figure6.tight_layout()
+    # ============================================================
+    # Figure 7: Rudder-angle control effort
+    # ============================================================
+
+    figure7, ax7 = plt.subplots(
+        figsize=(7.2, 2.8)
+    )
+
+    time = np.asarray(
+        myvessel.ontology.time,
+        dtype=float
+    )
+
+    delta = np.rad2deg(
+        np.asarray(
+            myvessel.ontology.rudder_angle,
+            dtype=float
+        )
+    )
+
+
+    n = min(len(time), len(delta))
+    time_delta = time[:n]
+    delta = delta[:n]
+
+
+    # ------------------------------------------------------------
+    # Remove first/last 5 s simulation transients
+    # ------------------------------------------------------------
+
+    mask_delta = (
+        (time_delta >= time_delta[0] + 5)
+        & (time_delta <= time_delta[-1] - 5)
+    )
+
+    time_delta_plot = time_delta[mask_delta]
+    delta_plot = delta[mask_delta]
+
+
+    # ------------------------------------------------------------
+    # MPC bounds
+    # ------------------------------------------------------------
+
+    delta_min = -35.0
+    delta_max = 35.0
+
+
+    # ------------------------------------------------------------
+    # Plot
+    # ------------------------------------------------------------
+
+    ax7.plot(
+        time_delta_plot,
+        delta_plot,
+        color='b',
+        linewidth=1.5,
+        alpha=0.8,
+        label=r'$\delta$'
+    )
+
+    ax7.axhline(
+        delta_max,
+        color='red',
+        linestyle='--',
+        linewidth=1.3,
+        label='Upper bound'
+    )
+
+    ax7.axhline(
+        delta_min,
+        color='red',
+        linestyle='--',
+        linewidth=1.3,
+        label='Lower bound'
+    )
+
+
+    # ------------------------------------------------------------
+    # Axes
+    # ------------------------------------------------------------
+
+    ax7.set_xlim(
+        time_delta_plot[0],
+        time_delta_plot[-1]
+    )
+
+    ax7.set_xlabel('Time (s)')
+    ax7.set_ylabel(r'$\delta$ (deg)')
+
+    # ax7.legend(loc='best')
+    plt.grid()
+    figure7.tight_layout()
+    #==============================
+    # Figure 3
+    #==============================
+    # === Plots generation ===
+    # figure, axs=plt.subplots(2,2,figsize=(1200*px, 700*px))
+    # axs=[axs[0,0],axs[0,1],axs[1,0],axs[1,1]]
+    # axs[0].plot(myvessel.ontology.time,myvessel.ontology.SOG,'b')
+    # axs[0].set_title(r'(a) Ship speed ($U$)')
+    # axs[0].set_ylabel(r'$U$ (m/s)')
+    # axs[0].set_xlabel('Time (s)')
+    # # axs[1,0].plot(x_grid,depth_samples)
+    # # axs[1,0].set_title('Depth profile')
+    # line_np=axs[1].plot(myvessel.ontology.time,[nP* 60 for nP in myvessel.ontology.propeller_speed],'b')
+    # line_np[0].set_label('nP')
+    # axs[1].set_title(r'(b) Propeller speed ($n_P$)')
+    # axs[1].set_xlabel('Time (s)')
+    # axs[1].set_ylabel(r'$n_P$ (RPM)')
+    # # axs[1].legend()
+    # line_delta=axs[2].plot(myvessel.ontology.time,[np.rad2deg(delta) for delta in myvessel.ontology.rudder_angle],'b',alpha=0.7)
+    # axs[2].set_title(r'(c) Rudder angle ($\delta$)')
+    # axs[2].set_xlabel('Time (s)')
+    # axs[2].set_ylabel(r'$\delta$ (degree)')
+    # line_delta[0].set_label('delta')
+    # axs[3].set_title(r'(d) Rudder angle ($\delta$), $t=14\sim45$s')
+    # try:
+    #     index_start=myvessel.ontology.time.index(14)
+    #     index_end=myvessel.ontology.time.index(45)
+    #     line_delta_sel=axs[3].plot(myvessel.ontology.time[index_start:index_end+1],[np.rad2deg(delta) for delta in myvessel.ontology.rudder_angle[index_start:index_end+1]],'b')
+    # except:
+    #     pass
+    # axs[2].set_xlabel('Time (s)')
+    # axs[2].set_ylabel(r'$\delta$ (degree)')
+    # # axs[2].legend()
+    # figure.tight_layout()
+    # figure, axs=plt.subplots(1,2,figsize=(1200*px, 400*px))
+    # lines_psi=[]
+    # lines_psi.extend(axs[0].plot(myvessel.ontology.time,np.rad2deg(myvessel.ontology.psi_d),"#ffae00"))
+    # lines_psi.extend(axs[0].plot(myvessel.ontology.time,np.rad2deg(myvessel.ontology.ypsi),'b',alpha=0.50))
+    # lines_psi[0].set_label('Reference')
+    # lines_psi[1].set_label('Yaw angle')
+    # axs[0].set_title('(a) Heading angle')
+    # axs[0].set_xlabel('Time (s)')
+    # axs[0].set_ylabel(r'Yaw angle ($^\circ$)')
+    # axs[0].legend()
+    # lines_psi_err=axs[1].plot(myvessel.ontology.time,np.rad2deg(psi_error),'b')
+    # axs[1].annotate(f"Max abs yaw angle\nerror:{np.rad2deg(max_abs_psi_err): .3f} degs",(0,(0+2*np.rad2deg(np.min(psi_error))/3)))
+    # axs[1].set_title('(b) Yaw angle error')
+    # lines_psi_err[0].set_label('Error')
+    # axs[1].set_xlabel('Time (s)')
+    # axs[1].set_ylabel(r'Yaw angle ($^\circ$)')
+    # # axs[1].legend()
+    # figure.tight_layout()
+    # figure, axs=plt.subplots(1,2,figsize=(1200*px, 400*px))
+    # line_TD=axs[0].plot(myvessel.ontology.time,y_deviation,'b')
+    # axs[0].set_title('(a) Tracking deviation (TD)')
+    # axs[0].set_xlabel('Time (s)')
+    # axs[0].set_ylabel('TD (m)')
+    # axs[0].annotate(f"Max.abs: {max_tracking_err:.4f}\nMean:    {np.mean(y_deviation):.4f}\nStd.dev: {np.std(y_deviation):.4f}",(0.2*myvessel.ontology.time[-1],-0.004))
+    # line_cte=axs[1].plot(myvessel.ontology.time,CTE,'b',alpha=0.7)
+    # axs[1].set_title('(b) Cross-track error (CTE)')
+    # axs[1].set_xlabel('Time (s)')
+    # axs[1].set_ylabel('CTE (m)')
+    # figure.tight_layout()
+    # figure, axs=plt.subplots(1,2,figsize=(1200*px, 400*px))
+    # line_z=axs[0].plot(myvessel.ontology.time,myvessel.ontology.zhat,'b')
+    # axs[0].set_title(r'(a) Squat sinkage ($z$)')
+    # axs[0].set_xlabel('Time (s)')
+    # axs[0].set_ylabel('Sinkage (m)')
+    # line_UKCA=axs[1].plot([myvessel.ontology.time[0],myvessel.ontology.time[-1]],[100,100],'k--',myvessel.ontology.time,UKCA*100,'b')
+    # axs[1].set_title('(b) UKC allowance (UKCA)')
+    # axs[1].set_xlabel('Time (s)')
+    # axs[1].set_ylabel('UKCA (%)')
+    # axs[1].yaxis.set_major_formatter(ticker.PercentFormatter(decimals=1))
+    # axs[1].annotate(f"Mean:    {100*UKCA_mean:.1f}%\nStd.dev: {100*UKCA_std:.1f}%",(0.2*myvessel.ontology.time[-1],40))
+    # figure.tight_layout()
+    # figure, axs=plt.subplots(2,1,figsize=(1200*px, 600*px))
+    # lines=axs[0].plot(x_ref_route,y_ref_route,'k',x_ref_route,y_ref_route,'ro',markerfacecolor='none')
+    # lines.extend(axs[0].plot(myvessel.ontology.x,myvessel.ontology.yy,'b'))
+    # lines[0].set_label('Reference')
+    # lines[1].set_label('Waypoints')
+    # lines[2].set_label('Trajectory')
+    # axs[0].set_title('(a) Path following')
+    # axs[0].set_xlabel('x (m)')
+    # axs[0].set_ylabel('y (m)')
+    # axs[0].set_ylim(-W_channel/2,W_channel/2)
+    # axs[0].invert_yaxis()
+    # axs[0].annotate(f"Max abs deviation: {max_tracking_err:.3f} meters",((x_ref_route[0]*2+x_ref_route[-1]*3)/5,(y_ref_route[0]+y_ref_route[-1]+W_channel)/4))
+    # axs[0].legend(loc='upper right')
+    # # === NEW: Comparison Plot for CTE and UKC ===
+    # px = 1/plt.rcParams['figure.dpi']
+    # fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(1000*px, 800*px), sharex=True)
+    
+    # # Data preparation for comparison
+    # time = myvessel.ontology.time # Assuming same time vector for both
+    
+    # # Calculate CTE for both (if not already stored)
+    # cte_data = []
+    # ukc_data = []
+    
+    # for v in [vessels[0], vessels[1]]:
+    #     # Calculate CTE if not pre-computed
+    #     # (Using your existing logic adapted for generic 'v')
+    #     c = [-(v.ontology.yx[i]-v.route[0][0])*np.sin(0) + (v.ontology.yy[i]-v.route[1][0])*np.cos(0) 
+    #          for i in range(len(v.ontology.yx))]
+    #     cte_data.append(c)
+    #     ukc_data.append(np.array(v.ontology.UKC))
+
+    # # Plotting CTE
+    # ax1.plot(time, cte_data[0], label='Vessel 0')
+    # ax1.plot(time, cte_data[1], label='Vessel 1', linestyle='--')
+    # ax1.set_title('Cross-Track Error Comparison')
+    # ax1.set_ylabel('CTE (m)')
+    # ax1.legend()
+    # ax1.grid(True, alpha=0.3)
+
+    # # Plotting UKC
+    # ax2.plot(time, ukc_data[0], label='Vessel 0')
+    # ax2.plot(time, ukc_data[1], label='Vessel 1', linestyle='--')
+    # ax2.set_title('Under Keel Clearance Comparison')
+    # ax2.set_xlabel('Time (s)')
+    # ax2.set_ylabel('UKC (m)')
+    # ax2.legend()
+    # ax2.grid(True, alpha=0.3)
+    # figure.tight_layout()
     if (suppress_output==False):
         plt.show()
 

@@ -975,6 +975,52 @@
     
 
 
+    <!-- http://example.com/ontology#MAI_W -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#MAI_W">
+        <rdf:type rdf:resource="http://example.com/ontology#Vessel"/>
+        <B rdf:datatype="http://www.w3.org/2001/XMLSchema#double">9.6</B>
+        <Cb rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.673</Cb>
+        <Iz rdf:datatype="http://www.w3.org/2001/XMLSchema#double">3.0E-4</Iz>
+        <L rdf:datatype="http://www.w3.org/2001/XMLSchema#double">84.97</L>
+        <SOG rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0</SOG>
+        <Td rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.86</Td>
+        <UKC rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0</UKC>
+        <d_ufo rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0</d_ufo>
+        <port_distance rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0</port_distance>
+        <propeller_pitch rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0</propeller_pitch>
+        <propeller_speed rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0</propeller_speed>
+        <psi rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.524</psi>
+        <psi_d rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.524</psi_d>
+        <psiref rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.524</psiref>
+        <r rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0</r>
+        <rref rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0</rref>
+        <rudder_angle rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0</rudder_angle>
+        <safedistance rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0</safedistance>
+        <safelaneangle rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0</safelaneangle>
+        <safelanedistance rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0</safelanedistance>
+        <safespeed rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0</safespeed>
+        <speed_ufo rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0</speed_ufo>
+        <starboard_distance rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0</starboard_distance>
+        <time rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0</time>
+        <u rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.6</u>
+        <uref rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0</uref>
+        <v rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0</v>
+        <vref rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0</vref>
+        <x rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0</x>
+        <xref rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0</xref>
+        <y rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0</y>
+        <ypsi rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0</ypsi>
+        <yr rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0</yr>
+        <yref rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0</yref>
+        <yu rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0</yu>
+        <yv rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0</yv>
+        <yx rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0</yx>
+        <yy rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0</yy>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://example.com/ontology#Operational_environment -->
 
     <owl:NamedIndividual rdf:about="http://example.com/ontology#Operational_environment">
@@ -984,6 +1030,436 @@
         <environment_type></environment_type>
     </owl:NamedIndividual>
     
+
+
+    <!-- http://example.com/ontology#Other1 -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#Other1">
+        <rdf:type rdf:resource="http://example.com/ontology#Vessel"/>
+        <B rdf:datatype="http://www.w3.org/2001/XMLSchema#float">10.67</B>
+        <Cb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.725</Cb>
+        <Iz rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3677627.5</Iz>
+        <Jz rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.00048</Jz>
+        <L rdf:datatype="http://www.w3.org/2001/XMLSchema#float">100.96</L>
+        <Nb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.4435</Nb>
+        <Nbbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.1277</Nbbb>
+        <Nbbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.2249</Nbbr>
+        <Nbrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0561</Nbrr>
+        <Nr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0861</Nr>
+        <Nrrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0522</Nrrr>
+        <SOG rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</SOG>
+        <Td rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.74</Td>
+        <UKC rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0</UKC>
+        <Xbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.3637</Xbb>
+        <Xbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.248</Xbr>
+        <Xrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.1055</Xrr>
+        <Yb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.2375</Yb>
+        <Ybbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4.2245</Ybbb>
+        <Ybbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.6005</Ybbr>
+        <Ybrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.7129</Ybrr>
+        <Yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.113</Yr>
+        <Yrrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.2003</Yrrr>
+        <m rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4281.8</m>
+        <mx rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0195</mx>
+        <my rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.3722</my>
+        <port_distance rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</port_distance>
+        <propeller_pitch rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</propeller_pitch>
+        <propeller_speed rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</propeller_speed>
+        <psi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-2.62</psi>
+        <psi_d rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-2.62</psi_d>
+        <psiref rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-2.62</psiref>
+        <r rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</r>
+        <rudder_angle rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</rudder_angle>
+        <starboard_distance rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</starboard_distance>
+        <time rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</time>
+        <u rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.5</u>
+        <v rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</v>
+        <vol rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2140.9</vol>
+        <x rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2495.7</x>
+        <xg rdf:datatype="http://www.w3.org/2001/XMLSchema#float">14.56</xg>
+        <y rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-1425.0</y>
+        <ypsi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</ypsi>
+        <yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yr>
+        <yu rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yu>
+        <yv rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yv>
+        <yx rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yx>
+        <yy rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yy>
+        <zhat rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</zhat>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#Other2 -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#Other2">
+        <rdf:type rdf:resource="http://example.com/ontology#Vessel"/>
+        <B rdf:datatype="http://www.w3.org/2001/XMLSchema#float">10.67</B>
+        <Cb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.725</Cb>
+        <Iz rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3677627.5</Iz>
+        <Jz rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.00048</Jz>
+        <L rdf:datatype="http://www.w3.org/2001/XMLSchema#float">100.96</L>
+        <Nb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.4435</Nb>
+        <Nbbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.1277</Nbbb>
+        <Nbbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.2249</Nbbr>
+        <Nbrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0561</Nbrr>
+        <Nr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0861</Nr>
+        <Nrrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0522</Nrrr>
+        <SOG rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</SOG>
+        <Td rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.74</Td>
+        <UKC rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0</UKC>
+        <Xbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.3637</Xbb>
+        <Xbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.248</Xbr>
+        <Xrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.1055</Xrr>
+        <Yb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.2375</Yb>
+        <Ybbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4.2245</Ybbb>
+        <Ybbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.6005</Ybbr>
+        <Ybrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.7129</Ybrr>
+        <Yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.113</Yr>
+        <Yrrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.2003</Yrrr>
+        <m rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4281.8</m>
+        <mx rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0195</mx>
+        <my rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.3722</my>
+        <port_distance rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</port_distance>
+        <propeller_pitch rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</propeller_pitch>
+        <propeller_speed rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</propeller_speed>
+        <psi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.14</psi>
+        <psi_d rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.14</psi_d>
+        <psiref rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.14</psiref>
+        <r rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</r>
+        <rudder_angle rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</rudder_angle>
+        <starboard_distance rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</starboard_distance>
+        <time rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</time>
+        <u rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.5</u>
+        <v rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</v>
+        <vol rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2140.9</vol>
+        <x rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2500.0</x>
+        <xg rdf:datatype="http://www.w3.org/2001/XMLSchema#float">14.56</xg>
+        <y rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-2000.0</y>
+        <ypsi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.14</ypsi>
+        <yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yr>
+        <yu rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yu>
+        <yv rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yv>
+        <yx rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2500.0</yx>
+        <yy rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-2000.0</yy>
+        <zhat rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</zhat>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#Other3 -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#Other3">
+        <rdf:type rdf:resource="http://example.com/ontology#Vessel"/>
+        <B rdf:datatype="http://www.w3.org/2001/XMLSchema#float">10.67</B>
+        <Cb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.725</Cb>
+        <Iz rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3677627.5</Iz>
+        <Jz rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.00048</Jz>
+        <L rdf:datatype="http://www.w3.org/2001/XMLSchema#float">100.96</L>
+        <Nb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.4435</Nb>
+        <Nbbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.1277</Nbbb>
+        <Nbbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.2249</Nbbr>
+        <Nbrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0561</Nbrr>
+        <Nr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0861</Nr>
+        <Nrrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0522</Nrrr>
+        <SOG rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</SOG>
+        <Td rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.74</Td>
+        <UKC rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0</UKC>
+        <Xbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.3637</Xbb>
+        <Xbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.248</Xbr>
+        <Xrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.1055</Xrr>
+        <Yb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.2375</Yb>
+        <Ybbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4.2245</Ybbb>
+        <Ybbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.6005</Ybbr>
+        <Ybrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.7129</Ybrr>
+        <Yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.113</Yr>
+        <Yrrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.2003</Yrrr>
+        <m rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4281.8</m>
+        <mx rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0195</mx>
+        <my rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.3722</my>
+        <port_distance rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</port_distance>
+        <propeller_pitch rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</propeller_pitch>
+        <propeller_speed rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</propeller_speed>
+        <psi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.57</psi>
+        <psi_d rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.57</psi_d>
+        <psiref rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.57</psiref>
+        <r rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</r>
+        <rudder_angle rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</rudder_angle>
+        <starboard_distance rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</starboard_distance>
+        <time rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</time>
+        <u rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.5</u>
+        <v rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</v>
+        <vol rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2140.9</vol>
+        <x rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4750.0</x>
+        <xg rdf:datatype="http://www.w3.org/2001/XMLSchema#float">14.56</xg>
+        <y rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-2700.0</y>
+        <ypsi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</ypsi>
+        <yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yr>
+        <yu rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yu>
+        <yv rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yv>
+        <yx rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yx>
+        <yy rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yy>
+        <zhat rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</zhat>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#Other4 -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#Other4">
+        <rdf:type rdf:resource="http://example.com/ontology#Vessel"/>
+        <B rdf:datatype="http://www.w3.org/2001/XMLSchema#float">10.67</B>
+        <Cb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.725</Cb>
+        <Iz rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3677627.5</Iz>
+        <Jz rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.00048</Jz>
+        <L rdf:datatype="http://www.w3.org/2001/XMLSchema#float">100.96</L>
+        <Nb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.4435</Nb>
+        <Nbbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.1277</Nbbb>
+        <Nbbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.2249</Nbbr>
+        <Nbrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0561</Nbrr>
+        <Nr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0861</Nr>
+        <Nrrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0522</Nrrr>
+        <SOG rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</SOG>
+        <Td rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.74</Td>
+        <UKC rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0</UKC>
+        <Xbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.3637</Xbb>
+        <Xbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.248</Xbr>
+        <Xrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.1055</Xrr>
+        <Yb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.2375</Yb>
+        <Ybbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4.2245</Ybbb>
+        <Ybbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.6005</Ybbr>
+        <Ybrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.7129</Ybrr>
+        <Yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.113</Yr>
+        <Yrrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.2003</Yrrr>
+        <m rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4281.8</m>
+        <mx rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0195</mx>
+        <my rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.3722</my>
+        <port_distance rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</port_distance>
+        <propeller_pitch rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</propeller_pitch>
+        <propeller_speed rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</propeller_speed>
+        <psi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.14</psi>
+        <psi_d rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.14</psi_d>
+        <psiref rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.14</psiref>
+        <r rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</r>
+        <rudder_angle rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</rudder_angle>
+        <starboard_distance rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</starboard_distance>
+        <time rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</time>
+        <u rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.5</u>
+        <v rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</v>
+        <vol rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2140.9</vol>
+        <x rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4000.0</x>
+        <xg rdf:datatype="http://www.w3.org/2001/XMLSchema#float">14.56</xg>
+        <y rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-2000.0</y>
+        <ypsi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.14</ypsi>
+        <yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yr>
+        <yu rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yu>
+        <yv rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yv>
+        <yx rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4000.0</yx>
+        <yy rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-2000.0</yy>
+        <zhat rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</zhat>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.com/ontology#Own -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#Own">
+        <rdf:type rdf:resource="http://example.com/ontology#Vessel"/>
+        <B rdf:datatype="http://www.w3.org/2001/XMLSchema#float">10.67</B>
+        <Cb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.725</Cb>
+        <Iz rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3677627.5</Iz>
+        <Jz rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.00048</Jz>
+        <L rdf:datatype="http://www.w3.org/2001/XMLSchema#float">100.96</L>
+        <Nb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.4435</Nb>
+        <Nbbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.1277</Nbbb>
+        <Nbbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.2249</Nbbr>
+        <Nbrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0561</Nbrr>
+        <Nr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0861</Nr>
+        <Nrrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0522</Nrrr>
+        <SOG rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</SOG>
+        <Td rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.74</Td>
+        <UKC rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0</UKC>
+        <Xbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.3637</Xbb>
+        <Xbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.248</Xbr>
+        <Xrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.1055</Xrr>
+        <Yb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.2375</Yb>
+        <Ybbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4.2245</Ybbb>
+        <Ybbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.6005</Ybbr>
+        <Ybrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.7129</Ybrr>
+        <Yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.113</Yr>
+        <Yrrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.2003</Yrrr>
+        <m rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4281.8</m>
+        <mx rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0195</mx>
+        <my rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.3722</my>
+        <port_distance rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</port_distance>
+        <propeller_pitch rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</propeller_pitch>
+        <propeller_speed rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</propeller_speed>
+        <psi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</psi>
+        <psi_d rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</psi_d>
+        <psiref rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</psiref>
+        <r rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</r>
+        <rudder_angle rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</rudder_angle>
+        <starboard_distance rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</starboard_distance>
+        <time rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</time>
+        <u rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.5</u>
+        <v rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</v>
+        <vol rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2140.9</vol>
+        <x rdf:datatype="http://www.w3.org/2001/XMLSchema#float">981.5</x>
+        <xg rdf:datatype="http://www.w3.org/2001/XMLSchema#float">14.56</xg>
+        <y rdf:datatype="http://www.w3.org/2001/XMLSchema#float">297.18</y>
+        <ypsi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</ypsi>
+        <yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yr>
+        <yu rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yu>
+        <yv rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yv>
+        <yx rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yx>
+        <yy rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yy>
+        <zhat rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</zhat>
+    </owl:NamedIndividual>
+    
+     <!-- http://example.com/ontology#JB114 -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#JB114">
+        <rdf:type rdf:resource="http://example.com/ontology#Vessel"/>
+
+        <L rdf:datatype="http://www.w3.org/2001/XMLSchema#float">55.0</L>
+        <B rdf:datatype="http://www.w3.org/2001/XMLSchema#float">32.0</B>
+        <Td rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.0</Td>
+
+        <Cb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.90</Cb>
+
+        <vol rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4752.0</vol>
+        <m rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4871.0</m>
+
+        <Iz rdf:datatype="http://www.w3.org/2001/XMLSchema#float">9.20E8</Iz>
+        <U rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4.0</U>
+        <u rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4.0</u>
+        <SOG rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4.0</SOG>
+
+        <Yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Yr>
+        <Nr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Nr>
+        <Yv rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Yv>
+        <Nv rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Nv>
+
+        <Nrdot rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Nrdot>
+        <Yvdot rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Yvdot>
+        <Nvdot rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Nvdot>
+        <Yrdot rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Yrdot>
+
+        <Yd rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Yd>
+        <Nd rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Nd>
+        <Xu rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Xu>
+        <Xudot rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Xudot>
+        <T rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</T>
+        <K rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</K>
+        <Kv rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Kv>
+        <Tv rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Tv>
+
+        <psi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</psi>
+        <r rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</r>
+        <v rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</v>
+
+        <x rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</x>
+        <y rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</y>
+
+        <time rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</time>
+    </owl:NamedIndividual>
+
+
+    <!-- http://example.com/ontology#KOMODO -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#KOMODO">
+        <rdf:type rdf:resource="http://example.com/ontology#Vessel"/>
+
+        <L rdf:datatype="http://www.w3.org/2001/XMLSchema#float">70.0</L>
+        <B rdf:datatype="http://www.w3.org/2001/XMLSchema#float">16.0</B>
+        <Td rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4.5</Td>
+
+        <Cb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.75</Cb>
+
+        <vol rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3780.0</vol>
+        <m rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3875.0</m>
+
+        <Iz rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.19E9</Iz>
+        <U rdf:datatype="http://www.w3.org/2001/XMLSchema#float">6.0</U>
+        <u rdf:datatype="http://www.w3.org/2001/XMLSchema#float">6.0</u>
+        <SOG rdf:datatype="http://www.w3.org/2001/XMLSchema#float">6.0</SOG>
+
+        <Yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Yr>
+        <Nr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Nr>
+        <Yv rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Yv>
+        <Nv rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Nv>
+        <Xu rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Xu>
+        <Xudot rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Xudot>
+        <Nrdot rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Nrdot>
+        <Yvdot rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Yvdot>
+        <Nvdot rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Nvdot>
+        <Yrdot rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Yrdot>
+
+        <Yd rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Yd>
+        <Nd rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Nd>
+
+        <T rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</T>
+        <K rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</K>
+        <Kv rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Kv>
+        <Tv rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Tv>
+
+        <psi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</psi>
+        <r rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</r>
+        <v rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</v>
+
+        <x rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</x>
+        <y rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</y>
+
+        <time rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</time>
+    </owl:NamedIndividual>
+
+
+    <!-- http://example.com/ontology#NOORDPOOL -->
+
+    <owl:NamedIndividual rdf:about="http://example.com/ontology#NOORDPOOL">
+        <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#Vessel"/>
+
+        <L rdf:datatype="http://www.w3.org/2001/XMLSchema#float">20.0</L>
+        <B rdf:datatype="http://www.w3.org/2001/XMLSchema#float">6.0</B>
+        <Td rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.0</Td>
+
+        <Cb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.55</Cb>
+
+        <vol rdf:datatype="http://www.w3.org/2001/XMLSchema#float">132.0</vol>
+        <m rdf:datatype="http://www.w3.org/2001/XMLSchema#float">135.0</m>
+
+        <Iz rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.40E6</Iz>
+        <U rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.5</U>
+        <u rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.5</u>
+        <SOG rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.5</SOG>
+
+        <Yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Yr>
+        <Nr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Nr>
+        <Yv rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Yv>
+        <Nv rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Nv>
+        <Xu rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Xu>
+        <Xudot rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Xudot>
+        <Nrdot rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Nrdot>
+        <Yvdot rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Yvdot>
+        <Nvdot rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Nvdot>
+        <Yrdot rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Yrdot>
+
+        <Yd rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Yd>
+        <Nd rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Nd>
+
+        <T rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</T>
+        <K rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</K>
+        <Kv rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Kv>
+        <Tv rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</Tv>
+
+        <psi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</psi>
+        <r rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</r>
+        <v rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</v>
+
+        <x rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</x>
+        <y rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</y>
+
+        <time rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</time>
+    </owl:NamedIndividual>
 
 
     <!-- http://example.com/ontology#Profile_1 -->
@@ -1064,281 +1540,8 @@
         <yy rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yy>
         <zhat rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</zhat>
     </owl:NamedIndividual>
+    
 
-    <!-- http://example.com/ontology#Own-->
-
-    <owl:NamedIndividual rdf:about="http://example.com/ontology#Own">
-        <rdf:type rdf:resource="http://example.com/ontology#Vessel"/>
-        <B rdf:datatype="http://www.w3.org/2001/XMLSchema#float">10.67</B>
-        <Cb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.725</Cb>
-        <Iz rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3677627.5</Iz>
-        <Jz rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.00048</Jz>
-        <L rdf:datatype="http://www.w3.org/2001/XMLSchema#float">100.96</L>
-        <Nb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.4435</Nb>
-        <Nbbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.1277</Nbbb>
-        <Nbbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.2249</Nbbr>
-        <Nbrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0561</Nbrr>
-        <Nr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0861</Nr>
-        <Nrrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0522</Nrrr>
-        <SOG rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</SOG>
-        <Td rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.74</Td>
-        <UKC rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0</UKC>
-        <Xbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.3637</Xbb>
-        <Xbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.248</Xbr>
-        <Xrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.1055</Xrr>
-        <Yb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.2375</Yb>
-        <Ybbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4.2245</Ybbb>
-        <Ybbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.6005</Ybbr>
-        <Ybrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.7129</Ybrr>
-        <Yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.113</Yr>
-        <Yrrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.2003</Yrrr>
-        <m rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4281.8</m>
-        <mx rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0195</mx>
-        <my rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.3722</my>
-        <port_distance rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</port_distance>
-        <propeller_pitch rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</propeller_pitch>
-        <propeller_speed rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</propeller_speed>
-        <psi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</psi>
-        <psi_d rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</psi_d>
-        <psiref rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</psiref>
-        <r rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</r>
-        <rudder_angle rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</rudder_angle>
-        <starboard_distance rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</starboard_distance>
-        <time rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</time>
-        <u rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.5</u>
-        <v rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</v>
-        <vol rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2140.9</vol>
-        <x rdf:datatype="http://www.w3.org/2001/XMLSchema#float">100</x>
-        <xg rdf:datatype="http://www.w3.org/2001/XMLSchema#float">14.56</xg>
-        <y rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-2000</y>
-        <ypsi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</ypsi>
-        <yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yr>
-        <yu rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yu>
-        <yv rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yv>
-        <yx rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yx>
-        <yy rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yy>
-        <zhat rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</zhat>
-    </owl:NamedIndividual>
-
-    <!-- http://example.com/ontology#Other1 -->
-
-    <owl:NamedIndividual rdf:about="http://example.com/ontology#Other1">
-        <rdf:type rdf:resource="http://example.com/ontology#Vessel"/>
-        <B rdf:datatype="http://www.w3.org/2001/XMLSchema#float">10.67</B>
-        <Cb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.725</Cb>
-        <Iz rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3677627.5</Iz>
-        <Jz rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.00048</Jz>
-        <L rdf:datatype="http://www.w3.org/2001/XMLSchema#float">100.96</L>
-        <Nb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.4435</Nb>
-        <Nbbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.1277</Nbbb>
-        <Nbbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.2249</Nbbr>
-        <Nbrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0561</Nbrr>
-        <Nr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0861</Nr>
-        <Nrrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0522</Nrrr>
-        <SOG rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</SOG>
-        <Td rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.74</Td>
-        <UKC rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0</UKC>
-        <Xbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.3637</Xbb>
-        <Xbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.248</Xbr>
-        <Xrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.1055</Xrr>
-        <Yb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.2375</Yb>
-        <Ybbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4.2245</Ybbb>
-        <Ybbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.6005</Ybbr>
-        <Ybrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.7129</Ybrr>
-        <Yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.113</Yr>
-        <Yrrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.2003</Yrrr>
-        <m rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4281.8</m>
-        <mx rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0195</mx>
-        <my rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.3722</my>
-        <port_distance rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</port_distance>
-        <propeller_pitch rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</propeller_pitch>
-        <propeller_speed rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</propeller_speed>
-        <psi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-2.62</psi>
-        <psi_d rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-2.62</psi_d>
-        <psiref rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-2.62</psiref>
-        <r rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</r>
-        <rudder_angle rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</rudder_angle>
-        <starboard_distance rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</starboard_distance>
-        <time rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</time>
-        <u rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.5</u>
-        <v rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</v>
-        <vol rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2140.9</vol>
-        <x rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2495.7</x>
-        <xg rdf:datatype="http://www.w3.org/2001/XMLSchema#float">14.56</xg>
-        <y rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-1425</y>
-        <ypsi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</ypsi>
-        <yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yr>
-        <yu rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yu>
-        <yv rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yv>
-        <yx rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yx>
-        <yy rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yy>
-        <zhat rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</zhat>
-    </owl:NamedIndividual>
-
-    <!-- http://example.com/ontology#Other2-->
-
-    <owl:NamedIndividual rdf:about="http://example.com/ontology#Other2">
-        <rdf:type rdf:resource="http://example.com/ontology#Vessel"/>
-        <B rdf:datatype="http://www.w3.org/2001/XMLSchema#float">10.67</B>
-        <Cb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.725</Cb>
-        <Iz rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3677627.5</Iz>
-        <Jz rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.00048</Jz>
-        <L rdf:datatype="http://www.w3.org/2001/XMLSchema#float">100.96</L>
-        <Nb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.4435</Nb>
-        <Nbbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.1277</Nbbb>
-        <Nbbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.2249</Nbbr>
-        <Nbrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0561</Nbrr>
-        <Nr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0861</Nr>
-        <Nrrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0522</Nrrr>
-        <SOG rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</SOG>
-        <Td rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.74</Td>
-        <UKC rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0</UKC>
-        <Xbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.3637</Xbb>
-        <Xbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.248</Xbr>
-        <Xrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.1055</Xrr>
-        <Yb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.2375</Yb>
-        <Ybbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4.2245</Ybbb>
-        <Ybbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.6005</Ybbr>
-        <Ybrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.7129</Ybrr>
-        <Yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.113</Yr>
-        <Yrrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.2003</Yrrr>
-        <m rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4281.8</m>
-        <mx rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0195</mx>
-        <my rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.3722</my>
-        <port_distance rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</port_distance>
-        <propeller_pitch rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</propeller_pitch>
-        <propeller_speed rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</propeller_speed>
-        <psi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.14</psi>
-        <psi_d rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.14</psi_d>
-        <psiref rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.14</psiref>
-        <r rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</r>
-        <rudder_angle rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</rudder_angle>
-        <starboard_distance rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</starboard_distance>
-        <time rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</time>
-        <u rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.5</u>
-        <v rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</v>
-        <vol rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2140.9</vol>
-        <x rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2500</x>
-        <xg rdf:datatype="http://www.w3.org/2001/XMLSchema#float">14.56</xg>
-        <y rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-2000</y>
-        <ypsi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.14</ypsi>
-        <yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yr>
-        <yu rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yu>
-        <yv rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yv>
-        <yx rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2500</yx>
-        <yy rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-2000</yy>
-        <zhat rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</zhat>
-    </owl:NamedIndividual>
-
-    <!-- http://example.com/ontology#Other3-->
-
-    <owl:NamedIndividual rdf:about="http://example.com/ontology#Other3">
-        <rdf:type rdf:resource="http://example.com/ontology#Vessel"/>
-        <B rdf:datatype="http://www.w3.org/2001/XMLSchema#float">10.67</B>
-        <Cb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.725</Cb>
-        <Iz rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3677627.5</Iz>
-        <Jz rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.00048</Jz>
-        <L rdf:datatype="http://www.w3.org/2001/XMLSchema#float">100.96</L>
-        <Nb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.4435</Nb>
-        <Nbbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.1277</Nbbb>
-        <Nbbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.2249</Nbbr>
-        <Nbrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0561</Nbrr>
-        <Nr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0861</Nr>
-        <Nrrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0522</Nrrr>
-        <SOG rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</SOG>
-        <Td rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.74</Td>
-        <UKC rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0</UKC>
-        <Xbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.3637</Xbb>
-        <Xbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.248</Xbr>
-        <Xrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.1055</Xrr>
-        <Yb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.2375</Yb>
-        <Ybbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4.2245</Ybbb>
-        <Ybbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.6005</Ybbr>
-        <Ybrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.7129</Ybrr>
-        <Yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.113</Yr>
-        <Yrrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.2003</Yrrr>
-        <m rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4281.8</m>
-        <mx rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0195</mx>
-        <my rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.3722</my>
-        <port_distance rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</port_distance>
-        <propeller_pitch rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</propeller_pitch>
-        <propeller_speed rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</propeller_speed>
-        <psi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.57</psi>
-        <psi_d rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.57</psi_d>
-        <psiref rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.57</psiref>
-        <r rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</r>
-        <rudder_angle rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</rudder_angle>
-        <starboard_distance rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</starboard_distance>
-        <time rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</time>
-        <u rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.5</u>
-        <v rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</v>
-        <vol rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2140.9</vol>
-        <x rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4750</x>
-        <xg rdf:datatype="http://www.w3.org/2001/XMLSchema#float">14.56</xg>
-        <y rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-2700</y>
-        <ypsi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</ypsi>
-        <yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yr>
-        <yu rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yu>
-        <yv rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yv>
-        <yx rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yx>
-        <yy rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yy>
-        <zhat rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</zhat>
-    </owl:NamedIndividual>
-
-    <!-- http://example.com/ontology#Other4-->
-
-    <owl:NamedIndividual rdf:about="http://example.com/ontology#Other4">
-        <rdf:type rdf:resource="http://example.com/ontology#Vessel"/>
-        <B rdf:datatype="http://www.w3.org/2001/XMLSchema#float">10.67</B>
-        <Cb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.725</Cb>
-        <Iz rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3677627.5</Iz>
-        <Jz rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.00048</Jz>
-        <L rdf:datatype="http://www.w3.org/2001/XMLSchema#float">100.96</L>
-        <Nb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.4435</Nb>
-        <Nbbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.1277</Nbbb>
-        <Nbbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.2249</Nbbr>
-        <Nbrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0561</Nbrr>
-        <Nr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0861</Nr>
-        <Nrrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0522</Nrrr>
-        <SOG rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</SOG>
-        <Td rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.74</Td>
-        <UKC rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0</UKC>
-        <Xbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.3637</Xbb>
-        <Xbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.248</Xbr>
-        <Xrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.1055</Xrr>
-        <Yb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.2375</Yb>
-        <Ybbb rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4.2245</Ybbb>
-        <Ybbr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.6005</Ybbr>
-        <Ybrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.7129</Ybrr>
-        <Yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.113</Yr>
-        <Yrrr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.2003</Yrrr>
-        <m rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4281.8</m>
-        <mx rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0195</mx>
-        <my rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.3722</my>
-        <port_distance rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</port_distance>
-        <propeller_pitch rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</propeller_pitch>
-        <propeller_speed rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</propeller_speed>
-        <psi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.14</psi>
-        <psi_d rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.14</psi_d>
-        <psiref rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.14</psiref>
-        <r rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</r>
-        <rudder_angle rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</rudder_angle>
-        <starboard_distance rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</starboard_distance>
-        <time rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</time>
-        <u rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.5</u>
-        <v rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</v>
-        <vol rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2140.9</vol>
-        <x rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4000</x>
-        <xg rdf:datatype="http://www.w3.org/2001/XMLSchema#float">14.56</xg>
-        <y rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-2000</y>
-        <ypsi rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.14</ypsi>
-        <yr rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yr>
-        <yu rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yu>
-        <yv rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</yv>
-        <yx rdf:datatype="http://www.w3.org/2001/XMLSchema#float">4000</yx>
-        <yy rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-2000</yy>
-        <zhat rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</zhat>
-    </owl:NamedIndividual>
 
     <!-- http://example.com/ontology#Radar -->
 

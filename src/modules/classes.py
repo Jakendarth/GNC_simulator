@@ -1,16 +1,33 @@
 from math import inf
-from scipy.integrate import odeint, solve_ivp
+from scipy.integrate import solve_ivp
 import numpy as np
 import matplotlib.pyplot as plt
-import pygame
 import pandas as pd
 import sys
 sys.path.insert(1, 'src/')
 from traffic_planner import *
 from hydrostatics import *
-from owlready2 import default_world
-import copy
-import time
+import csv
+
+def run_models(myvessel, time_step):
+    # with open('input/vessel_dynamics.csv', mode='r', newline='', encoding='utf-8') as infile:
+    #     reader = csv.reader(infile)
+    #     next(reader)
+    #     for row in reader:
+    #         params=[float(row[24]), float(row[25]), float(row[26]), float(row[27]),float(row[28]), float(row[29])]
+    # #print(f"Realizing {model_name}...")
+    sol = solve_ivp(
+        myvessel.three_dof_fossen, 
+        (0, time_step),
+        y0=[x for i,x in enumerate(myvessel.state) if i!=5],  
+        method='Radau',
+        rtol=1e-8,
+        atol=1e-8
+    )
+    myvessel.state=[sol.y[ii][-1] for ii in range(len(sol.y))]
+    myvessel.sensor_output() 
+    myvessel.state.insert(5,myvessel.z)
+    return sol.t,sol.y
 #===============================================
 # Classes
 #===============================================
@@ -41,6 +58,7 @@ class vessel:
         self.u=[0]#[[[300/60],[0],[0.328]]]#[0]#[[0,150/60]]
         self.head_on_upperbound=[]
         self.head_on_lowerbound=[]
+        self.Np=[400/60]
         self.ratio_head_on=[]
         self.cond1=[]
         self.chi=[0]
@@ -55,6 +73,7 @@ class vessel:
         self.arrived=0
         self.ratio_time=[]
         self.MPC=None
+        self.Anti_Grounding_MPC=None
         self.timehat=[]
         self.simulator=None
         self.estimator=None
@@ -117,6 +136,16 @@ class vessel:
         self.ontology.starboard_distance.extend([float(self.distance_from_bank1)] * t1_len)
         self.ontology.port_distance.extend([float(self.distance_from_bank2)] * t1_len)
         self.ontology.time.extend([float(tt + start_time) for tt in mytime])
+        self.ontology.zhat.extend([float(self.z)]*t1_len)
+        depths = np.array([
+                get_channel_depth(x*1, -y*1, 1200, 800)
+                for x, y in zip(mystate[3], mystate[4])
+            ])
+
+        UKC = depths - self.ontology.Td[0] - self.z
+
+        self.ontology.UKC.extend(UKC.tolist())
+        self.ontology.propeller_speed.extend([float(self.Np[-1])]*t1_len)
         self.time=start_time
     def check_for_wp_segment_switch(self, wp_segment, d_0wp):
         return check_for_wp_segment_switch(self, wp_segment, d_0wp)
@@ -130,9 +159,18 @@ class vessel:
     def PID_controller(self, psi_d, dt):
         return PID_controller(self, psi_d, dt)
     
-    def MPC_controller(self, psi_d):
-        self.MPC=MPC_controller(self,psi_d)
-        return MPC_controller(self, psi_d)
+    def MPC_controller(self, psi_d,MPC_prediction_horizon,MPC_time_step,min_depth,max_depth,sim_scale):
+        self.MPC=MPC_controller(self,psi_d,MPC_prediction_horizon,MPC_time_step,min_depth,max_depth,sim_scale)
+
+    def Anti_Grounding_MPC_controller(self, psi_d,MPC_prediction_horizon,MPC_time_step,min_depth,max_depth,sim_scale,weights=np.array([1, 1e-2, -5e-4, 1e-4, 1e-2])):
+        self.Anti_Grounding_MPC=Anti_Grounding_MPC_controller(self,psi_d,MPC_prediction_horizon,MPC_time_step,min_depth,max_depth,sim_scale,weights=np.array([1, 1e-2, -5e-4, 1e-4, 1e-2]))
+    
+    def get_next_ag_step(self):
+        return get_next_ag_step(self)
+
+    def get_next_mpc_step(self):
+        return get_next_mpc_step(self)
+
     def make_MPC_step(self):
          return self.MPC.make_step(np.array(self.y[3:5]+self.y[6:]+self.y[0:3]).reshape(-1,1))
     def reset(self):
@@ -164,7 +202,150 @@ class vessel:
         self.ontology.Yv=-np.pi/2*ke-1.4*self.ontology.Cb[0]*self.ontology.B[0]/self.ontology.L[0]
         ke=k/((self.ontology.Td[0]/(2*envr.H))*k+((np.pi*self.ontology.Td[0])/(2*envr.H))/ np.tan((np.pi*self.ontology.Td[0])/(2*envr.H))**1.7)
         self.ontology.Nv=-ke
-    def calculate_forces(self,v):
+    def calculate_hydro_params(self):
+        Ar=0.02*self.ontology.L[0]*self.ontology.Td[0]
+        # Calculate non-dimensional mass directly from geometry
+        m_prime = (2 * self.ontology.Cb[0] * self.ontology.B[0] * self.ontology.Td[0]) / (self.ontology.L[0]**2)
+        # Overwrite ontology values safely
+        self.ontology.m[0] = m_prime
+        self.ontology.Iz[0] = (0.1 * m_prime) # Or slightly more accurate: m_prime / 16
+        self.U=1
+        self.ontology.Xu=-2*0.02*1.7*self.ontology.L[0]*(2*self.ontology.Td[0]+self.ontology.B[0])*self.ontology.Cb[0]/self.ontology.L[0]**2
+        self.ontology.Xudot=-0.17*self.ontology.m[0]
+        self.ontology.Yr=-np.pi*(self.ontology.Td[0]/self.ontology.L[0])**2*(-0.5+2.2*self.ontology.B[0]/self.ontology.L[0]-0.08*self.ontology.B[0]/self.ontology.Td[0])
+        self.ontology.Yv=-np.pi*(self.ontology.Td[0]/self.ontology.L[0])**2*(1+0.4*self.ontology.Cb[0]*self.ontology.B[0]/self.ontology.Td[0])
+        self.ontology.Nv=-np.pi*(self.ontology.Td[0]/self.ontology.L[0])**2*(0.5+2.4*self.ontology.Td[0]/self.ontology.L[0])
+        self.ontology.Nr=-np.pi*(self.ontology.Td[0]/self.ontology.L[0])**2*(0.25-0.56*self.ontology.B[0]/self.ontology.L[0]+0.039*self.ontology.B[0]/self.ontology.Td[0])
+        self.ontology.Yvdot=-np.pi*(self.ontology.Td[0]/self.ontology.L[0])**2*(1-5.1*(self.ontology.B[0]/self.ontology.L[0])**2+0.16*self.ontology.Cb[0]*self.ontology.B[0]/self.ontology.Td[0])
+        self.ontology.Nrdot=-np.pi*(self.ontology.Td[0]/self.ontology.L[0])**2*(1/12-0.33*self.ontology.B[0]/self.ontology.L[0]+0.017*self.ontology.Cb[0]*self.ontology.B[0]/self.ontology.Td[0])
+        self.ontology.Yrdot=-np.pi*(self.ontology.Td[0]/self.ontology.L[0])**2*(0.67*self.ontology.B[0]/self.ontology.L[0]-0.0033*(self.ontology.B[0]/self.ontology.Td[0])**2)
+        self.ontology.Nvdot=-np.pi*(self.ontology.Td[0]/self.ontology.L[0])**2*(1.1*self.ontology.B[0]/self.ontology.L[0]-0.041*self.ontology.B[0]/self.ontology.Td[0])
+        self.ontology.Yd=-3*Ar/self.ontology.L[0]**2
+        self.ontology.Nd=-0.5*self.ontology.Yd
+        # 6. Nomoto Conversions
+        # Common stability determinant for steady state
+        det = self.ontology.Yv * (self.ontology.Nr - self.ontology.m[0] * self.ontology.xg[0]) - self.ontology.Nv * (self.ontology.Yr - self.ontology.m[0])
+        
+        # Common cross-coupling numerator block for T and Tv
+        cross_coupling = (
+            (self.ontology.Yvdot - self.ontology.m[0]) * (self.ontology.Nr - self.ontology.m[0] * self.ontology.xg[0]) + 
+            (self.ontology.Nrdot - self.ontology.Iz[0]) * self.ontology.Yv - 
+            (self.ontology.Yrdot - self.ontology.m[0] * self.ontology.xg[0]) * self.ontology.Nv - 
+            (self.ontology.Nvdot - self.ontology.m[0] * self.ontology.xg[0]) * (self.ontology.Yr - self.ontology.m[0])
+        )
+
+        # Calculate Indices
+        self.ontology.K = (self.ontology.Nv * self.ontology.Yd - self.ontology.Yv * self.ontology.Nd) / det
+        self.ontology.Kv = ((self.ontology.Nr - self.ontology.m[0] * self.ontology.xg[0]) * self.ontology.Yd - (self.ontology.Yr - self.ontology.m[0]) * self.ontology.Nd) / det
+
+        self.ontology.T = (cross_coupling / det) - (
+            ((self.ontology.Nvdot - self.ontology.m[0] * self.ontology.xg[0]) * self.ontology.Yd - (self.ontology.Yvdot - self.ontology.m[0]) * self.ontology.Nd) / (self.ontology.Nv * self.ontology.Yd - self.ontology.Yv * self.ontology.Nd)
+        )
+        
+        self.ontology.Tv = (cross_coupling / det) - (
+            (self.ontology.Yd * (self.ontology.Nrdot - self.ontology.Iz[0]) - self.ontology.Nd * (self.ontology.Yrdot - self.ontology.m[0] * self.ontology.xg[0])) / (self.ontology.Yd * (self.ontology.Nr - self.ontology.m[0] * self.ontology.xg[0]) - self.ontology.Nd * (self.ontology.Yr - self.ontology.m[0]))
+        )
+    def three_dof_fossen(self, t, state):
+        # --- Constants ---
+        rho = 1025.0
+        Dp=0.7*self.ontology.Td[0]
+        AR=0.02*self.ontology.L[0]*self.ontology.Td[0]
+        XH, YH, NH, XP, XR, YR, NR, YB, NB, U = self.calculate_forces(state,Dp=Dp,AR=AR,wb=2)
+        #print("state is ", state)
+        # --- State ---
+        u, v, r = state[0], state[1], state[2]
+        psi = state[5]
+        nu = np.array([u, v, r])
+        
+        # --- Geometry / mass properties ---
+        L = self.ontology.L[0]
+        Td=self.ontology.Td[0]
+        m = self.ontology.m[0] * rho * 0.5 * L**3
+        Iz = self.ontology.Iz[0] * rho * 0.5 * L**5
+        xg = 0.2 * L   # CG offset
+        
+        # --- Added mass (dimensional, consistent scaling) ---
+        Xudot = self.ontology.Xudot * rho * 0.5 * L**3
+        Yvdot = self.ontology.Yvdot * rho * 0.5 * L**3
+        Yrdot = self.ontology.Yrdot * rho * 0.5 * L**4
+        Nvdot = self.ontology.Nvdot * rho * 0.5 * L**4
+        Nrdot = self.ontology.Nrdot * rho * 0.5 * L**5
+        #Nvdot=Yrdot
+        # --- Linear damping coefficients (dimensional) ---
+        
+        Xu = self.ontology.Xu * 0.5 * rho * L**2 * U
+        Yv = self.ontology.Yv * 0.5 * rho * L**2 * U
+        Yr = self.ontology.Yr * 0.5 * rho * L**3 * U
+        Nv = self.ontology.Nv * 0.5 * rho * L**3 * U
+        Nr = self.ontology.Nr * 0.5 * rho * L**4 * U
+        
+        # ------------------------------------------------------------------
+        # MASS MATRIX (Rigid body + added mass)
+        # ------------------------------------------------------------------
+        M = np.array([
+            [m - Xudot,          0,              0],
+            [0,           m - Yvdot,     m*xg - Yrdot],
+            [0,           m*xg - Nvdot,  Iz - Nrdot]
+        ])
+        # ------------------------------------------------------------------
+        # CORIOLIS MATRIX (rigid-body + added mass)
+        # Ensures skew-symmetry: C + C^T = 0
+        # ------------------------------------------------------------------
+        
+        # Precompute useful terms
+        m11 = m - Xudot
+        m22 = m - Yvdot
+        m23 = m*xg - Yrdot
+        
+        c13 = -m22 * v - m23 * r
+        c23 =  m11 * u
+        
+        C = np.array([
+            [0,   0,   c13],
+            [0,   0,   c23],
+            [-c13, -c23, 0]
+        ])
+        # ------------------------------------------------------------------
+        # DAMPING MATRIX (linear)
+        # ------------------------------------------------------------------
+        # D = np.array([
+        #     [Xu,  0,   0],
+        #     [0,   Yv,  Yr],
+        #     [0,   Nv,  Nr]
+        # ])
+        # ------------------------------------------------------------------
+        # FORCES (τ) — MUST be dimensional forces [N, N, Nm]
+        # ------------------------------------------------------------------
+        # Here we assume calculate_forces already returns DIMENSIONAL FORCES
+        # (otherwise this must be fixed upstream)
+        X = 0.5 * rho * L * Td * U**2 * (XH+XP+XR)
+        Y = 0.5 * rho * L * Td * U**2 * (YH+YR)+YB
+        N = 0.5 * rho * L**2 * Td * U**2 * (NH+NR)+NB
+        tau = np.array([
+            X,
+            Y,
+            N
+        ])
+        # ------------------------------------------------------------------
+        # EQUATIONS OF MOTION
+        # ------------------------------------------------------------------
+        rhs = tau - C @ nu #+ D @ nu
+        nu_dot = np.linalg.solve(M, rhs)
+        # ------------------------------------------------------------------
+        # KINEMATICS
+        # ------------------------------------------------------------------
+        x_dot = u * np.cos(psi) - v * np.sin(psi)
+        y_dot = u * np.sin(psi) + v * np.cos(psi)
+        psi_dot = r
+        return [
+            nu_dot[0],
+            nu_dot[1],
+            nu_dot[2],
+            x_dot,
+            y_dot,
+            psi_dot
+        ]
+    def calculate_forces(self,v,Dp=None,AR=None,wb=None):
         """
             Calculate the forces acting on the hull, propeller, and rudder of a ship, as well as the bank effects.
             Parameters:
@@ -299,23 +480,39 @@ class vessel:
         #================================================
         # 1. Constants
         #================================================
+        Dp_default = 1.8
+        AR_default = 4
+        wb_default=4
+        # --- Optional user overrides ---
+        if Dp is None:
+            Dp = Dp_default
+        else:
+            Dp = float(Dp)
+
+        if AR is None:
+            AR = AR_default
+        else:
+            AR = float(AR)
+        if wb is None:
+            wb = wb_default
+        else:
+            wb = float(wb)
+
         R0=0.0428                    #[checked]
         t=0.326                      #[checked]
         wp0=0.576                    #[checked]
         C1=0.98
-        Dp=1.8                       #[checked]
+        
         lp=(self.ontology.L[0]/2+self.ontology.xg[-1])/(self.ontology.L[0])
         aH=0.418                     #[checked]
         lR=-1.113                    #[checked]
         tR=0.055                     #[checked]
         xH=-0.189*(self.ontology.L[0])                    #[checked]
         gR=0.293                     #[checked]
-        AR=4
         e=1.823                      #[checked]
         k=0.6/e                      #[checked]
         w=0.3
         xR=-self.ontology.L[0]/2
-        wb=4 # Bank width
         ys=self.distance_from_bank1
         yp=self.distance_from_bank2
         yB3 = 0.5*self.ontology.B[0]*(1/yp+1/ys)  # Non-dimensional ship-bank distance
@@ -333,7 +530,10 @@ class vessel:
         # print("delta is ", delta)
         #c=0.364/(150/60)**2
         p=0.328#self.u[-1][2][0]#0.328
-        Np=300/60#self.u[-1][0][0]#300/60#500/60 #self.u[-1][1]
+        try:
+            Np=self.Np[-1]
+        except:
+            Np=50/60#self.u[-1][0][0]#300/60#500/60 #self.u[-1][1]
         #================================================
         # 3. Problem defined variables
         #================================================
@@ -385,7 +585,7 @@ class vessel:
         #================================================
         # 6. Bank effects calculation
         #================================================
-        #print(U)
+        #print("U is ",U)
         #print(XP)
         Uref=np.sqrt(np.abs((1025*0.25*self.ontology.L[0]*self.ontology.Td[0]*U**2)*XP/(1025*np.pi*Dp**2/8))) # Reference velocity
         h_eff=1.2*self.ontology.Td[0]#cal_depth([v[3],v[4]],self.depths_data)-self.z
@@ -402,11 +602,7 @@ class vessel:
         return XH,YH,NH,XP,XR,YR,NR,YB+Y_BH+Y_BP,NB+N_BH+N_BP,U
     def rhs(self,s, v,tend=1000): 
         XH,YH,NH,XP,XR,YR,NR,YB,NB,U=self.calculate_forces(v)
-        Am=self.ontology.B[0]*self.ontology.Td[0]
-        h=1.2*self.ontology.Td[0]
-        beff=5*self.ontology.B[0]
-        Ac=beff*h
-        self.z=0.133*self.ontology.Cb[0]*(Am/(Ac-Am))**(2/3)*U**2.08
+        # self.z=0.133*self.ontology.Cb[0]*(Am/(Ac-Am))**(2/3)*U**2.08
         XH=XH*self.ontology.force_switch[0]
         YH=YH*self.ontology.force_switch[0]
         NH=NH*self.ontology.force_switch[0]
@@ -416,17 +612,34 @@ class vessel:
         NR=NR*self.ontology.force_switch[2]
         YB=YB*self.ontology.force_switch[3]
         NB=NB*self.ontology.force_switch[3]
-        m26_nd=0.0108#(-4.640E-02)*(1.2)+(6.648E-02)
-        m11_nd=0.0195#(-2.772E-02)*(1.2)+(5.277E-02)
-        m22_nd=0.3722#(-8.757E-01)*(1.2)+(1.423E+00)
-        m66_nd=0.0124#(-2.241E-02)*(1.2)+(3.929E-02)
-        m11=m11_nd*(0.5*1025*self.ontology.L[0]**2*self.ontology.Td[0])
-        m22=m22_nd*(0.5*1025*self.ontology.L[0]**2*self.ontology.Td[0])
-        m26=m26_nd*(0.5*1025*self.ontology.L[0]**3*self.ontology.Td[0])
-        m66=m66_nd*(0.5*1025*self.ontology.L[0]**4*self.ontology.Td[0])
-        X_d=(1025*0.5*self.ontology.L[0]*self.ontology.Td[0]*U**2)*(XP+XR)+(1025*0.5*self.ontology.L[0]*self.ontology.Td[0]*U**2)*XH
-        Y_d=(1025*0.5*self.ontology.L[0]*self.ontology.Td[0]*U**2)*(YR+YB)+(1025*0.5*self.ontology.L[0]*self.ontology.Td[0]*U**2)*YH
-        N_d=(1025*0.5*self.ontology.L[0]**2*self.ontology.Td[0]*U**2)*(NR+NB)+(1025*0.5*self.ontology.L[0]**2*self.ontology.Td[0]*U**2)*NH
+        h=get_channel_depth(v[3]*0.2,-v[4]*0.2,1200,800) # get channel depth
+        if h==0:
+            h=3.3
+        Am=self.ontology.B[0]*self.ontology.Td[0]
+        beff=24.4 # width fixed W=4B for now
+        Ac=beff*h
+        # self.z=0.133*self.ontology.Cb[0]*(Am/(Ac-Am))**(2/3)*U**2.08
+        S_f=0.98*Am/Ac
+        K_barrass=5.74*S_f**0.76
+        if K_barrass<1:
+            K_barrass=1
+        if K_barrass>2:
+            K_barrass=2
+        self.z=0.01*K_barrass*self.ontology.Cb[0]*(U*3.6/1.852)**2
+        Td_affected=self.ontology.Td[0]+self.z
+        hdratio_affected=h/Td_affected
+        m11_nd, m22_nd, m26_nd, m66_nd = cal_addedmass_nd(hdratio_affected)
+        # m26_nd=0.0108#(-4.640E-02)*(1.2)+(6.648E-02)
+        # m11_nd=0.0195#(-2.772E-02)*(1.2)+(5.277E-02)
+        # m22_nd=0.3722#(-8.757E-01)*(1.2)+(1.423E+00)
+        # m66_nd=0.0124#(-2.241E-02)*(1.2)+(3.929E-02)
+        m11=m11_nd*(0.5*1025*self.ontology.L[0]**2*Td_affected)
+        m22=m22_nd*(0.5*1025*self.ontology.L[0]**2*Td_affected)
+        m26=m26_nd*(0.5*1025*self.ontology.L[0]**3*Td_affected)
+        m66=m66_nd*(0.5*1025*self.ontology.L[0]**4*Td_affected)
+        X_d=(1025*0.5*self.ontology.L[0]*self.ontology.Td[0]*U**2)*(XP+XR)+(1025*0.5*self.ontology.L[0]*Td_affected*U**2)*XH
+        Y_d=(1025*0.5*self.ontology.L[0]*self.ontology.Td[0]*U**2)*(YR+YB)+(1025*0.5*self.ontology.L[0]*Td_affected*U**2)*YH
+        N_d=(1025*0.5*self.ontology.L[0]**2*self.ontology.Td[0]*U**2)*(NR+NB)+(1025*0.5*self.ontology.L[0]**2*Td_affected*U**2)*NH
         Y_m=Y_d-(self.ontology.m[0]+m11)*v[0]*v[2]
         N_m=N_d-Y_d*self.ontology.xg[0]# Y*xg already extracted
         coeff_matrix=np.array([[self.ontology.m[0]+m22, m26],[m26, self.ontology.Iz[0]+m66]])
@@ -441,7 +654,7 @@ class vessel:
         return(rates_change_modified)
     def eso_rhs(self,s,v,tend=1000):
         L=3*np.ones(6)
-        Gamma=[400,400,400,400,400,400,5*10**(-6)]
+        Gamma=[400,400,400,400,400,400,10**(-6)]
         XH,YH,NH,XP,XR,YR,NR,YB,NB,U=self.calculate_forces(v)
         Am=self.ontology.B[0]*self.ontology.Td[0]
         h=1.2*self.ontology.Td[0]
@@ -618,4 +831,64 @@ class environment:
         ax.set_title('Zandkreek en Veerse Meer')
         plt.xlabel('Longitude')
         plt.ylabel('Latitude')
-        plt.show()  
+        plt.show() 
+
+MODEL_REGISTRY = {
+    "Model_1": {"func": vessel.three_dof_fossen, "params": ["p"]},
+    #"Model_2": {"func": model_beta, "params": ["p1"]}
+}
+
+class Solution:
+    def __init__(self,sensor_sets):
+        self.sensor_division=sensor_sets
+        self.cost=0
+        self.epoch=0
+        self.elapsed=0
+        self.used_sensors=[]
+        self.unused_sensors=[]
+    def update(self,cost,r,sensor_sets):
+        self.sensor_division=sensor_sets
+        self.cost=cost
+        self.epoch=r
+        self.elapsed=time.time()
+
+class Division:
+    def __init__(self, ssets):
+        self.sensor_sets=ssets
+        self.discardable=[]
+        self.exchangeable=[]
+    def sensor_importance(self,agent,dependencies):
+        self.discardable.extend(agent,dependencies)
+        self.exchangeable.extend(agent,[item for item in self.sensor_sets[agent] if item not in dependencies])
+
+class ARR():
+    def __init__(self,sensor,estimator,id):
+            self.sensor=sensor
+            self.estimator=estimator
+            self.dependencies=[]
+            self.signature=[]
+            self.faults=[]
+            self.id=id
+    def find_dependencies(self, graph):
+        self.dependencies=[graph.vs[d]["name"] for d in graph.predecessors(self.estimator) if ("virtual" not in graph.vs[d]["name"]) and ("sensor" in graph.vs[d]["name"])]
+        self.dependencies.append(self.sensor)
+        dependencies=[]
+        for sublist in self.dependencies:
+            for item in sublist:
+                if type(sublist) is str:
+                    dependencies.append(sublist)
+                else:
+                    dependencies.append(item)
+        self.dependencies=dependencies
+        self.dependencies = list(dict.fromkeys(self.dependencies))
+    def fault_signature(self,graph):
+        self.find_dependencies(graph)
+        for d in self.dependencies:
+            self.signature.append('1')
+            self.faults=[graph.vs(f)["name"] for d in self.dependencies for f in graph.predecessors(d)  if "f_" in graph.vs(f)["name"][0]]
+        #self.faults.insert(0, 'ID')
+        self.signature.insert(0, 'ARR '+str(self.id))
+        self.signature=[item for item in self.signature]
+        self.faults=[item2 for item in self.faults for item2 in item]
+        #data=[self.faults,self.signature]
+        #df = pd.DataFrame(data[1],columns=data[0]).set_index('ID')
