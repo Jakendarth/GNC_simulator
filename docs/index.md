@@ -96,6 +96,8 @@ The maintained pages explain concepts and procedures for engineers and researche
 
 Source code, issues and citation information are available in the [GitHub repository](https://github.com/Jakendarth/GNC_simulator). See the repository's [citation metadata](https://github.com/Jakendarth/GNC_simulator/blob/main/CITATION.cff) and [Apache 2.0 license](https://github.com/Jakendarth/GNC_simulator/blob/main/LICENSE).
 
+Read about the associated [Organisations](organisations.md) and [Projects](projects.md), or consult [Licence and Use](licence-and-use.md) for permissions and redistribution conditions.
+
 ```{toctree}
 :hidden:
 :maxdepth: 2
@@ -156,6 +158,16 @@ demonstrations
 :caption: Publications
 
 publications
+```
+
+```{toctree}
+:hidden:
+:maxdepth: 2
+:caption: Organisations and projects
+
+organisations
+projects
+licence-and-use
 ```
 
 ```{toctree}

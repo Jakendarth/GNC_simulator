@@ -161,7 +161,12 @@ def main():
         reference.write_text(function_catalog(root), encoding="utf-8")
         for page in staged.rglob("*.md"):
             page.write_text(prepare_markdown(page.read_text(encoding="utf-8"), page), encoding="utf-8")
-        media = {"GNC_sim_logo.png": root / "assets/GNC_sim_logo.png"}
+        media = {
+            "GNC_sim_logo.png": root / "assets/GNC_sim_logo.png",
+            "branding/safe-net.png": root / "assets/safenet.png",
+            "legal/LICENSE.txt": root / "LICENSE",
+            "legal/NOTICE.txt": root / "NOTICE",
+        }
         for name in ("PID_navigation_video.mp4", "NMPC_navigation_video.mp4", "multi_environment_crossing.mp4", "multi_environment_head_on.mp4"):
             media[f"videos/{name}"] = root / "output" / name
         for name, source in media.items():
