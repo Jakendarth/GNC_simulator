@@ -14,7 +14,7 @@
 
 The technical wiki is configured for **[https://jakendarth.github.io/GNC_simulator/](https://jakendarth.github.io/GNC_simulator/)**. It becomes available after the documentation changes are reviewed, merged and deployed through GitHub Pages.
 
-The wiki explains semantic vessel knowledge, available guidance/control/dynamics functions, and how they connect in pipeline examples. It includes the simulator logo, four embedded recordings, related publications and an automatically generated function catalog. Existing `openwiki/` pages remain available with their generated sources and evidence records preserved.
+The wiki teaches Guidance, Navigation and Control through separate lessons on line-of-sight laws, collision-free planning, sensors and observers, PID feedback and model predictive control. Pipeline examples connect the functions. It also includes semantic vessel knowledge, four embedded recordings, related publications and an automatically generated function catalog. Existing `openwiki/` pages remain available with their generated sources and evidence records preserved.
 
 For a local preview with Python 3.13:
 

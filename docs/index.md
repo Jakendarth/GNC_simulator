@@ -26,7 +26,7 @@ Use this wiki to run a scenario, understand its models, or connect existing func
 
 ## Explore by topic
 
-If you are new to the repository, read [Installation](installation.md), then [Running and inspecting results](user-guide.md). To understand the design before running it, follow Semantics → Guidance → Control and Dynamics → Pipelines below.
+If you are new to the repository, read [Installation](installation.md), then [Running and inspecting results](user-guide.md). To understand the loop, first learn how Navigation represents measured motion, then how Guidance selects a reference, and finally how Control produces actuator commands. Semantics supplies the shared vocabulary; Pipelines connects the functions.
 
 
 -   **Semantics and knowledge**
@@ -39,13 +39,19 @@ If you are new to the repository, read [Installation](installation.md), then [Ru
 
     Follow a route from waypoint generation through encounter assessment to a line-of-sight (LOS) heading reference.
 
-    [Open Guidance](topics/guidance.md)
+    [Line-of-Sight Laws](guidance/line-of-sight.md) · [Collision-free Path Planning](guidance/collision-free-planning.md)
 
--   **Control and dynamics**
+-   **Navigation**
+
+    Distinguish simulated physical state from noisy measurements and observer estimates, with consistent units and coordinate frames.
+
+    [State and Sensors](navigation/state-and-sensors.md) · [State Observers](navigation/observers.md)
+
+-   **Control**
 
     Learn how proportional–integral–derivative (PID) control or model predictive control (MPC) produces commands, and how the vessel model responds.
 
-    [Open Control](topics/control.md) · [Open Dynamics](topics/dynamics.md)
+    [PID Feedback Controllers](control/feedback-controllers.md) · [Model-based Controllers](control/model-based-controllers.md)
 
 -   **Pipelines and examples**
 
@@ -121,17 +127,29 @@ topics/semantics
 :maxdepth: 2
 :caption: Guidance
 
-topics/guidance
+Overview <topics/guidance>
+guidance/line-of-sight
+guidance/collision-free-planning
 ```
 
 ```{toctree}
 :hidden:
 :maxdepth: 2
-:caption: Control and dynamics
+:caption: Navigation
 
-topics/control
-topics/dynamics
-OpenWiki control reference <openwiki/concepts/guidance-control>
+Overview <navigation/index>
+navigation/state-and-sensors
+navigation/observers
+```
+
+```{toctree}
+:hidden:
+:maxdepth: 2
+:caption: Control
+
+Overview <topics/control>
+control/feedback-controllers
+control/model-based-controllers
 ```
 
 ```{toctree}
@@ -176,6 +194,8 @@ licence-and-use
 :caption: Reference
 
 reference/functions
+Vessel and Environment Models <topics/dynamics>
+OpenWiki control reference <openwiki/concepts/guidance-control>
 openwiki/architecture/simulation-state
 openwiki/testing/validation
 developer/documentation

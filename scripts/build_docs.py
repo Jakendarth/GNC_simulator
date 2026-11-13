@@ -21,6 +21,7 @@ def function_catalog(root):
         "They describe available definitions, not a guarantee that every legacy path is integrated or runnable.", "",
         "For behavior and composition, start with [semantics](../topics/semantics.md), "
         "[guidance](../topics/guidance.md), [control](../topics/control.md), "
+        "[navigation](../navigation/index.md), "
         "[dynamics and environment](../topics/dynamics.md), and [pipeline examples](../pipelines.md).", "",
     ]
     paths = sorted((root / "src").rglob("*.py")) + [root / "main.py", root / "plot_results.py"]

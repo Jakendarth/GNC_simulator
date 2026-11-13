@@ -57,7 +57,7 @@ Read this paper for a broader view of how semantic information connects vessel a
 
 **Bibliographic status:** the author-supplied citation states “to appear in the proceedings.” The official [TRA 2026 program booklet](https://traconference.eu/events/traconferece/pdfs/6eb61f9a-1779298793.pdf) lists the title and authors. A final proceedings DOI and page range remain unverified in this documentation.
 
-**Read alongside:** [observer-informed LOS](topics/guidance.md#line-of-sight-tracking), [control](topics/control.md), and [sensing and histories](topics/dynamics.md#measurements-and-bank-geometry). These are topic suggestions based on the supplied title. A function-by-function mapping to the paper's method has not been verified.
+**Read alongside:** [observer-informed LOS](guidance/line-of-sight.md), [control](topics/control.md), and [sensing and histories](topics/dynamics.md#measurements-and-bank-geometry). These are topic suggestions based on the supplied title. A function-by-function mapping to the paper's method has not been verified.
 
 ```bibtex
 @inproceedings{kougiatsos2026virtualsensor,
@@ -80,7 +80,7 @@ For the Guidance tab, use [rule-aware collision-free planning](#rule-aware-colli
 
 ## Control, dynamics and resilience
 
-For the Control and Dynamics tab, use the [resilient-framework paper](#resilient-mission-adaptation) and [virtual-sensor paper](#virtual-sensor-informed-motion-planning) as context. The wiki's controller equations and state conventions describe current source and should be checked there when implementing changes.
+For the Navigation and Control sections, use the [resilient-framework paper](#resilient-mission-adaptation) and [virtual-sensor paper](#virtual-sensor-informed-motion-planning) as context. The wiki's controller equations and state conventions describe current source and should be checked there when implementing changes.
 
 ## Pipeline composition and mission adaptation
 

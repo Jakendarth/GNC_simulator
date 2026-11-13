@@ -17,7 +17,7 @@ Watch how the vessel follows its route while heading control adjusts the rudder.
 
 [Open or download the PID video](assets/videos/PID_navigation_video.mp4)
 
-Read the [PID controller explanation](topics/control.md#pid-background-and-implementation) for the feedback law, then follow the [PID pipeline example](pipelines.md#example-2-substitute-the-existing-pid-controller) to see where commands are applied.
+Read the [PID controller explanation](control/feedback-controllers.md#pid-background-and-implementation) for the feedback law, then follow the [PID pipeline example](pipelines.md#example-2-substitute-the-existing-pid-controller) to see where commands are applied.
 
 ### NMPC navigation
 
@@ -30,13 +30,13 @@ NMPC denotes nonlinear model predictive control. Use this clip alongside the pre
 
 [Open or download the NMPC video](assets/videos/NMPC_navigation_video.mp4)
 
-See [predictive control](topics/control.md#predictive-control-background-and-implementation) for state and command conventions, and the [anti-grounding loop](pipelines.md#example-1-the-existing-anti-grounding-loop) for the current call sequence. The filenames alone do not establish matching experimental conditions between this clip and the PID recording.
+See [predictive control](control/model-based-controllers.md#predictive-control-background-and-implementation) for state and command conventions, and the [anti-grounding loop](pipelines.md#example-1-the-existing-anti-grounding-loop) for the current call sequence. The filenames alone do not establish matching experimental conditions between this clip and the PID recording.
 
 ## Encounter recordings
 
 ### Multi-environment crossing
 
-This recording provides visual context for a crossing encounter. Read [encounter guidance](topics/guidance.md#rule-aware-path-offsets) to connect roles and reference-path changes.
+This recording provides visual context for a crossing encounter. Read [encounter guidance](guidance/collision-free-planning.md#rule-aware-path-offsets) to connect roles and reference-path changes.
 
 <video controls preload="none" playsinline poster="../assets/video-posters/multi_environment_crossing.png" aria-label="Multi-environment crossing encounter recording">
   <source src="../assets/videos/multi_environment_crossing.mp4" type="video/mp4">
@@ -56,4 +56,4 @@ Use this recording with the [semantic role-assignment explanation](topics/semant
 
 [Open or download the head-on video](assets/videos/multi_environment_head_on.mp4)
 
-The [collision-free planning publication](publications.md#rule-aware-collision-free-planning) discusses head-on and crossing encounters. The recordings do not carry enough metadata to identify them as particular published experiments. For the software interfaces behind encounter-aware navigation, return to [encounter guidance](topics/guidance.md#rule-aware-path-offsets) and [semantic role assignment](topics/semantics.md#regulation-activation-and-geometric-decisions).
+The [collision-free planning publication](publications.md#rule-aware-collision-free-planning) discusses head-on and crossing encounters. The recordings do not carry enough metadata to identify them as particular published experiments. For the software interfaces behind encounter-aware navigation, return to [encounter guidance](guidance/collision-free-planning.md#rule-aware-path-offsets) and [semantic role assignment](topics/semantics.md#regulation-activation-and-geometric-decisions).
