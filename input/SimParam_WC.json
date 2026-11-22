@@ -7,10 +7,11 @@
             ]
         }
     ],
+    "Seed": 42,
     "Simulation Time": 2500,
     "Time step": 1,
-    "Sensor noise": 0.0, 
-    "GPS noise": 0.0,
+    "Sensor noise": 0.0,
+    "GPS noise": 0.1,
     "Heading noise": 0.0,
     "Wind speed": 0.0,
     "Wind direction": 0.0,

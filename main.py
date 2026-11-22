@@ -4,6 +4,7 @@
 #================================================
 import sys
 import os
+import shutil
 from owlready2 import * 
 import pygame 
 
@@ -21,13 +22,13 @@ from src.modules.helper_utils import load_sim
 # Modify these lines for each run
 #=============================================
 input_file = os.path.join(current_script_dir, "input/SimParam_WC.json")
-CURRENT_RUN_ID = 14 # Change this for the next runs
-# Run 0 is clean run, without noise
-# Run 1, 2 and 3 correspond to different GPS noise levels (0.1m, 5m, 10m respectively).
-# Run 4, 5, 6 correspond to different heading noise levels (0.1deg, 1 deg, 3 deg respecitively).
-# Run 7, 8, 9 correspond to different wind speeds (5.0 m/s +-0.5m/s +-5deg, 10.0 m/s+-1, 15.0 m/s +- 1 m/s respectively) on 90 degrees with noise at 3 degrees.
-#  Run 10, 11, 12 correspond to different current speeds (0.5 m/s, 1.0 m/s, 1.5 m/s) on 90 degrees with +-0.1m/s +-5deg noise.
-# Run 13, 14, 15 corrsepond to different wave heights (1.0 m +-0.3, 3.0 m +- 1 m, 5.0 m +- 2) on 90 degrees
+CURRENT_RUN_ID = 1  # Change this for the next runs
+# Run 0: Clean baseline run, without noise or disturbances.
+# Run 1, 2, 3: GPS noise levels (sigma = 0.1 m, 5.0 m, 10.0 m).
+# Run 4, 5, 6: Heading noise levels (sigma = 0.1 deg, 1.0 deg, 3.0 deg).
+# Run 7, 8, 9: Wind speeds at 90 deg (5.0 m/s +-1.0 m/s +-3 deg; 10.0 m/s +-1.0 m/s +-5 deg; 15.0 m/s +-1.0 m/s +-5 deg).
+# Run 10, 11, 12: Current speeds at 90 deg (0.5 m/s, 1.0 m/s, 1.5 m/s) with isotropic sigma_c = 0.1 m/s.
+# Run 13, 14, 15: Wave heights at 90 deg (0.5 m +-0.3 m, 1.0 m +-0.5 m, 2.0 m +-0.5 m).
 #=============================================
 
 def main(output_dir):
@@ -50,6 +51,9 @@ def main(output_dir):
     run_output_dir = os.path.join(output_dir, f"run_{CURRENT_RUN_ID}")
     os.makedirs(run_output_dir, exist_ok=True)
     
+    # Sla de exacte parameters en gebruikte seed op bij de resultaten
+    shutil.copy(input_file, os.path.join(run_output_dir, "SimParam_used.json"))
+    
     # IMPORTANT: reload the ontology per run.
     ontology = get_ontology(os.path.join(current_script_dir, "assets/database.xml")).load()
     
@@ -59,7 +63,7 @@ def main(output_dir):
 #=============================================
 # Leave this untouched
 #=============================================
-if (__name__=='__main__'):
+if (__name__ == '__main__'):
     if len(sys.argv) > 1:
         output_dir = sys.argv[1]
     else:

@@ -14,21 +14,31 @@ plt.rcParams.update({
 })
 
 def clean_data(df, time_col='t'):
-    df = df.sort_values(by=time_col).reset_index(drop=True)
-    return df[df[time_col] > 0]
+    df = df.sort_values(by=time_col)
+    df = df[df[time_col] > 0]
+    df = df.replace([np.inf, -np.inf], np.nan).dropna(subset=[time_col])
+    return df.reset_index(drop=True)
+
+def compute_vessel_distance(df_own, df_tgt):
+    merged = pd.merge_asof(df_own, df_tgt, on='t', suffixes=('_own', '_tgt'), direction='nearest')
+    dist = np.sqrt(
+        (merged['x_true_own'] - merged['x_true_tgt'])**2 +
+        (merged['y_true_own'] - merged['y_true_tgt'])**2
+    )
+    return merged['t'], dist
 
 def main():
     runs = ['run_13', 'run_14', 'run_15']
-    noise_labels = ['1.0 m', '3.0 m', '5.0 m']
+    noise_labels = ['0.5 m', '1.0 m', '2.0 m']
     colors = ['blue', 'orange', 'red']
-    
+
     fig, axs = plt.subplots(1, 3, figsize=(18, 5))
     fig.suptitle('Navigation Performance Comparison (Wave Heights at 90 deg)', fontsize=16, fontweight='bold')
-    
+
     rho_s = 10.67 / 2  # Veiligheidsmarge
-    
+
     for i, run_dir in enumerate(runs):
-        output_dir = f'output/{run_dir}'
+        output_dir = os.path.join('output', run_dir)
         try:
             df_own = clean_data(pd.read_csv(os.path.join(output_dir, 'Own.csv')), 't')
             df_other2 = clean_data(pd.read_csv(os.path.join(output_dir, 'Other2.csv')), 't')
@@ -36,34 +46,26 @@ def main():
         except FileNotFoundError:
             print(f"Skipping {run_dir}: CSV niet gevonden.")
             continue
-            
+
         # --- Plot 1: Distance to Vessels ---
-        min_len_2 = min(len(df_own), len(df_other2))
-        dist_2 = np.sqrt((df_own['x_true'].iloc[:min_len_2] - df_other2['x_true'].iloc[:min_len_2])**2 + 
-                         (df_own['y_true'].iloc[:min_len_2] - df_other2['y_true'].iloc[:min_len_2])**2)
-        axs[0].plot(df_own['t'].iloc[:min_len_2], dist_2 - rho_s, label=f'T2 {noise_labels[i]}', color=colors[i], linestyle='-')
-        
-        min_len_4 = min(len(df_own), len(df_other4))
-        dist_4 = np.sqrt((df_own['x_true'].iloc[:min_len_4] - df_other4['x_true'].iloc[:min_len_4])**2 + 
-                         (df_own['y_true'].iloc[:min_len_4] - df_other4['y_true'].iloc[:min_len_4])**2)
-        axs[0].plot(df_own['t'].iloc[:min_len_4], dist_4 - rho_s, label=f'T4 {noise_labels[i]}', color=colors[i], linestyle='--')
-        
+        t2, dist_2 = compute_vessel_distance(df_own, df_other2)
+        t4, dist_4 = compute_vessel_distance(df_own, df_other4)
+        print(f"[Wave Hs {noise_labels[i]:5s}] CPA T2: {dist_2.min():.2f} m | CPA T4: {dist_4.min():.2f} m")
+
+        axs[0].plot(t2, dist_2 - rho_s, label=f'T2 ({noise_labels[i]})', color=colors[i], linestyle='-')
+        axs[0].plot(t4, dist_4 - rho_s, label=f'T4 ({noise_labels[i]})', color=colors[i], linestyle='--')
+
         # --- Plot 2: Heading Tracking ---
         axs[1].plot(df_own['t'], np.degrees(df_own['psi']), label=f'Actual ({noise_labels[i]})', color=colors[i])
         if i == 0:
             axs[1].plot(df_own['t'], np.degrees(df_own['psi_d']), label='Reference', color='black', linestyle='--')
-            
+
         # --- Plot 3: Path Planning Accuracy ---
         axs[2].plot(df_own['t'], df_own['y_true'], label=f'Actual Y ({noise_labels[i]})', color=colors[i])
-        
-        # Gebruik hier de daadwerkelijk voorspelde padlijn y_d uit de CSV
-        # We plotten deze referentie alleen voor run 1 (i==0) zodat de grafiek niet te vol wordt.
         if i == 0:
             if 'y_d' in df_own.columns:
                 axs[2].plot(df_own['t'], df_own['y_d'], color='black', linestyle='--', label='Planned Reference Path (y_d)')
             else:
-                # Als y_d toch niet in de CSV staat, geef een fallback of melding
-                print("Let op: kolom 'y_d' niet gevonden in CSV. Fallback naar statische lijn.")
                 axs[2].axhline(df_own['y_true'].iloc[0], color='black', linestyle='--', label='Reference Path (Static Fallback)')
 
     axs[0].set_title('Safety Margin (Distance to Targets 2 & 4)')
@@ -71,12 +73,12 @@ def main():
     axs[0].set_ylabel(r'$d - \rho_s$ (m)')
     axs[0].axhline(0, color='red', linestyle=':', label='Collision Boundary')
     axs[0].legend(ncol=2)
-    
+
     axs[1].set_title('Heading Tracking')
     axs[1].set_xlabel('Time (s)')
     axs[1].set_ylabel('Heading (degrees)')
     axs[1].legend()
-    
+
     axs[2].set_title('Path Planning Accuracy (Y-Position)')
     axs[2].set_xlabel('Time (s)')
     axs[2].set_ylabel('Y Position (m)')
@@ -84,7 +86,7 @@ def main():
 
     plt.tight_layout()
     os.makedirs('output', exist_ok=True)
-    plt.savefig('output/Navigation_Comparison_Waves.png', dpi=300)
+    plt.savefig(os.path.join('output', 'Navigation_Comparison_Waves.png'), dpi=300)
     plt.show()
 
 if __name__ == '__main__':

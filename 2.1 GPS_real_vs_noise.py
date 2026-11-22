@@ -8,7 +8,7 @@ def clean_data(df, time_col='t'):
     return df[df[time_col] > 0]
 
 def main():
-    output_dir = 'output/run_1' 
+    output_dir = 'output/run_3' 
     
     # 1. Laad de bestanden van alle schepen in
     try:
